@@ -1,0 +1,226 @@
+	<script type="text/javascript">
+		class_info = "<select class='majorid_class' style='width:30%;'>" + $("#raw_info").html() + "</select> <select name='classid[]' class='class_select' style='width:40%;'><option value='' selected>----请选择班级----</option>"+$("#raw_info1").html()+"</select> <a class='del' href='#'> 删除</a>";
+		class_info = "<tr class='class_choice'><td colspan='7'>"+class_info+"</td></tr>"  ;
+		$("#orgid").change( function() {
+			$(".teacher_info").remove();
+			if( $(this).val() != '' )
+			{
+				url = "__APP__/ArrangeCourse/getTeacher/orgid/" + $(this).val();
+				$("select#userid").html("<option value=''>-----------正在努力加载中-----------<option>") ;
+				$.getJSON( url, function(data){
+					if( data.status == 1 )
+					{
+						$("select#userid").empty() ;
+						$("select#userid").append("<option value=''>-----------请选择教师-----------</option>") ;
+						$.each(data.data, function(id,value){
+							$("select#userid").append( "<option value='"+value.id+"'>"+value.name+"("+ value.code+")</option>");
+						})
+					}
+					else
+					{
+						$("select#userid").html("<option value=''>-----------对不起，没有教师-----------</option>") ;
+					}
+				});
+			}
+		});
+		$(".majorid_class").die( "change" ) ;
+		$(".majorid_class").live( "change" , function() {
+			if( $(this).val() != '' )
+			{
+				url = "__URL__/getClass/majorid/" + $(this).val() + "/courseid/" + $("#courseid").val();
+				next_select = $(this).next("select") ;
+				next_select.html("<option value=''>----正在努力加载中----<option>") ;
+				$.getJSON( url, function(data){
+					if( data.status == 1 )
+					{
+						next_select.empty() ;
+						next_select.append("<option value=''>---请选择班级---</option>") ;
+						$.each(data.data, function(id,value){
+							next_select.append( "<option value='"+value.id+"'>"+value.name+"</option>");
+						})
+					}
+					else
+					{
+						next_select.html("<option value=''>---对不起，没有班级---</option>") ;
+					}
+				});
+			}
+		});
+		$("a.add").click(function(){
+			$(this).parent().parent().after(class_info) ;
+			$("#same_time").attr("rowspan" , $(".class_choice").size());
+			return false ;
+		});
+		$("a.del").die( "click" ) ;
+		$("a.del").live('click',function(){
+			$(this).parent().parent().remove() ;
+			$("#same_time").attr("rowspan" , $(".class_choice").size());
+			return false ;
+		});
+		//检测筛选器后下面的所有输入框是否都不为空
+		var check_input_not_null = function(selector){
+			all_input = $(selector) ;
+			ready_input = true ;
+			$.each( all_input , function( i , data ){
+				if( '' == $(this).val() )
+				{
+					$(this).addClass( "input_border_red" ) ;
+					$(this).one("click", function(){
+						$(this).removeClass( "input_border_red" ) ;
+					});
+					ready_input = false ;
+					return false ;
+				}
+			});
+			return ready_input ;
+		};
+		
+		var  get_teacher_info = function(){
+			if( check_input_not_null("#teacherinfo td :input") )
+			{
+				$.get( "__URL__/teacherInfo/userid/"+$("#userid").val()+"/teach_year/"+$("#cou_info_teach_year").val()+"/semester/"+$("#cou_info_teach_semester").val()+"/ref/"+$("#reference").val() , function(data){
+					$(".teacher_info").remove();
+					$("#teacherinfo").after(data) ;
+				});
+			}
+		};
+		$("#teacherinfo td :input,#cou_info_teach_semester,#cou_info_teach_year").change(function(){
+			get_teacher_info() ;
+		});
+		$("#teacherinfo td :input,#cou_info_teach_semester,#cou_info_teach_year").ajaxError(function(event,request, settings){
+			loadart.close() ;
+			art.dialog.tips("又出错了，请检查网络！", 2 ) ;
+		}) ;
+	</script>
+<link href="/xbsdv2/teach/Tpl/default/Public/css/style.css" rel="stylesheet">
+<form id="teach_task" action="__URL__/insert" method="post">
+	<fieldset>
+		<table width="900px" class="dasha_table">
+			<tr>
+				<td width="12%"></td>
+				<td width="16%"></td>
+				<td width="12%"></td>
+				<td width="12%"></td>
+				<td width="12%"></td>
+				<td width="12%"></td>
+				<td width="10%"></td>
+				<td width="14%"></td>
+			</tr>
+			<tr class="on">
+				<td>课程名:</td>
+				<td>
+					{$course['name']}
+					<input TYPE="hidden"  name="courseid" id="courseid" value="{$course['courseid']}" />
+				</td>
+				<td>课程性质</td>
+				<td>{$course['property']}</td>
+				<td>课程类型</td>
+				<td>{$course['cou_type']}</td>
+				<td>课程类别</td>
+				<td>{$course['cou_category']}</td>
+
+			</tr>
+			<tr>
+				<td>开课学期</td>
+				<td>{$course['semester_name']}</td>
+				<td>理论周学时</td>
+				<td>{$course['theweektime']}</td>
+				<td>实验周学时</td>
+				<td>{$course['expweektime']}</td>
+				<td>考试类型</td>
+				<td>{$course['exam_type']}</td>
+			</tr>
+			<tr class="on">
+				<td>开课学年</td>
+				<td>
+					<input style="width:45%;" name="teach_year" id="cou_info_teach_year" value="{$year}"/>
+					<select style="width:45%;" name="teach_semester" id="cou_info_teach_semester">
+						<volist name="Tsemester_list" id="t_semester">
+							<if condition="$semester eq $t_semester['id']">
+								<option value="{$t_semester['id']}" selected>{$t_semester['name']}</option>
+								<else/>
+								<option value="{$t_semester['id']}">{$t_semester['name']}</option>
+							</if>
+						</volist>
+					</select>
+				</td>
+				<td>开始授课周</td>
+				<td>
+					<input name="start_week" id="start_week_id" value="{$startweek}"/>
+				</td>
+				<td>开设周数</td>
+				<td>
+					<input name="week" id="week_id" value="{$teachweek}"/>
+				</td>
+				<td>总学时</td>
+				<td>
+					<input name="totaltime" id="totaltime_id" value="{$course['totaltime']}"/>
+				</td>
+			</tr>
+
+			<tr>
+				<td>已经安排</td>
+				<td colspan="7">
+					<volist name="teachdata_list" id="teachdata">
+						<div>{$teachdata['teacher_name']}--{$teachdata['course_name']}；</div>
+					</volist>
+				</td>
+			</tr>
+			<if condition="$cou_category eq 2">
+				<tr class="class_choice">
+					<td rowspan="1" id="same_time" class="classid_c" colspan="1">同时授课班级</td>
+					<td colspan="7">
+						<select name="majorid" class="majorid_class" id="raw_info" style="width:30%;">
+							<volist name="majorid_list" id="ma" >
+								<if condition="$majorid eq $ma[id]">
+									<option value="{$ma['id']}" selected="">{$ma['name']}</option>
+									<else/>
+									<option value="{$ma['id']}">{$ma['name']}</option>
+								</if>
+							</volist>
+						</select>
+						<select name="classid[]" class="class_select" id="raw_info1" style="width:40%;">
+							<option value="" selected>----请选择班级----</option>
+							<volist name="class_list" id="class" >
+								<option value="{$class['classid']}">{$class['name']}</option>
+							</volist>
+						</select>
+						<a class="add" href="#">添加</a>
+					</td>
+				</tr>
+			</if>
+			<tr>
+				<td colspan="8" align="middle">教师信息</td>
+			</tr>
+			<tr id="teacherinfo" class="on">
+					<td>所在院系机构</td>
+					<td colspan="2">
+						<select id="orgid" style="width:90%;">
+							<option value="">-----------请选择机构-----------</option>
+							<volist name="orgid_list" id="or">
+								<option value="{$or[id]}">{$or[name]}</option>
+							</volist>
+						</select>
+					</td>
+					<td>教师姓名</td>
+					<td colspan="2">
+						<select name="userid" id="userid" style="width:90%;">
+							<option value="">-----------请选择教师-----------</option>
+							<volist name="userid_list" id="user">
+								<option value="{$user[id]}">{$user[name]}</option>
+							</volist>
+						</select>
+					</td>
+					<td>参考信息</td>
+					<td>
+						<select name="ref" id="reference">
+							<option value="1">近 1 个学年</option>
+							<volist name="reference_list" id="re" >
+								<option value="{$re['id']}">{$re['name']}</option>
+							</volist>
+						</select>
+					</td>
+			</tr>
+		</table>
+	</fieldset>
+</form>

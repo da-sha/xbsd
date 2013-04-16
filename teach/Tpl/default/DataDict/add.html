@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>西北师大教务支持系统 - 学生基本信息管理</title>
+		<link rel="stylesheet" type="text/css" href="../Public/css/style.css" />
+		<script src="../Public/js/verify.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			function checkForm()
+			{
+				if (
+				!isNull('tb_name', '数据表名', 'F') ||
+				!isNull('fd_name', '字段名', 'F') ||
+				!isNull('fd_value', '字段值', 'F') ||
+				!isNull('fd_mean', '字段含义', 'F') )
+					return false;
+				return true;
+			}
+		</script>
+	</head>
+	<body width="100%">
+		<div id="result" class="result none"></div>
+			<form method='post'  id="myform" action="__URL__/insert">
+				<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+						<tr>
+							<td  width="120">数据表名</td>
+							<td>
+								<input type="text" class="input-text"readonly value="{$tb_comment}({$tb_name})" />
+								<input type="hidden" name="tb_name" id="tb_name"  value="{$tb_name}" />
+								<span class="red">*</span>
+							</td>
+						</tr>
+						<tr>
+							<td>字段名</td>
+							<td>
+								<select name="fd_name" id="fd_name">
+									<volist name="list" id="data">
+										<if condition="$data['fd_name'] eq $fd_name">
+											<option value="{$data['fd_name']}" selected>{$data['comment']}({$data['fd_name']})</option>
+											<else/>
+											<option value="{$data['fd_name']}">{$data['comment']}({$data['fd_name']})</option>
+										</if>
+									</volist>
+								</select>
+								<span class="red">*</span>
+							</td>
+						</tr>
+						<tr>
+							<td>字段值</td>
+							<td><input type="text" class="input-text"  name="fd_value" id="fd_value" />
+							<span class="red">*</span>
+							</td>
+						</tr>
+						<tr>
+							<td>字段值含义</td>
+							<td><input type="text" class="input-text"  name="fd_mean" id="fd_mean"  />
+							<span class="red">*</span>
+							</td>
+						</tr>
+						<tr>
+							<td>类型</td>
+							<td>
+								<select name="type">
+									<volist name="type_list" id="type">
+										<if condition="2 eq $type[id]">
+											<option value="{$type[id]}" selected>{$type[name]}</option>
+											<else/>
+											<option value="{$type[id]}">{$type[name]}</option>
+										</if>
+									</volist>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>序号</td>
+							<td><input type="text" class="input-text"  name="seq" id="seq" />
+							</td>
+						</tr>
+						<tr>
+							<td>备注</td>
+							<td><input type="text" class="input-text"  name="remark" id="remark" />
+							</td>
+						</tr>
+				</table>
+				<div class="btn">
+					<input TYPE="submit" name="dosubmit"  value="提交" class="button" onclick="return checkForm()"/>
+					<input TYPE="reset" value="取消" class="button" />
+				</div>
+			</form>
+		</div>
+	</body>
+</html>

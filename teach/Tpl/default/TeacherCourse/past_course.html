@@ -1,0 +1,123 @@
+<layout name="layout_no_nav"/>
+<script type="text/javascript">
+var cou_info_dialog = function(url,title,width,height){
+    width = width || 700;
+    height = height || 400;
+    art.dialog.open(url,{
+        title: title,
+        width: width,
+        height: height
+    });
+}
+</script>
+<table  class="search_table" width="100%">
+    <tr>
+        <td>
+            <form action="{:U('CourseManage/transition')}" method="get">
+                <input type="hidden" name="m" value="{$Think.MODULE_NAME}" />
+                <input type="hidden" name="a" value="{$Think.ACTION_NAME}" />			
+
+                筛选：<input id="title" type="text" class="input-text" name="keyword" value="{$Think.get.keyword}" />
+                <select name="searchtype">
+                    <option value="course.name" <eq name="searchtype" value='course.name'>selected="selected"</eq>>课程名</option>
+                    <option value="teacher.name" <eq name="searchtype" value="teacher.name">selected="selected"</eq>>教师名</option>
+                    <option value="teach_task.teachid" <eq name="searchtype" value="teach_task.teachid">selected="selected"</eq>>课程ID</option>
+                </select>
+                <select name="level" id ="level">
+                    <option value="">---学生层次---</option>
+                    <volist name="level_list" id="s_level" >
+                    <if condition="$level eq $s_level['id']">
+                    <option value="{$s_level['id']}" selected>{$s_level['name']}</option>
+                    <else/>
+                    <option value="{$s_level['id']}">{$s_level['name']}</option>
+                    </if>
+                    </volist>
+                </select>
+                <select name="cou_category" id ="cou_category">
+                    <option value="">---课程类别---</option>
+                    <volist name="cou_category_list" id="cou" >
+                    <if condition="$cou_category eq $cou['id']">
+                    <option value="{$cou['id']}" selected>{$cou['name']}</option>
+                    <else/>
+                    <option value="{$cou['id']}">{$cou['name']}</option>
+                    </if>
+                    </volist>
+                </select>
+                <select name="majorid" id="majorid">
+                    <option value="" selected id="sel">---请选择专业---</option>
+                    <volist name="majorid_list" id="ma" >
+                    <if condition="$majorid eq $ma['id']">
+                    <option value="{$ma['id']}" selected>{$ma['name']}</option>
+                    <else/>
+                    <option value="{$ma['id']}">{$ma['name']}</option>
+                    </if>
+                    </volist>
+                </select>
+
+                <select name="admissiondate" id ="admissiondate">
+                    <option value="">---请选择年级---</option>
+                    <volist name="admissiondate_list" id="ad" >
+                    <if condition="$admissiondate eq $ad['id']">
+                    <option value="{$ad['id']}" selected>{$ad['name']}级</option>
+                    <else/>
+                    <option value="{$ad['id']}">{$ad['name']}级</option>
+                    </if>
+                    </volist>
+                </select>
+
+                <input type="submit" value="{:L('chaxun')}"  class="button" />
+                <input type="reset" value="{:L('reset')}" class="button"  />
+            </form>
+        </td>
+
+    </tr>
+</table>
+<form id="teacher_past">
+    <div class="table-list">
+        <table width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th align="left">课程名</th>
+                    <th width="100">授课时间</th>
+                    <th width="100">授课学期</th>
+                    <th width="100">课程类型</th>
+                    <th width="100">学生层次</th>
+                    <th width="100">考核</th>
+                    <th width="100">课程异动</th>
+                    <th width="100">成绩</th>
+                    <th width="100">进度</th>
+                </tr>
+            </thead>
+            <tbody>
+                <volist name="course_list" id="course">
+                <tr>
+                    <td align="left">{$course["name"]|default="&nbsp;"}</td>
+                    <td align="center">{$course["teach_year"]|default="&nbsp;"}</td>
+                    <td align="center">{$course["teach_quarter"]|default="&nbsp;"}</td>
+                    <td align="center">{$course["cou_type"]|default="&nbsp;"}</td>
+                    <td align="center">{$course["level"]|default="&nbsp;"}</td>
+                    <td align="center">
+                        <a href="jvascript:void(0)" onClick="cou_info_dialog('__APP__/Assessment/teacher_assess/teachid/{$course[teachid]}','查看考核',700,400)">查看考核</a>
+                    </td>
+                    <td align="center">
+                        <a href="jvascript:void(0)" onClick="cou_info_dialog('__APP__/CourseChange/teacher_cou_change/teachid/{$course[teachid]}','查看异动',700,400)">查看异动</a>
+                    </td>
+                    <td align="center">
+                        <a href="jvascript:void(0)" onClick="cou_info_dialog('__APP__/Score/score/teachid/{$course[teachid]}','查看成绩',800,400)">查看成绩</a>
+                    </td>
+                    <td align="center">
+                        <a href="jvascript:void(0)" onClick="cou_info_dialog('__APP__/TeachPlan/teacher_plan/teachid/{$course[teachid]}','查看进度',900,400)">查看进度</a>
+                    </td>
+                </tr>
+                </volist>
+            </tbody>
+        </table>
+		<php>
+            if(empty($course_list) == true){
+                echo "<div id='pages'>对不起，没有数据</div>";
+            }else{
+				echo "<div id='pages'>".$show."</div>";
+			}
+        </php>
+    </div>
+</form>

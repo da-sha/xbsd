@@ -1,0 +1,142 @@
+
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+		<script type="text/javascript" src="../Public/js/verify.js"></script>
+		<script language="javascript">
+			function check()
+			{
+				if (
+					!isNull('name', '教工名称') ||
+					!isMobile('telphone1' ,'电话1','T' ) ||
+					!isMobile('telphone2' ,'电话2','F' ) ||
+					!isEmail('email1' , 'Email 1' , 'T') ||
+					!isEmail('email2' , 'Email 2' , 'F')
+				)
+					return false;
+				return true ;
+			}
+		</script>
+
+			<form method='post'  id="myform" action="__URL__/updata">
+				<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+					<tr>
+						<td  width="120">教工代码</td>
+						<td>{$_SESSION["user_code"]}</td>
+					</tr>
+					<tr>
+						<td  width="120">教工姓名</td>
+						<td>
+							<input type="text" class="input-text" id="name" name="name" value="{$teacher['name']}"/>
+							<span class="red">*</span>
+						</td>
+					</tr>
+					<tr>
+						<td>性别</td>
+						<td>
+							<volist name="t_gender" id="data">
+								<if condition="$teacher[gender] eq $data[id]">
+									<input type="radio" id="gender" name="gender" value="{$data[id]}" checked />{$data[name]}
+									<else/>
+									<input type="radio" id="gender" name="gender" value="{$data[id]}" />{$data[name]}
+								</if>
+							</volist>
+						</td>
+					</tr>
+					<tr>
+						<td>民族</td>
+						<td>
+							<select name="nation">
+								<volist name="nat_list" id="nation">
+									<if condition="$teacher['nation'] eq $nation[id]">
+										<option value="{$nation[id]}" selected>{$nation[name]}</option>
+										<else/>
+										<option value="{$nation[id]}">{$nation[name]}</option>
+									</if>
+								</volist> 
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>所属机构</td>
+						<td>
+							{$teacher['org']}
+						</td>
+					</tr>
+					<tr>
+						<td>身份证号</td>
+						<td>
+							<input type="text" class="input-text" id="idno" name="idno" value="{$teacher['idno']}" />
+						</td>
+					</tr>
+					<tr>
+						<td>职称</td>
+						<td>
+							<select name="job_title">
+								<volist name="job_list" id="job">
+									<if condition="$teacher['job_title'] eq $job[id]">
+										<option value="{$job[id]}" selected>{$job[name]}</option>
+										<else/>
+										<option value="{$job[id]}">{$job[name]}</option>
+									</if>
+								</volist>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>最终学历</td>
+						<td>
+							<input type="text" class="input-text"  name="degree" value="{$teacher['degree']}" />
+						</td>
+					</tr>
+					<tr>
+						<td>研究方向</td>
+						<td>
+							<input type="text" class="input-text"  name="research" value="{$teacher['research']}" />
+						</td>
+					</tr>
+					<tr>
+						<td>专业</td>
+						<td><input type="text" class="input-text"  name="major" value="{$teacher['major']}"/></td>
+					</tr>
+					<tr>
+						<td>毕业学校</td>
+						<td><input type="text" class="input-text"  name="school" value="{$teacher['school']}"/></td>
+					</tr>
+					<tr>
+						<td>电话1</td>
+						<td>
+							<input type="text" class="input-text" id="telphone1" name="telphone1" value="{$teacher['telphone1']}"/>
+							<span class="red">*</span>
+						</td>
+					</tr>
+					<tr>
+						<td>电话2</td>
+						<td><input type="text" class="input-text" id="telphone2" name="telphone2" value="{$teacher['telphone2']}"/></td>
+					</tr>
+					<tr>
+						<td>Email 1</td>
+						<td>
+							<input type="text" class="input-text" id="email1" name="email1" value="{$teacher['email1']}"/>
+							<span class="red">*</span>
+						</td>
+					</tr>
+					<tr>
+						<td>Email 2</td>
+						<td><input type="text" class="input-text" id="email2" name="email2" value="{$teacher['email2']}"/></td>
+					</tr>
+					<tr>
+						<td>QQ</td>
+						<td><input type="text" class="input-text"  name="qq" value="{$teacher['qq']}"/></td>
+					</tr>
+					<tr>
+						<td>通讯地址</td>
+						<td>
+							<textarea name="adress" rows="5" cols="30" class="valid">{$teacher['adress']}</textarea>
+						</td>
+					</tr>
+				</table>
+				<div class="btn">
+					<input type="submit" onclick="return check();" value="提交" class="button" />
+					<input type="reset"  value="取消" class="button"/>
+				</div>
+			</form>

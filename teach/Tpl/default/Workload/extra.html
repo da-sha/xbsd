@@ -1,0 +1,65 @@
+<layout name="layout"/>
+<script type="text/javascript">
+	$(function(){
+		$(".view").click( function(){
+			var dialog = art.dialog() ;
+			dialog.title("详细") ;
+			$.get( $(this).attr("href") , function(data){
+				dialog.content(data) ;
+			}) ;
+			return false ;
+		}) ;
+	}) ;
+</script>
+<div class="mainbox">
+	<form action="__SELF__" method="get">
+		<select name="year">
+			<option value="">---请选择---</option>
+			<volist name="year_list" id="year">
+				<if condition="$year eq $_GET['year']">
+					<option value="{$year}" selected>{$year}</option>
+					<else/>
+					<option value="{$year}">{$year}</option>
+				</if>
+			</volist>
+		</select>
+		<select name="semester">
+			<option value="">---请选择---</option>
+			<volist name="semester_list" id="semester">
+				<if condition="$semester['id'] eq $_GET['semester']">
+					<option value="{$semester['id']}" selected>{$semester['name']}</option>
+					<else/>
+					<option value="{$semester['id']}">{$semester['name']}</option>
+				</if>
+			</volist>
+		</select>
+		<input type="submit" class="button" value="确定"/>
+	</form>
+</div>
+<div class="table-list">
+	<table width="100%" cellspacing="0">
+		<thead>
+			<tr>
+				<th>工作名称</th>
+				<th>工作时长(分钟)</th>
+				<th>期望工作量</th>
+				<th>批准工作量</th>
+				<th>状态</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<volist name="extendlist" id="extend">
+			<tr>
+				<td align="left">{$extend['name']}</td>
+				<td align="center">{$extend['time']}</td>
+				<td align="center">{$extend['wanttime']}</td>
+				<td align="center">{$extend['realtime']}</td>
+				<td align="center">{$extend['statename']}</td>
+				<td align="center"><a class="green view" href="__URL__/extendview/id/{$extend['id']}">查看详细</a></td>
+			</tr>
+			</volist>
+		</tbody>
+	</table>
+	<div id="dasha_footer">{$show}</div>
+</div>

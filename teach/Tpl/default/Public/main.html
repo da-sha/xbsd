@@ -1,0 +1,118 @@
+<!-- Main_content begin -->
+<div id="Main_content">
+
+	<div id="MainBox" >
+	    <div class="main_box">
+			<iframe name="main" id="Main" src='{:U("Index/main")}' frameborder="false" scrolling="auto"  width="100%" height="auto" allowtransparency="true"></iframe>
+		</div>
+    </div>
+
+	<div id="leftMenuBox">
+    	<div id="leftMenu">
+			<div style="padding-left:12px; padding-left:10px;">
+				<ul>
+					<!-- 一级导航 -->
+					<volist name="menu" id="level1">
+					<li id="nav_{$level1['bnav']['id']}">
+						<!-- 左部一级菜单  -->
+						<volist name="level1['nav']" id='level2'>
+						<dl >
+							<dt>{$level2['bnav']['name']}</dt>
+							<!-- 左部二级菜单 -->
+							<volist name="level2['nav']" id="level3">
+							<dd id="nav_{$level3['bnav']['id']}">
+								<span onclick="javascript:gourl('{$level3['bnav']['id']}','{:U($level3['bnav']['model'].'/'.$level3['bnav']['action'],$level3['bnav']['data'])}')">
+								<a href="{:U($level3['bnav']['model'].'/'.$level3['bnav']['action'],$level3['bnav']['data'])}" target="main">{$level3['bnav']['name']}</a>
+								</span>
+							</dd>
+							</volist>
+						</dl>
+						</volist>
+					</li>
+					</volist>
+				</ul>
+			</div>
+		</div>
+
+
+		<div id="Main_drop">
+			<a  href="javascript:toggleMenu(1);" class="on"><img src="../Public/images/admin_barclose.gif" width="11" height="60" border="0"  /></a>   
+			<a  href="javascript:toggleMenu(0);" class="off" style="display:none;"><img src="../Public/images/admin_baropen.gif" width="11" height="60" border="0"  /></a>  
+		</div>
+    </div>
+
+</div>
+<!-- Main_content end -->
+<div id="footer" class="footer" >
+	Powered by <a href="" target="_blank">西北师范大学</a>Copyright 2012-2013 </div>
+
+<script language="JavaScript">
+if(!Array.prototype.map)
+Array.prototype.map = function(fn,scope) {
+    var result = [],ri = 0;
+    for (var i = 0,n = this.length; i < n; i++){
+        if(i in this){
+            result[ri++]  = fn.call(scope ,this[i],i,this);
+        }
+    }
+    return result;
+};
+var getWindowWH = function(){
+    return ["Height","Width"].map(function(name){
+        return window["inner"+name] ||
+        document.compatMode === "CSS1Compat" && document.documentElement[ "client" + name ] || document.body[ "client" + name ]
+    });
+}
+window.onload = function (){
+    if(!+"\v1" && !document.querySelector) { //IE6 IE7
+        document.body.onresize = resize;
+        } else { 
+        window.onresize = resize;
+    }
+    function resize() {
+        wSize();
+        return false;
+    }
+}
+function wSize(){
+    var str=getWindowWH();
+    var strs= new Array();
+    strs=str.toString().split(",");
+    var h = strs[0] - 95;
+    $('#leftMenu').height(h);
+    $('#Main').height(h); 
+}
+wSize();
+
+function gourl(n,url){
+    $('#leftMenu dl dd').removeClass('on');
+    $('#nav_'+n).addClass('on');
+    window.main.location.href=url;
+}
+function toggleMenu(doit){
+    if(doit==1){
+        $('#Main_drop a.on').hide();
+        $('#Main_drop a.off').show();
+        $('#MainBox .main_box').css('margin-left','24px');
+        $('#leftMenu').hide();
+        }else{
+        $('#Main_drop a.off').hide();
+        $('#Main_drop a.on').show();
+        $('#leftMenu').show();
+        $('#MainBox .main_box').css('margin-left','224px');
+    }
+}	
+
+function sethighlight(n) {
+    $('.menu li').removeClass('current');
+    $('#menu_'+n).addClass('current');
+    $('#leftMenu li').hide();
+    $('#nav_'+n).show();
+    $('#leftMenu dl dd').removeClass('on');
+    $('#nav_'+n+' dl').eq(0).children("dd").eq(0).addClass('on');
+    url = $('#nav_'+n+' dd a').eq(0).attr('href');
+    window.main.location.href= url;
+}
+
+sethighlight("{$first_nav_id}");
+</script>

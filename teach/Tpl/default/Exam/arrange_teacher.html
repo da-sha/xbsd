@@ -1,0 +1,203 @@
+<layout name="layout"/>
+<link rel="stylesheet" href="../Public/css/aa.css"/>
+<script src="../Public/js/aa.js"></script>
+<script type="text/javascript">
+	$(function(){
+		var temp ;
+		var courseinfo = {} ;
+                
+		<volist name="user_list" id="user">
+			courseinfo.cou_{$user["courseid"]} = new Array({$user["user"]}) ;
+		</volist>
+		
+		function OToA( aoption ){
+			return "<a href='#' value='"+aoption.val()+"' workcount='"+aoption.attr("workcount")+"'>"+aoption.text()+"</a>";
+		}
+		function AToO( alink ){
+			return "<option value='"+alink.attr("value")+"' workcount='"+alink.attr("workcount")+"'>"+alink.text()+"</option>";
+		}
+		function findmin(aselect , attrname){
+			minObj = aselect.find("option:first") ;
+			if( minObj.size() == 0 ){
+				return null ;
+			}
+			minVal = parseInt(minObj.attr( attrname )) ;
+			$.each(aselect.find("option"), function(){
+				if( parseInt($(this).attr( attrname )) < minVal ){
+					minVal = parseInt( $(this).attr( attrname ) ) ;
+					minObj = $(this) ;
+				}
+			}) ;
+			return minObj ;
+		}
+		function gettteacher( courseid ){
+			temp = null ;
+			$.each( courseinfo["cou_"+courseid] , function(key,value){
+				temp  = $(".aam_c_right select option[value="+value+"]") ;
+				if( temp.size() > 0 ){
+					return false ;
+				}else{
+					temp = null ;
+				}
+			}) ;
+			return temp ;
+		}
+		$(".examiner1:first").addClass("aam_cur_input") ;
+		$(".examiner1:last").addClass("last") ;
+		$(".examiner2:last").addClass("last") ;
+		$(".aam_c_right select").dblclick(function(){
+			if( $(".aam_cur_input a").size() == 0 ){
+				var curselect = $(this).find("option:selected") ;
+				$( OToA(curselect) ).appendTo( $(".aam_cur_input") ) ;
+				curselect.remove() ;
+			}
+			var cur_input = $(".aam_cur_input") ;
+			if( cur_input.hasClass("examiner1") ){
+				if( cur_input.hasClass("last") ){
+					//alert("last") ;
+				}else{
+					//alert("unrun") ;
+				}
+			}else{
+				if( cur_input.hasClass("last") ){
+					//alert("last") ;
+				}
+			}
+		}) ;
+		$(".aam_input").click(function(){
+			$(".aam_cur_input").removeClass("aam_cur_input") ;
+			$(this).addClass("aam_cur_input") ;
+		}) ;
+		$(".aam_input a").die("click") ;
+		$(".aam_input a").live("click",function(){
+			return false ;
+		}) ;
+		$(".aam_input a").die("dblclick") ;
+		$(".aam_input a").live("dblclick",function(){
+			$( AToO($(this)) ).appendTo( $(".aam_c_right select") ) ;
+			$(this).remove() ;
+			return false ;
+		}) ;
+		$(".examiner1").click(function(){
+			$(".aam_c_right select option:selected").removeAttr("selected") ;
+			$.each( courseinfo["cou_"+$(this).attr("courseid")] , function(key,value){
+				$(".aam_c_right select option[value="+value+"]").attr("selected", "selected") ;
+			}) ;
+		}) ;
+		$("#auto_arrange").click(function(){
+			$.each( $(".examiner1"), function(){
+				var cur_teacher ;
+				var curinput = $(this) ;
+				if( curinput.find("a").size() == 0 ){
+					cur_teacher = gettteacher( curinput.attr("courseid") ) ;
+					if( cur_teacher ){
+						$(OToA(cur_teacher)).appendTo(curinput) ;
+						cur_teacher.remove() ;
+					}else{
+						cur_teacher = findmin($(".aam_c_right select"),"workcount") ;
+						if( cur_teacher ){
+							$( OToA(cur_teacher) ).appendTo(curinput) ;
+							cur_teacher.remove() ;
+						}else{
+							art.dialog.tips("对不起，教师不足，无法安排！") ;
+						}
+					}
+				}
+			}) ;
+			$.each( $(".examiner2"), function(){
+				var cur_teacher ;
+				var curinput = $(this) ;
+				if( curinput.find("a").size() == 0 ){
+					cur_teacher = findmin($(".aam_c_right select"),"workcount") ;
+					if( cur_teacher ){
+						$( OToA(cur_teacher) ).appendTo(curinput) ;
+						cur_teacher.remove() ;
+					}else{
+						art.dialog.tips("对不起，教师不足，无法安排！") ;
+					}
+				}
+			}) ;
+		}) ;
+		$("#submit_all").click(function(){
+			temp = true ;
+			var postdata = {};
+			postdata.data= new Array();;
+			var oneinfo ;
+			$(".aam_c_left table tr:not(:first)").each(function(){
+				oneinfo = {} ;
+				oneinfo.examid = $(this).find("input[name='examid']").val() ;
+				if( $(this).find(".examiner1 a").size() > 0 ){
+					oneinfo.examiner1 = $(this).find(".examiner1 a").attr("value") ;
+				}else{
+					art.dialog.tips("对不起，主考不能为空！") ;
+					temp = false ;
+					return false ;
+				}
+				if( $(this).find(".examiner2 a").size() > 0 ){
+					oneinfo.examiner2 = $(this).find(".examiner2 a").attr("value") ;
+				}
+				postdata.data.push( oneinfo ) ;
+			}) ;
+			if( temp ){
+				$.post("__URL__/arrange_examiner", $.param(postdata), function(data){
+					art.dialog.tips( data.info ) ;
+					setTimeout(function() {
+						self.location = "__URL__/index/year/{$_GET['year']}/semester/{$_GET['semester']}" ;
+					}, 1000);
+				},"json") ;
+			}
+		});
+	}) ;
+</script>
+<fieldset>
+	<div class="table-list aam_c_left">
+		<table width="100%" cellspacing="0">
+			<thead>
+				<tr>
+					<th align="left">科目</th>
+					<th align="left">考试类型</th>
+					<th align="left">考试日期</th>
+					<th align="left">考试时间</th>
+					<th align="left">考场</th>
+					<th align="left">考试人数</th>
+					<th align="left">主考</th>
+					<th align="left">监考</th>
+				</tr>
+			</thead>
+			<tbody>
+			<volist name="exam_list" id="exam">
+				<tr>
+					<td>{$exam['coursename']}</td>
+					<td>{$exam['typename']}</td>
+					<td>{$exam['date']}</td>
+					<td>{$exam['timename']}</td>
+					<td>{$exam['roomname']}</td>
+					<td>{$exam['num']}</td>
+					<td>
+						<input type="hidden" name="examid" value="{$exam['examid']}"/>
+						<div class="aam_input examiner1" courseid="{$exam['courseid']}">&nbsp;</div>
+					</td>
+					<td>
+						<div class="aam_input examiner2">&nbsp;</div>
+					</td>
+				</tr>
+			</volist>
+			</tbody>
+		</table>
+		<if condition="$show">
+			<div id="dasha_footer">{$show}</div>
+			<else/>
+			<div class="btn">
+				<input type="button" class="button" id="auto_arrange" value="自动安排"/>
+				<input type="button" class="button" id="submit_all" value="确定"/>
+			</div> 
+		</if>
+	</div>
+	<div class="aam_c_right">
+		<select multiple name="student">
+			<volist name="examiner_list" id="examiner">
+				<option value="{$examiner['teacherid']}" workcount="{$examiner['workcount']}">{$examiner['teachername']}  (监考{$examiner['workcount']}次)</option>
+			</volist>
+		</select>
+	</div>
+</fieldset>

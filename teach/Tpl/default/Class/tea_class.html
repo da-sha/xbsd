@@ -1,0 +1,88 @@
+<layout name="layout_no_nav"/>
+<link href="../Public/css/course.css" rel="stylesheet">
+<script type="text/javascript">
+	$(function(){
+		$(".simplemode").click(function(){
+			$(this).slideToggle();
+			$(this).next(".fulmode").slideToggle();
+			ful_mode = $(this).next(".fulmode") ;
+			if( ful_mode.find(".cou_main iframe").attr("src") == '' )
+			{
+				ful_mode.find(".cou_menu li:first").addClass("on") ;
+				ful_mode.find(".cou_main iframe").attr("src" , ful_mode.find(".cou_menu li a:first").attr("href") ) ;
+			}
+		}) ;
+		$(".fulmode .ful_title").click(function(){
+			$(this).closest(".fulmode").prev(".simplemode").slideToggle();
+			$(this).closest(".fulmode").slideToggle();
+		}) ;
+		$(".cou_menu li a").click( function(){
+			$(".cou_menu li.on").removeClass("on") ;
+			$(this).closest("li").addClass("on") ;
+		}) ;
+	}) ;
+</script>
+<div id="course_box">
+    <div class="cou_list">
+	    <volist name="class_list" id="class">
+	    	<div>
+				<div class="simplemode">
+					<div class="title clear" style="width: auto;">{$class['name']}</div>
+					<div class="inner_table_list" style="width: auto;">
+						<li>
+							<ul>{$class['name']}</ul>
+							<ul>{$class['grade']}</ul>
+						</li>
+					</div>
+				</div>
+				<div class="fulmode" style="display:none">
+					<div class="ful_title clear">&nbsp;</div>
+					<ul class="cou_menu">
+						<li>
+							<a href="__APP__/Student/class_info/classid/{$class['classid']}" target="li_content_{$class['classid']}" hideFocus="hidefocus">
+								<b class="ico"></b>
+								<span>班级信息</span>
+							</a>
+						</li>
+						<li>
+							<a href="__APP__/Student/classnotice/classid/{$class['classid']}" target="li_content_{$class['classid']}"  hideFocus="hidefocus">
+								<b class="ico"></b>
+								<span >班级公告</span>
+							</a>
+						</li>
+						<li>
+							<a href="__APP__/Award/showaward/classid/{$class['classid']}/type/1" target="li_content_{$class['classid']}"  hideFocus="hidefocus">
+								<b class="ico"></b>
+								<span>奖学金</span>
+							</a>
+						</li>
+						<li>
+							<a href="__APP__/Award/showaward/classid/{$class['classid']}/type/2" target="li_content_{$class['classid']}"  hideFocus="hidefocus">
+								<b class="ico"></b>
+								<span >助学金</span>
+							</a>
+						</li>
+						<li>
+							<a href="__APP__/Award/showaward/classid/{$class['classid']}/type/3" target="li_content_{$class['classid']}"  hideFocus="hidefocus">
+								<b class="ico"></b>
+								<span >基金</span>
+							</a>
+						</li>
+						<li>
+							<a href="__APP__/Award/body/classid/{$class['classid']}/type/4" target="li_content_{$class['classid']}"  hideFocus="hidefocus">
+								<b class="ico"></b>
+								<span >学科竞赛</span>
+							</a>
+						</li>
+					</ul>
+					<div class="cou_main clear">
+						<iframe name="li_content_{$class['classid']}" src="" onload="this.height=this.contentWindow.document.documentElement.scrollHeight" frameborder="0px" scrolling="no" width="100%"></iframe>
+					</div>
+				</div>
+	    	</div>
+	    </volist>
+    </div>
+	<if condition="$show">
+		<div id="dasha_footer">{$show}</div>
+	</if>
+</div>

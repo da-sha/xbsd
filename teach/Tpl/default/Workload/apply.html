@@ -1,0 +1,68 @@
+<layout name="layout"/>
+<if condition="!$_GET['year'] OR !$_GET['semester']">
+	<div class="mainbox">
+		<form action="__SELF__" method="get">
+			<select name="year">
+				<option value="">---请选择---</option>
+				<volist name="year_list" id="year">
+					<if condition="$year eq $_GET['year']">
+						<option value="{$year}" selected>{$year}</option>
+						<else/>
+						<option value="{$year}">{$year}</option>
+					</if>
+				</volist>
+			</select>
+			<select name="semester">
+				<option value="">---请选择---</option>
+				<volist name="semester_list" id="semester">
+					<if condition="$semester['id'] eq $_GET['semester']">
+						<option value="{$semester['id']}" selected>{$semester['name']}</option>
+						<else/>
+						<option value="{$semester['id']}">{$semester['name']}</option>
+					</if>
+				</volist>
+			</select>
+			<input type="submit" class="button" value="确定"/>
+		</form>
+	</div>
+	<else/>
+	<form method='post' action="__URL__/insert">
+		<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+			<tr>
+				<td width="90px" class="on">工作名称</td>
+				<td>
+					<input type="text" class="input-text"  name="name" validate="required:true, minlength:2, maxlength:32"/>
+					<span class="red">*</span>
+				</td>
+			</tr>
+			<tr>
+				<td class="on">工作时长(分钟)</td>
+				<td>
+					<input type="text" class="input-text"  name="time" validate="required:true,digits:true, min:1"/>
+					<span class="red">*</span>
+				</td>
+			</tr>
+
+			<tr>
+				<td class="on">期望工作量</td>
+				<td>
+					<input type="text" class="input-text"  name="wanttime" validate="required:true,digits:true, min:1"/>
+					<span class="red">*</span>
+				</td>
+			</tr>
+			<tr>
+				<td width="90px" class="on">工作说明</td>
+				<td>
+					<textarea name="info" rows="10" cols="40" validate="required:true, minlength:2, maxlength:256"></textarea>
+					<span class="red">*</span>
+				</td>
+			</tr>
+		</table>
+		<div class="btn">
+			<input type="hidden" name="year" value="{$_GET['year']}"/>
+			<input type="hidden" name="semester" value="{$_GET['semester']}"/>
+			<input TYPE="submit" name="dosubmit"  value="提交" class="button"/>
+		</div>
+	</form>
+</if>
+

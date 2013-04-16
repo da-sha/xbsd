@@ -1,0 +1,26 @@
+<tr class="teacher_info">
+	<td>性别</td>
+	<td colspan="1" align="center">{$teacher[gender]}</td>
+	<td>职称</td>
+	<td colspan="2" align="center">{$teacher[job_title]}</td>
+	<td>学历</td>
+	<td colspan="2" align="center">{$teacher[degree]}</td>
+</tr>
+<tr class="teacher_info on">
+	<td>理论课总学时</td>
+	<td align="center">{$workload_list['thsum_time']}</td>
+	<td>实验课总学时</td>
+	<td align="center">{$workload_list['expsum_time']}</td>
+	<td>指导论文总学时</td>
+	<td align="center">{$workload_list['papthisum_time']}</td>
+	<td>工作量总计</td>
+	<td align="center">{$workload_list['total_time']}</td>
+</tr>
+<tr class="teacher_info">
+	<td>以往所授课程</td>
+	<td colspan="7">
+		<volist name="course_list" id="cou">
+			{$cou[name]}&nbsp;&nbsp;&nbsp;&nbsp;
+		</volist>
+	</td>
+</tr>

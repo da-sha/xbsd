@@ -1,0 +1,137 @@
+<layout name="layout_no_nav"/>
+<script charset="utf-8" src="../Public/kindeditor/kindeditor-min.js"></script>
+<script charset="utf-8" src="../Public/kindeditor/lang/zh_CN.js"></script>
+<script>
+	var editor;
+	KindEditor.ready(function(K) {
+		editor = K.create('textarea[name="resume"]', {
+			allowFileManager : true
+		});
+	});
+</script>
+&nbsp;
+<form method='post'  id="myform" action="__URL__/updata">
+	<fieldset>
+		<legend>个人基本资料：</legend>
+		<table width="100%" class="dasha_table">
+			<tr>
+				<td class="key" width="70px">教师姓名</td>
+				<td>
+					<input name="name" value="{$teacher['name']}" class="narrow" validate="required:true"/>
+					<span class="red">*</span>
+				</td>
+				<td class="key"  width="70px">教工代码</td>
+				<td>{$_SESSION["user_code"]}</td>
+				<td class="key"  width="70px">性别</td>
+				<td>
+					<select name="gender" validate="required:true" class="narrow">
+						<volist name="t_gender" id="data">
+							<if condition="$teacher['gender'] eq $data[id]">
+								<option value="{$data[id]}" selected>{$data[name]}</option>
+								<else/>
+								<option value="{$data[id]}">{$data[name]}</option>
+							</if>
+						</volist>
+					</select>
+					<span class="red">*</span>
+				</td>
+			</tr>
+			<tr>
+				<td class="key">民族</td>
+				<td>
+					<select name="nationality" validate="required:true" class="narrow">
+						<volist name="nat_list" id="nation">
+							<if condition="$teacher['nationality'] eq $nation[id]">
+								<option value="{$nation[id]}" selected>{$nation[name]}</option>
+								<else/>
+								<option value="{$nation[id]}">{$nation[name]}</option>
+							</if>
+						</volist> 
+					</select>
+					<span class="red">*</span>
+				</td>
+				<td class="key">政治面貌</td>
+				<td>
+					<select name="Politics_status" validate="required:true" class="narrow">
+						<volist name="pol_list" id="pol">
+							<if condition="$teacher['Politics_status'] eq $pol[id]">
+								<option value="{$pol[id]}" selected>{$pol[name]}</option>
+								<else/>
+								<option value="{$pol[id]}">{$pol[name]}</option>
+							</if>
+						</volist>
+					</select>
+					<span class="red">*</span>
+				</td>
+				<td class="key">身份证号</td>
+				<td><input name="idno" value="{$teacher['idno']}"/></td>
+			</tr>
+			<tr>
+				<td class="key">职称</td>
+				<td>
+					<select name="job_title" validate="required:true" class="narrow">
+						<volist name="job_list" id="job">
+							<if condition="$teacher['job_title'] eq $job[id]">
+								<option value="{$job[id]}" selected>{$job[name]}</option>
+								<else/>
+								<option value="{$job[id]}">{$job[name]}</option>
+							</if>
+						</volist>
+					</select>
+					<span class="red">*</span>
+				</td>
+				<td class="key">所属机构</td>
+				<td>{$teacher['org']}</td>
+				<td class="key">最终学历</td>
+				<td>
+					<select name="degree">
+						<volist name="deg_list" id="deg">
+							<if condition="$teacher['degree'] eq $deg[id]">
+								<option value="{$deg[id]}" selected>{$deg[name]}</option>
+								<else/>
+								<option value="{$deg[id]}">{$deg[name]}</option>
+							</if>
+						</volist>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="key">毕业学校</td>
+				<td><input name="school" value="{$teacher['school']}"/></td>
+				<td class="key"  width="75px">所学专业</td>
+				<td colspan="3"><input name="major" value="{$teacher['major']}"/></td>
+			</tr>
+			<tr>
+				<td class="key">研究方向</td>
+				<td colspan="5">
+					<textarea name="research">{$teacher['research']}</textarea>
+				</td>
+			</tr>
+			<tr>
+				<td class="key">电话(公开)</td>
+				<td>
+					<input name="telphone1"  validate="required:true" value="{$teacher['telphone1']}" class="narrow"/>
+					<span class="red">*</span>
+				</td>
+				<td class="key">电话(非公开)</td>
+				<td colspan="3"><input name="telphone2" value="{$teacher['telphone2']}"/></td>
+			</tr>
+			<tr>
+				<td class="key">通讯地址</td>
+				<td colspan="5">
+					<textarea name="address">{$teacher['address']}</textarea>
+				</td>
+			</tr>
+			<tr>
+			<td class="key">个人简历</td>
+			<td colspan="5">
+				<textarea name="resume"  style="width:100%;height:300px;">{$teacher['resume']}</textarea>
+			</td>
+		</tr>
+		</table>
+	</fieldset>
+	<div class="btn">
+		<input class="button" type="submit" value="确认"/>
+		<input class="button" type="button" onclick="history.go(-1)" value="取消"/>
+	</div>
+</form>

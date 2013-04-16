@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>西北师大教务支持系统 - 班级管理</title>
+		<link rel="stylesheet" type="text/css" href="../Public/css/style.css" />
+		<script type="text/javascript" src="../Public/js/jquery.min.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				$("#level_id").change( function(){
+					$("#majorid_id").html("<option value=''>---正在努力加载！---</option>") ;
+					$.getJSON("__APP__/Ajax/getMajor/level/"+$(this).val(), function(data){
+						if( data.status == 1 )
+						{
+							$("#majorid_id").empty();
+							$("#majorid_id").html("<option value=''>---请选择专业---</option>") ;
+							$.each(data.data, function(id,value){
+								$("#majorid_id").append( "<option value='"+value.id+"'>"+value.name+"</option>");
+							})
+						}
+						else
+						{
+							$("#majorid_id").html("<option value=''>---"+data.info+"---</option>") ;
+						}
+					}) ;
+				}).ajaxError(function(){
+					//
+					art.dialog.tips( "ajax error" );
+				});
+				$("#majorid_id").change( function(){
+					$("#year_id").html("<option value=''>---正在努力加载！---</option>") ;
+					$.getJSON("__APP__/Ajax/getyear/majorid/"+$(this).val(), function(data){
+						if( data.status == 1 )
+						{
+							$("#year_id").empty();
+							$("#year_id").html("<option value=''>---请选择年级---</option>") ;
+							$.each(data.data, function(id,value){
+								$("#year_id").append( "<option value='"+value.year+"'>"+value.year+"级"+"</option>");
+							})
+						}
+						else
+						{
+							$("#year_id").html("<option value=''>---"+data.info+"---</option>") ;
+						}
+					}) ;
+				}).ajaxError(function(){
+					//
+					art.dialog.tips( "ajax error" );
+				});
+
+				var get_body_info = function(){
+					$.get(  "__URL__/body/level/"+ $("#level_id").val()+"/majorid/"+ $("#majorid_id").val()+"/year/"+ $("#year_id").val(), function(data){
+						$(".table-list").remove();
+						$("#content").html(data) ;
+					});
+					return false;
+				}
+				$("#contion_table tr td select").change( function(){
+					get_body_info() ;
+				} );
+			});
+		</script>
+	</head>
+	<body>
+		<div id="result" class="result none"></div>
+		<div class="mainbox">
+			<div id="nav" class="mainnav_title">
+				<ul>
+					<a href="__URL__/index" class="on">班级管理</a>|
+					<a href="__URL__/add">添加班级</a>|
+				</ul>
+			</div>
+			<div id="contion_table">
+				<table  class="search_table" width="100%">
+				<tr>
+				<td>
+					<select name="level" id="level_id">
+						<option value="false" selected>---请选择学生层次---</option>
+						<volist name="level_list" id="lel">
+							<if condition="$const_level eq $lel[id]">
+								<option value="{$lel['id']}" selected>{$lel['name']}</option>
+								<else/>
+								<option value="{$lel['id']}">{$lel['name']}</option>
+							</if>
+						</volist>
+					</select>
+					<select name="majorid" id="majorid_id">
+						<option value="" selected>--请选择专业--</option>
+						<volist name="major_list" id="ma">
+							<if condition="$const_major eq $ma[majorid]">
+								<option value="{$ma['majorid']}" selected>{$ma[name]}</option>
+								<else/>
+								<option value="{$ma['majorid']}">{$ma[name]}</option>
+							</if>
+						</volist>
+					</select>
+					<select name="register_date" id="year_id">
+						<option value="" selected>--请选择年级--</option>
+						<volist name="year_list" id="yl">
+							<if condition="$const_year eq $yl['id']">
+								<option value="{$yl['id']}" selected>{$yl['name']}级</option>
+								<else/>
+								<option value="{$yl['id']}">{$yl['name']}级</option>
+							</if>
+						</volist>
+					</select>
+				</td>
+				</tr>
+				</table>
+			</div>
+			<div id="content">
+				<div class="table-list">
+					<table width="100%" cellspacing="0">
+						<thead>
+							<tr>
+								<th>班级名称</th>
+								<th>所属专业</th>
+								<th>班主任</th>
+								<th>辅导员</th>
+								<th>班级人数</th>
+								<th>班长</th>
+								<th>班级成立时间</th>
+								<th>管理操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<volist name="class_list" id="class">
+								<tr>
+									<td align="center">{$class["name"]}</td>
+									<td align="center">{$class["majorid"]}</td>
+									<td align="center">{$class[head_teacher]}</td>
+									<td align="center">{$class["instructor"]}</td>
+									<td align="center">{$class["num"]}</td>
+									<td align="center">{$class["moniter"]}</td>
+									<td align="center">{$class["register_date"]}</td>
+									<td align="center">
+										<a href="__URL__/edit/classid/{$class['classid']}">修改</a> |
+										<a href="__URL__/delete/classid/{$class['classid']}">删除</a>
+									</td>
+								</tr>
+							</volist>
+						</tbody>
+					</table>
+					<div id="dasha_footer">{$show}</div>
+				</div>
+			</div>
+			<div id="pages" class="page"></div>
+		</div>
+	</body>
+</html>

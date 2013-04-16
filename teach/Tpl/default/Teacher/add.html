@@ -1,0 +1,150 @@
+<script src="../Public/js/verify.js" type="text/javascript"></script>
+<script type="text/javascript">
+	function check()
+	{
+		if (
+			!isNull('name', '教师姓名') ||
+			!isNull('login_id', '教师代码') ||
+			!isMobile('telphone1' ,'电话1','T' ) ||
+			!isMobile('telphone2' ,'电话2','F' ) ||
+			!isEmail('email1' , 'Email 1' , 'T') ||
+			!isEmail('email2' , 'Email 2' , 'F')
+		)
+			return false;
+		return true ;
+	}
+</script>
+<form method='post'  id="myform" action="__URL__/insert">
+	<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+		<tr>
+			<td  width="120">教师姓名</td>
+			<td>
+				<input type="text" class="input-text"  name="name" id="name"/>
+				<span class="red">*</span>
+			</td>
+		</tr>
+		<tr>
+			<td  width="120">教师代码</td>
+			<td>
+				<input type="text" class="input-text"  name="login_id" id="login_id"/>
+				<span class="red">*</span>
+			</td>
+		</tr>
+		<tr>
+			<td  width="120">初始密码</td>
+			<td>
+				123456
+				<span class="red">*</span>
+			</td>
+		</tr>
+		<tr>
+			<td>性别</td>
+			<td>
+				<select name="gender" id="gender">
+					<option value=NULL >--请选择性别--</option>
+					<volist name="gen_list" id="gend">
+						<option value="{$gend['id']}">{$gend['name']}</option>
+					</volist>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>民族</td>
+			<td>
+				<select name="nation" id="nation">
+					<option value="">--请选择民族--</option>
+					<volist name="nat_list" id="nat">
+						<option value="{$nat['id']}">{$nat['name']}</option>
+					</volist>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td  width="120">身份证号</td>
+			<td>
+				<input type="text" class="input-text"  name="idno" id="idno"/>
+			</td>
+		</tr>
+		<tr>
+			<td>所属机构</td>
+			<td>
+				<select name="org" id="org">
+					<option value="">--请选择机构--</option>
+					<volist name="org_list" id="org">
+						<option value="{$org['id']}">{$org['name']}</option>
+					</volist>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>职称</td>
+			<td>
+				<select name="job_title" id="job_title">
+					<option value="">--请选择职称--</option>
+					<volist name="job_list" id="job">
+						<option value="{$job['id']}">{$job['name']}</option>
+					</volist>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>最终学历</td>
+			<td>
+				<select name="degree" id="degree">
+					<option value="">--请选择学历--</option>
+					<volist name="deg_list" id="deg">
+						<option value="{$deg['id']}">{$deg['name']}</option>
+					</volist>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>毕业学校</td>
+			<td>
+				<input type="text" class="input-text"  name="school" id="school"/>
+			</td>
+		</tr>
+		<tr>
+		<td>电话1</td>
+			<td>
+				<input type="text" class="input-text" id="telphone1" name="telphone1"/>
+				<span class="red">*</span>
+			</td>
+		</tr>
+		<tr>
+			<td>电话2</td>
+			<td><input type="text" class="input-text" id="telphone2" name="telphone2"/></td>
+		</tr>
+		<tr>
+			<td>Email 1</td>
+			<td>
+				<input type="text" class="input-text" id="email1" name="email1"/>
+				<span class="red">*</span>
+			</td>
+		</tr>
+		<tr>
+			<td>Email 2</td>
+			<td><input type="text" class="input-text" id="email2" name="email2"/></td>
+		</tr>
+		<tr>
+			<td>QQ</td>
+			<td><input type="text" class="input-text"  name="qq"/></td>
+		</tr>
+		<tr>
+			<td>研究方向</td>
+			<td>
+				<textarea name="research" rows="5" cols="30" class="valid"></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td>通讯地址</td>
+			<td>
+				<textarea name="adress" rows="5" cols="30" class="valid"></textarea>
+			</td>
+		</tr>
+	</table>
+	<div class="btn">
+		<input type="submit" value="提交" class="button" onclick="return check()"/>
+		<input type="reset"  value="重置" class="button" />
+	</div>
+</form>

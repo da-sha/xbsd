@@ -1,0 +1,23 @@
+<div id="select_content">
+	<fieldset>
+		<legend>指导教师：</legend>
+		<div class="left">
+			<select id="org_id">
+				<option value="">---请选择机构---</option>
+				<volist name="orgid_list" id="or">
+					<option value="{$or[id]}">{$or[name]}</option>
+				</volist>
+			</select>
+			<select id="teacher_list" multiple>
+			</select>
+		</div>
+		<div class="middle">
+			<input type="button" id="select_teacher" class="button move" name="user" value=">>"/>
+			<input type="button" id="unselect_teacher" class="button move" name="user" value="<<"/>
+		</div>
+		<div class="right">
+			<select id="chosen_list" multiple>
+			</select>
+		</div>
+	</fieldset>	
+</div>

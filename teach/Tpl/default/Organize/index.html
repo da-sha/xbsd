@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>西北师大教务支持系统 - 机构信息管理</title>
+		<link rel="stylesheet" type="text/css" href="../Public/css/style.css" />
+		<script language="JavaScript">
+		<!--
+		function confirm_delete(url){
+			art.dialog.confirm("确认要删除信息吗?", function(){location.href = url;});
+		}
+		//-->
+		</script>
+	</head>
+	<body width="100%">
+		<div id="result" class="result none"></div>
+			<div id="nav" class="mainnav_title">
+				<ul>
+					<a href="__URL__/index" class="on">机构管理</a>|
+					<a href="__URL__/add">添加机构</a>|
+				</ul>
+			</div>
+			<form name="myform" action="" method="post">
+				<div class="table-list">
+					<table width="100%" cellspacing="0">
+						<thead>
+							<tr>
+								<th align="left">机构名称</th>
+								<th>级别</th>
+								<th>上属机构</th>
+								<th>办公地址</th>
+								<th>管理操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<volist name="list" id="data">
+							<tr>
+								<td align="left">{$data[name]}</td>
+								<td align="center">{$data[level]}</td>
+								<td align="center">{$data[high_org]}</td>
+								<td align="center">{$data[address]}</td>
+								<td align="center">
+									<a href="__URL__/edit/orgid/{$data[orgid]}">修改</a> |
+									<a href="__URL__/delete/orgid/{$data[orgid]}">删除</a>
+								</td>
+							</tr>
+							</volist>
+						</tbody>
+					</table>
+					<div id="dasha_footer">{$show}</div>
+				</div>
+			</form>
+	</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>西北师大教务支持系统 - 站点配置管理</title>
+		<link rel="stylesheet" type="text/css" href="../Public/css/style.css" />
+		<script type="text/javascript" src="../Public/js/jquery.min.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				$("#nav ul a.all").click(function(){
+					$("#nav ul a.on").removeClass("on");
+					$(this).addClass("on");
+					$.get(  "__URL__/sys/type/"+ $(this).attr("name_val") , function(data){
+						$("#content").html(data) ;
+					});
+					return false;
+				});
+				$("#nav ul a.addsys").click(function(){
+					$("#nav ul a.on").removeClass("on");
+					$(this).addClass("on");
+					$.get(  "__URL__/add" , function(data){
+						$("#content").html(data) ;
+					});
+					return false;
+				});
+			});
+
+
+		</script>
+	</head>
+	<body>
+		<div id="result" class="result none"></div>
+		<div class="mainbox">
+			<div id="nav" class="mainnav_title">
+				<ul>
+					<volist name="type_list" id="ty">
+						<a href="#" class="all" name_val ="{$ty['id']}">{$ty['name']}</a>|
+					</volist>
+					<a href="#" class="addsys">添加系统变量</a>
+				</ul>
+			</div>
+		</div>
+		<div id="content" style="padding-left: 10px;">
+			<form method='post'  id="myform" action="__URL__/update">
+				<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+					<volist name="config_list" id="config">
+						<tr>
+							<td>
+								<input type="checkbox" name="sid[]" id="{$config['id']}" value="{$config['id']}"></input>
+							</td>
+							<td  width="120">{$config['info']}</td>
+							<td>
+								<input type="text" class="input-text"  name="value[]" id="{$config['value']}" value="{$config['value']}"></input>
+								{$config['varname']}
+								<span class="red">*</span>
+								<input type="hidden" name="id[]" value="{$config['id']}"></input>
+							</td>
+						</tr>
+					</volist>
+				</table>
+				<div class="btn">
+					<input type="submit" name="submit" value="修改" class="button" />
+					<input type="submit" name="submit" value="删除" class="button" />
+				</div>
+			</form>
+			<div>{$show}</div>
+		</div>
+	</body>
+</html>

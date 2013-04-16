@@ -1,0 +1,91 @@
+<layout name="layout"/>
+<div class="mainbox">
+	<form action="__SELF__" method="get">
+		<select name="year">
+			<option value="">---请选择---</option>
+			<volist name="year_list" id="year">
+				<if condition="$year eq $_GET['year']">
+					<option value="{$year}" selected>{$year}</option>
+					<else/>
+					<option value="{$year}">{$year}</option>
+				</if>
+			</volist>
+		</select>
+		<select name="semester">
+			<option value="">---请选择---</option>
+			<volist name="semester_list" id="semester">
+				<if condition="$semester['id'] eq $_GET['semester']">
+					<option value="{$semester['id']}" selected>{$semester['name']}</option>
+					<else/>
+					<option value="{$semester['id']}">{$semester['name']}</option>
+				</if>
+			</volist>
+		</select>
+		<input type="submit" class="button"/>
+	</form>
+</div>
+<div class="table-list">
+	<table width="100%" cellspacing="0">
+		<thead>
+			<tr>
+				<th>教学年</th>
+				<th>学期</th>
+				<th align="left">教室地点</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+		<volist name="room_list" id="room">
+			<tr>
+				<td align="center">{$room['year']}</td>
+				<td align="center">{$room['semester']}</td>
+				<td>{$room['addr']}</td>
+				<td align="center"><a clas="red" href="__URL__/delete_room/roomid/{$room['roomid']}">删除</a></td>
+			</tr>
+		</volist>
+		</tbody>
+	</table>
+	<div id="dasha_footer">{$show}</div>
+</div>
+
+<form class="insert_record" action="__URL__/insert_room" method="post">
+	<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+		<tr>
+			<td  width="120">教学年</td>
+			<td>
+				<select name="year">
+					<volist name="year_list" id="year">
+						<if condition="$year eq $_GET['year']">
+							<option value="{$year}" selected>{$year}</option>
+							<else/>
+							<option value="{$year}">{$year}</option>
+						</if>
+					</volist>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td  width="120">学期</td>
+			<td>
+				<select name="semester">
+					<volist name="semester_list" id="semester">
+						<if condition="$semester['id'] eq $_GET['semester']">
+							<option value="{$semester['id']}" selected>{$semester['name']}</option>
+							<else/>
+							<option value="{$semester['id']}">{$semester['name']}</option>
+						</if>
+					</volist>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td  width="120">地点</td>
+			<td>
+				<input type="text" name="addr"/>
+			</td>
+		</tr>
+	</table>
+	<div class="btn">
+		<input type="submit" value="添加" class="button"/>
+	</div>
+</form>

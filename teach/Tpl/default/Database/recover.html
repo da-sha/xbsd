@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>西北师大教务支持系统 - 数据库管理</title>
+		<link rel="stylesheet" type="text/css" href="../Public/css/style.css" />
+		<script type="text/javascript" src="../Public/js/jquery.min.js"></script>
+		<script type="text/javascript">
+			function selectall(name) {
+				if ($("#check_box").attr("checked")) {
+					$("input[name='"+name+"']").attr("checked", true);
+				} else {
+					$("input[name='"+name+"']").attr("checked", false);
+				}
+			}
+		</script>
+  </head>
+  <body>
+	<form id="myform" name="myform" method="post" action="">
+		<div class="table-list">
+
+       <table cellpadding=0 cellspacing=0  width="100%">
+	   <thead>
+		<tr>
+        <th style="width:4%">选择</th>
+		 <th align="left" style="width:20%">名称</th>
+              <th align="left" style="width:15%">大小</th>
+              <th align="left" style="width:15%">时间</th>
+              <th align="left" style="width:8%">下载</th>
+              <th align="left" style="width:8%">导入</th>
+		</tr>
+		</thead>
+
+		<tbody>
+		<volist name="files" id="vo">
+		<tr>
+		<td><input type="checkbox" name="files[]" value="{$vo.path}"></input> </td>
+        <td>{$vo.name}</td>
+        <td>{$vo.size|byte_format}</td>
+        <td>{$vo.time|toDate}</td>
+        <td><a href="__ROOT__/public/data/{$vo.name}">下载</a></td>
+        <td><a href="javascript:if(confirm('确认要导入数据吗？')) window.location='{:U($module_name.'/recover?do=import&filename='.$vo[name])}'">导入</a></td>
+		</tr>
+		</volist>
+
+		</tbody>
+		</table>
+		</div>
+		<div class="btn">
+			<input type="checkbox" value="" id="check_box" onclick="selectall('files[]');">全选&nbsp;&nbsp;
+			 <input type="button" class="button"  name="" value="删除" onclick="myform.action='{:U($module_name.'/recover?do=delete')}'; $('#myform').submit();"></input>
+		</div>
+	</form>
+  </body>
+</html>

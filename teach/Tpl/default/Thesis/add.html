@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>西北师大教务支持系统 - 学生论文管理</title>
+		<link rel="stylesheet" type="text/css" href="../Public/css/style.css" />
+		<script src="../Public/js/verify.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			function checkForm()
+			{
+				if (
+				!isNull('userid', '学生代码', 'F') ||
+				!isNull('thesisid', '论文选题', 'F') )
+					return false;
+				return true;
+			}
+		</script>
+	</head>
+	<body width="100%">
+			<form method='post'  id="myform" action="__URL__/insert">
+				<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+					<tr>
+						<td width="120">班级名称</td>
+						<td>
+							{$classname}
+							<span class="red">*</span>
+						</td>
+					</tr>
+					<tr>
+						<td  width="120">学生姓名</td>
+						<td>
+							<select name="userid" id="userid">
+								<volist name="name_list" id="name">
+									<option value="{$name['id']}">{$name['name']}</option>
+								</volist>
+							</select>
+							<span class="red">*</span>
+						</td>
+					</tr>
+					<tr>
+						<td  width="120">论文题目</td>
+						<td>
+							<select name="thesisid" id="thesisid">
+								<volist name="thesis_list" id="th">
+									<option value="{$th['id']}">{$th['name']}</option>
+								</volist>
+							</select>
+							<span class="red">*</span>
+						</td>
+					</tr>
+					<tr>
+						<td  width="120">选题来源</td>
+						<td>
+							<input type="text" class="input-text"  name="title_source" id="title_source" />
+							<span class="red">*</span>
+						</td>
+					</tr>
+				</table>
+				<div class="btn">
+					<input TYPE="submit" name="dosubmit"  value="提交" class="button" onclick="return checkForm()"/>
+					<input TYPE="reset"  value="取消" class="button" />
+				</div>
+			</form>
+	</body>
+</html>

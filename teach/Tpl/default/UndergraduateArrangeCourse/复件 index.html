@@ -1,0 +1,340 @@
+<layout name="layout_no_nav"/>
+
+{:define_json('level',$level_list)}
+{:define_json('property',$course_property_list)}
+{:define_json('cou_type',$course_type_list)}
+{:define_json('exam_type',$exam_list)}
+{:define_json('cou_category',$course_category_list)}
+<script src="../Public/js/course.js"></script>
+
+<script>
+    $(function(){
+    });
+</script>
+<script>
+    .progressbar-text {
+        text-align: center;
+        color: #15428B;
+        position: absolute;
+    }
+    .progressbar-value {
+        background-color: #FF8D40;
+        border-radius: 5px 0 0 5px;
+        width: 0;
+    }
+
+</script>
+<div id="cc" class="easyui-layout" style="width:auto;height:700px;">  
+    <div data-options="region:'west',title:'教师排课工作量',split:true" style="width:200px">
+        <volist name="teacher_list" id="teacher">
+        <div class="" style="width: 188px;">
+        </div>
+        </volist>
+    </div>  
+    <div data-options="region:'center',title:'排课管理'" style="width:600px;height:auto;background:#eee;">
+        <div id="tt" class="easyui-tabs" style="width:auto;height:auto;">  
+            <div title="专业必修课" style="">  
+                <table id="major_course_table" style="width:auto;height:auto;overflow:scroll"
+                    data-options="idField:'courseid',nowrap:true,pageSize:20">
+                    <thead>
+                        <tr>
+                            <th data-options="field:'courseid',width:60,sortable:true,align:'center'">课程ID</th>
+                            <th data-options="field:'name',width:150,sortable:true">课程名称</th>
+                            <th data-options="field:'cou_category',width:80,
+                                formatter:data_formatter('cou_category')
+                                ">课程类别</th>
+                            <th data-options="field:'cou_type',width:80,
+                                formatter:data_formatter('cou_type')
+                                ">课程类型</th>
+                            <th data-options="field:'property',width:80,
+                                formatter:data_formatter('property')
+                                ">课程性质</th>
+                            <th data-options="field:'exam_type',width:80,
+                                formatter:data_formatter('exam_type')
+                                ">考试类型</th>
+                            <th data-options="field:'planweektime',width:80,
+                                ">理论周学时</th>
+                            <th data-options="field:'expweektime',width:80,
+                                ">实验周学时</th>
+                            <th data-options="field:'week',width:80,
+                                ">开设周数</th>
+                            <th data-options="field:'totaltime',width:80,
+                                ">总学时</th>
+                            <th data-options="field:'credit',width:80,
+                                ">学分</th>
+                            <th data-options="field:'syllabus',width: 150,
+                                ">教学大纲</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div id="tb_major_course" style="padding:5px;height:auto">  
+                    <div>
+                        <form id="major_course_search_form">
+                            专业<input name="majorid" class="easyui-combobox" style="width:170px"  
+                            data-options="data:major,valueField:'majorid',textField:'name',panelHeight:200"/>
+                            学年<input name="admissiondate" class="easyui-combobox" style="width:70px"  
+                            data-options="data:admissiondate,valueField:'id',textField:'name',panelHeight:90"/>
+                            季度<input name="quarter" class="easyui-combobox" style="width:70px"  
+                            data-options="data:quarter,valueField:'id',textField:'name',panelHeight:50"/>
+
+                            <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="
+                                $('#major_course_table').datagrid('load',$('#major_course_search_form').serializeJson())" plain="true">搜索</a>  
+                        </form>
+                    </div>  
+                </div>  
+            </div>  
+            <div title="专业限选课" style="">  
+                <table id="major_course_table" style="width:auto;height:auto;overflow:scroll"
+                    data-options="idField:'courseid',nowrap:true,pageSize:20">
+                    <thead>
+                        <tr>
+                            <th data-options="field:'courseid',width:60,sortable:true,align:'center'">课程ID</th>
+                            <th data-options="field:'name',width:150,sortable:true">课程名称</th>
+                            <th data-options="field:'cou_category',width:80,
+                                formatter:data_formatter('cou_category')
+                                ">课程类别</th>
+                            <th data-options="field:'cou_type',width:80,
+                                formatter:data_formatter('cou_type')
+                                ">课程类型</th>
+                            <th data-options="field:'property',width:80,
+                                formatter:data_formatter('property')
+                                ">课程性质</th>
+                            <th data-options="field:'exam_type',width:80,
+                                formatter:data_formatter('exam_type')
+                                ">考试类型</th>
+                            <th data-options="field:'planweektime',width:80,
+                                ">理论周学时</th>
+                            <th data-options="field:'expweektime',width:80,
+                                ">实验周学时</th>
+                            <th data-options="field:'week',width:80,
+                                ">开设周数</th>
+                            <th data-options="field:'totaltime',width:80,
+                                ">总学时</th>
+                            <th data-options="field:'credit',width:80,
+                                ">学分</th>
+                            <th data-options="field:'syllabus',width: 150,
+                                ">教学大纲</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div id="tb_major_course" style="padding:5px;height:auto">  
+                    <div>
+                        <form id="major_course_search_form">
+                            专业<input name="majorid" class="easyui-combobox" style="width:170px"  
+                            data-options="data:major,valueField:'majorid',textField:'name',panelHeight:200"/>
+                            学年<input name="admissiondate" class="easyui-combobox" style="width:70px"  
+                            data-options="data:admissiondate,valueField:'id',textField:'name',panelHeight:90"/>
+                            季度<input name="quarter" class="easyui-combobox" style="width:70px"  
+                            data-options="data:quarter,valueField:'id',textField:'name',panelHeight:50"/>
+
+                            <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="
+                                $('#major_course_table').datagrid('load',$('#major_course_search_form').serializeJson())" plain="true">搜索</a>  
+                        </form>
+                    </div>  
+                </div>  
+            </div>  
+            <div title="专业任选课" style="">  
+                <table id="major_course_table" style="width:auto;height:auto;overflow:scroll"
+                    data-options="idField:'courseid',nowrap:true,pageSize:20">
+                    <thead>
+                        <tr>
+                            <th data-options="field:'courseid',width:60,sortable:true,align:'center'">课程ID</th>
+                            <th data-options="field:'name',width:150,sortable:true">课程名称</th>
+                            <th data-options="field:'cou_category',width:80,
+                                formatter:data_formatter('cou_category')
+                                ">课程类别</th>
+                            <th data-options="field:'cou_type',width:80,
+                                formatter:data_formatter('cou_type')
+                                ">课程类型</th>
+                            <th data-options="field:'property',width:80,
+                                formatter:data_formatter('property')
+                                ">课程性质</th>
+                            <th data-options="field:'exam_type',width:80,
+                                formatter:data_formatter('exam_type')
+                                ">考试类型</th>
+                            <th data-options="field:'planweektime',width:80,
+                                ">理论周学时</th>
+                            <th data-options="field:'expweektime',width:80,
+                                ">实验周学时</th>
+                            <th data-options="field:'week',width:80,
+                                ">开设周数</th>
+                            <th data-options="field:'totaltime',width:80,
+                                ">总学时</th>
+                            <th data-options="field:'credit',width:80,
+                                ">学分</th>
+                            <th data-options="field:'syllabus',width: 150,
+                                ">教学大纲</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div id="tb_major_course" style="padding:5px;height:auto">  
+                    <div>
+                        <form id="major_course_search_form">
+                            专业<input name="majorid" class="easyui-combobox" style="width:170px"  
+                            data-options="data:major,valueField:'majorid',textField:'name',panelHeight:200"/>
+                            学年<input name="admissiondate" class="easyui-combobox" style="width:70px"  
+                            data-options="data:admissiondate,valueField:'id',textField:'name',panelHeight:90"/>
+                            季度<input name="quarter" class="easyui-combobox" style="width:70px"  
+                            data-options="data:quarter,valueField:'id',textField:'name',panelHeight:50"/>
+
+                            <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="
+                                $('#major_course_table').datagrid('load',$('#major_course_search_form').serializeJson())" plain="true">搜索</a>  
+                        </form>
+                    </div>  
+                </div>  
+            </div>  
+            <div title="公共必修课" style="">  
+                <table id="major_course_table" style="width:auto;height:auto;overflow:scroll"
+                    data-options="idField:'courseid',nowrap:true,pageSize:20">
+                    <thead>
+                        <tr>
+                            <th data-options="field:'courseid',width:60,sortable:true,align:'center'">课程ID</th>
+                            <th data-options="field:'name',width:150,sortable:true">课程名称</th>
+                            <th data-options="field:'cou_category',width:80,
+                                formatter:data_formatter('cou_category')
+                                ">课程类别</th>
+                            <th data-options="field:'cou_type',width:80,
+                                formatter:data_formatter('cou_type')
+                                ">课程类型</th>
+                            <th data-options="field:'property',width:80,
+                                formatter:data_formatter('property')
+                                ">课程性质</th>
+                            <th data-options="field:'exam_type',width:80,
+                                formatter:data_formatter('exam_type')
+                                ">考试类型</th>
+                            <th data-options="field:'planweektime',width:80,
+                                ">理论周学时</th>
+                            <th data-options="field:'expweektime',width:80,
+                                ">实验周学时</th>
+                            <th data-options="field:'week',width:80,
+                                ">开设周数</th>
+                            <th data-options="field:'totaltime',width:80,
+                                ">总学时</th>
+                            <th data-options="field:'credit',width:80,
+                                ">学分</th>
+                            <th data-options="field:'syllabus',width: 150,
+                                ">教学大纲</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div id="tb_major_course" style="padding:5px;height:auto">  
+                    <div>
+                        <form id="major_course_search_form">
+                            专业<input name="majorid" class="easyui-combobox" style="width:170px"  
+                            data-options="data:major,valueField:'majorid',textField:'name',panelHeight:200"/>
+                            学年<input name="admissiondate" class="easyui-combobox" style="width:70px"  
+                            data-options="data:admissiondate,valueField:'id',textField:'name',panelHeight:90"/>
+                            季度<input name="quarter" class="easyui-combobox" style="width:70px"  
+                            data-options="data:quarter,valueField:'id',textField:'name',panelHeight:50"/>
+
+                            <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="
+                                $('#major_course_table').datagrid('load',$('#major_course_search_form').serializeJson())" plain="true">搜索</a>  
+                        </form>
+                    </div>  
+                </div>  
+            </div>  
+            <div title="公共选修课" style="">  
+                <table id="major_course_table" style="width:auto;height:auto;overflow:scroll"
+                    data-options="idField:'courseid',nowrap:true,pageSize:20">
+                    <thead>
+                        <tr>
+                            <th data-options="field:'courseid',width:60,sortable:true,align:'center'">课程ID</th>
+                            <th data-options="field:'name',width:150,sortable:true">课程名称</th>
+                            <th data-options="field:'cou_category',width:80,
+                                formatter:data_formatter('cou_category')
+                                ">课程类别</th>
+                            <th data-options="field:'cou_type',width:80,
+                                formatter:data_formatter('cou_type')
+                                ">课程类型</th>
+                            <th data-options="field:'property',width:80,
+                                formatter:data_formatter('property')
+                                ">课程性质</th>
+                            <th data-options="field:'exam_type',width:80,
+                                formatter:data_formatter('exam_type')
+                                ">考试类型</th>
+                            <th data-options="field:'planweektime',width:80,
+                                ">理论周学时</th>
+                            <th data-options="field:'expweektime',width:80,
+                                ">实验周学时</th>
+                            <th data-options="field:'week',width:80,
+                                ">开设周数</th>
+                            <th data-options="field:'totaltime',width:80,
+                                ">总学时</th>
+                            <th data-options="field:'credit',width:80,
+                                ">学分</th>
+                            <th data-options="field:'syllabus',width: 150,
+                                ">教学大纲</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div id="tb_major_course" style="padding:5px;height:auto">  
+                    <div>
+                        <form id="major_course_search_form">
+                            专业<input name="majorid" class="easyui-combobox" style="width:170px"  
+                            data-options="data:major,valueField:'majorid',textField:'name',panelHeight:200"/>
+                            学年<input name="admissiondate" class="easyui-combobox" style="width:70px"  
+                            data-options="data:admissiondate,valueField:'id',textField:'name',panelHeight:90"/>
+                            季度<input name="quarter" class="easyui-combobox" style="width:70px"  
+                            data-options="data:quarter,valueField:'id',textField:'name',panelHeight:50"/>
+
+                            <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="
+                                $('#major_course_table').datagrid('load',$('#major_course_search_form').serializeJson())" plain="true">搜索</a>  
+                        </form>
+                    </div>  
+                </div>  
+            </div>  
+        </div>
+        <div>
+            <div title="已安排课程" style="">  
+                <table id="major_course_table" style="width:auto;height:auto;overflow:scroll"
+                    data-options="idField:'courseid',nowrap:true,pageSize:20">
+                    <thead>
+                        <tr>
+                            <th data-options="field:'courseid',width:60,sortable:true,align:'center'">课程ID</th>
+                            <th data-options="field:'name',width:150,sortable:true">课程名称</th>
+                            <th data-options="field:'cou_category',width:80,
+                                formatter:data_formatter('cou_category')
+                                ">课程类别</th>
+                            <th data-options="field:'cou_type',width:80,
+                                formatter:data_formatter('cou_type')
+                                ">课程类型</th>
+                            <th data-options="field:'property',width:80,
+                                formatter:data_formatter('property')
+                                ">课程性质</th>
+                            <th data-options="field:'exam_type',width:80,
+                                formatter:data_formatter('exam_type')
+                                ">考试类型</th>
+                            <th data-options="field:'planweektime',width:80,
+                                ">理论周学时</th>
+                            <th data-options="field:'expweektime',width:80,
+                                ">实验周学时</th>
+                            <th data-options="field:'week',width:80,
+                                ">开设周数</th>
+                            <th data-options="field:'totaltime',width:80,
+                                ">总学时</th>
+                            <th data-options="field:'credit',width:80,
+                                ">学分</th>
+                            <th data-options="field:'syllabus',width: 150,
+                                ">教学大纲</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div id="tb_major_course" style="padding:5px;height:auto">  
+                    <div>
+                        <form id="major_course_search_form">
+                            专业<input name="majorid" class="easyui-combobox" style="width:170px"  
+                            data-options="data:major,valueField:'majorid',textField:'name',panelHeight:200"/>
+                            学年<input name="admissiondate" class="easyui-combobox" style="width:70px"  
+                            data-options="data:admissiondate,valueField:'id',textField:'name',panelHeight:90"/>
+                            季度<input name="quarter" class="easyui-combobox" style="width:70px"  
+                            data-options="data:quarter,valueField:'id',textField:'name',panelHeight:50"/>
+
+                            <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="
+                                $('#major_course_table').datagrid('load',$('#major_course_search_form').serializeJson())" plain="true">搜索</a>  
+                        </form>
+                    </div>  
+                </div>  
+            </div>  
+        </div>
+    </div>
+</div>

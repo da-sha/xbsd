@@ -1,0 +1,426 @@
+<layout name="layout"/>
+<style type="text/css">
+	.select_teacher{float: left;width: 79%;}
+	.sub_student_num,.add_student_num{ height: 30px;margin: 1px;padding: 3px;cursor: pointer; }
+	#majorid_student{float: right;width: 20%;}
+	#majorid_student select{height: 400px;width: 100%;}
+	.student_name{border: 1px solid gainsboro;background-color: white ; ;width: 99%;}
+	.student_num{width: 20px;vertical-align:middle;line-height:28px;height:28px; ;margin: 0px;text-align:center;}
+	div.div_border_red{border: 1px solid red;}
+	.left,.right{float: left ;width: 200px ;}
+	.left select,.right select{width: 100% ;height: 30px;}
+	.middle{ float: left ; width: 50px;padding: 68px 5px;margin: 0px;}
+	.move{ margin: 2px; width: 40px ; height: 30px;}
+	.student_name a {color:#004499;margin:0 3px;padding:1px 3px;background:#EFEFEF;}
+	.student_name a:hover {background:#498CD0;color:#FFF;}
+	#teacher_list{height: 170px;}
+	#chosen_list{height: 200px;}
+	#select_content{width: 500px;}
+	#guide_year{width: 50px;vertical-align:middle;line-height:28px;height:28px;margin: 0px;text-align:center;}
+</style>
+<script type="text/javascript">
+	$(function(){
+		var STU_NUM = 0 ;
+		var TEA_NUM = 0 ;
+		$(".hide_on_start").hide() ;
+		$.get( "__URL__/selectteacher" , function(data){
+			dialog = art.dialog({
+				title: "论文任务",
+				show:false ,
+				close:function () {
+					this.hide();
+					return false;
+				},
+				button: [
+				{
+					name: '确定',
+					callback: function () {
+						//恢复所有学生。。
+						$("#main_table tr td .student_name a").each(function(){
+							$("#majorid_student select").append("<option value='"+$(this).attr("stu_id")+"' stu_name='"+$(this).attr("stu_name")+"' stu_code='"+$(this).attr("stu_code")+"'>"+$(this).attr("stu_name")+"("+$(this).attr("stu_code")+")"+"</option>") ;
+						}) ;
+						$("#main_table tr.unstorage").remove() ;
+						$("#chosen_list option").each(function(){
+							$("#main_table").append("<tr class='unstorage'><td class='teacher_id' teacher_id='"+$(this).val()+"'>"+$(this).attr("name")+"</td><td>"+$(this).attr("job_title")+"</td><td>"+$(this).attr("telphone1")+"</td><td><input type='button' class='sub_student_num' value='-'/><input class='student_num' name='student_num'/><input type='button' class='add_student_num' value='+'/></td><td><div class='student_name'>&nbsp;</div></td></tr>") ;
+						}) ;
+						TEA_NUM = $("#chosen_list option").size() ;
+						if( $("#main_table tr td .div_border_red").size() )
+						{
+							$("#main_table tr td .div_border_red").removeClass("div_border_red") ;
+						}
+						$("#main_table tr td .student_name:first").addClass("div_border_red") ;
+						this.hide();
+						if( $("#chosen_list option").size() )
+						{
+							$(".hide_on_start").show() ;
+						}
+						re_cal_num() ;
+						$("#main_table tr td input.student_num").val( $("#guide_student_num").val() ) ;
+						return false;
+					},
+					focus: true
+				}],
+				content:data, 
+				top:'10%',
+				left:'20%'
+			}) ;
+		});
+		var trySubmit = function()
+		{
+			url = URL+'/getstudent' ;
+			succeed = true ;
+			$(".check_input").each(function(i){
+				if( $(this).val() != '')
+				{
+					url += "/"+$(this).attr("name")+"/"+$(this).val() ;
+				}
+				else
+				{
+					succeed = false ;
+					$(this).addClass( "input_border_red" ) ;
+					$(this).one("click", function(){
+						$(this).removeClass( "input_border_red" ) ;
+					});
+					return false ;
+				}
+			}) ;
+			if( succeed == true)
+			{
+				temp = art.dialog({}) ;
+				$.getJSON( url , function( data ){
+					if( data.status == 1 )
+					{
+						temp.close() ;
+						//删除原有所有学生
+						$("#majorid_student select").empty() ;
+						$("#main_table tr td .student_name").html("&nbsp;") ;
+						if( data.data != null)
+						{
+							STU_NUM = data.data.length ;
+							$.each(data.data, function(id,value){
+								$("#majorid_student select").append( "<option value='"+value.id+"' stu_name ='"+value.name+"' stu_code='"+value.user_code+"'>"+value.name+"("+value.user_code+")</option>");
+							})
+							re_cal_num();
+							$("#main_table tr td input.student_num").val( $("#guide_student_num").val() ) ;
+						}
+						else{
+							art.dialog.tips( "没有找到未安排的学生！" );
+						}
+					}
+					else
+					{
+						temp.close() ;
+						art.dialog.tips( data.info );
+					}
+				}) ;
+			}
+		}
+		var re_cal_num=function()
+		{
+			temp = "当前学生"+ STU_NUM+"人，教师"+ TEA_NUM + "人。" ;
+			if( TEA_NUM > 0 )
+			{
+				temp = temp+"平均指导学生"+parseInt(STU_NUM / TEA_NUM)+"人，剩余"+STU_NUM % TEA_NUM+"人。目前还有"+$("#majorid_student select option").size()+"人未安排";
+				$("#guide_student_num").val( parseInt(STU_NUM / TEA_NUM) ) ;
+			}
+			$("#dasha_footer").text(temp) ;
+		}
+		function is_full( cur_input )
+		{
+			cur_num_input = cur_input.closest("tr").find("td input.student_num");
+			if( cur_num_input.val() == "" || isNaN( cur_num_input.val() ) || parseInt(cur_num_input.val()) < 0 )
+			{
+				art.dialog.tips( "错误的学生数！" );
+				return true ;
+			}
+			if( cur_input.find("a").size() >= parseInt(cur_num_input.val()) )
+			{
+				return true ;
+			}
+			else{
+				return false ;
+			}
+		}
+		trySubmit() ;
+		$("#majorid_id").change( function(){
+			$("#year_id").html("<option value=''>---正在努力加载！---</option>") ;
+			$.getJSON( APP + "/Major/ajax_get_major_year/majorid/"+$(this).val(), function(data){
+				if( data.status == 1 )
+				{
+					$("#year_id").html("<option value=''>--请选择学年--</option>") ;
+					$.each(data.data, function(id,value){
+						$("#year_id").append( "<option value='"+value.year+"'>"+value.year+"级"+"</option>");
+					})
+				}
+				else
+				{
+					$("#year_id").html("<option value=''>---"+data.info+"---</option>") ;
+				}
+			}) ;
+		});
+		$(".check_input").change( trySubmit );
+		$(".add_teacher").click(function(){
+			dialog.show();
+			return false ;
+		});
+		$(".arrange").live("click",function(){
+			alert("run") ;
+			return false ;
+		});
+		$("#majorid_student select").dblclick(function(){
+			cur_select = $(this).find("option:selected") ;
+			if( $("#main_table tr td .div_border_red").size() > 0 )
+			{
+				if( !is_full($("#main_table tr td .div_border_red")) )
+				{
+					$("#main_table tr td .div_border_red").append("<a href='#' stu_name="+cur_select.attr("stu_name")+" stu_code="+cur_select.attr("stu_code")+" stu_id="+cur_select.val()+">" + cur_select.attr("stu_name") + "</a>") ;
+					cur_select.remove() ;
+					re_cal_num();
+				}
+				else{
+					art.dialog.tips("该老师已经满员了！") ;
+				}
+			}
+		}) ;
+		$("#set_guide_student_num").click(function(){
+			$("#main_table tr td input.student_num").val( $("#guide_student_num").val() ) ;
+		}) ;
+		$(".auto_arrange").click(function(){
+			has_stu = true ;
+			$("#main_table tr td .student_name").each(function(){
+				while( !is_full( $(this) ))
+				{
+					if( $("#majorid_student select option").size() > 0 )
+					{
+						first = $("#majorid_student select option").first() ;
+						$(this).append( "<a href='#' stu_name="+first.attr("stu_name")+" stu_code="+first.attr("stu_code")+" stu_id="+first.val()+">" + first.attr("stu_name") + "</a>") ;
+						first.remove() ;
+					}
+					else{
+						has_stu = false ;
+						break ;
+					}
+				}
+				if( has_stu == false )
+				{
+					return false ;
+				}
+			}) ;
+			re_cal_num() ;
+			art.dialog.tips("自动排课已经完成！剩余学生"+$("#majorid_student select option").size()+"人！") ;
+			
+		}) ;
+		$("#arrange_all").click(function(){
+			if( $("#majorid_student select option").size() > 0 )
+			{
+				art.dialog.tips("对不起，学生没有安排完，无法提交！") ;
+				return false;
+			}
+			postdata = {} ;
+			postdata.category = $("#category_id").val() ;
+			postdata.guide_year = $("#guide_year").val() ;
+			postdata.guide_semester = $("#guide_semester").val() ;
+			postdata.majorid_id = $("#majorid_id").val() ;
+			postdata.grade = $("#year_id").val() ;
+			postdata.arrange = new Array();
+			$("#main_table tr.unstorage").each(function(){
+				arrange = {} ;
+				arrange.teacher_id = $(this).find("td.teacher_id").attr("teacher_id") ;
+				arrange.student_num = $(this).find("td input.student_num").val() ;
+				arrange.student_list = new Array();
+				$(this).find("td .student_name a").each(function(){
+					arrange.student_list.push( $(this).attr("stu_id") ) ;
+				}) ;
+				postdata.arrange.push( arrange ) ;
+			}) ;
+			result = art.dialog({}) ;
+			$.post(URL+"/arrange_student", $.param(postdata), function(data){
+				if( data.status == 1 )
+				{
+					
+					art.dialog.tips( data.info+"2秒后自动跳转" , 1 ) ;
+					result.close() ;
+					setTimeout(function() {
+						self.location = URL+"/thesistaskview/majorid/"+$("#majorid_id").val()+"/year/"+$("#year_id").val()+"/category/"+$("#category_id").val() ;
+					}, 1000);
+					
+				}
+				else
+				{
+					result.content(data.info) ;
+				}
+				
+			},"json");
+		});
+		
+		/////////////////////////////////////////////////////////////
+		//以下为动态绑定区
+		
+		//选择教师按钮
+		$("#select_teacher").die( "click") ;
+		$("#select_teacher").live( "click",function(){
+			$("#teacher_list option:selected").each(function(){
+				if( $("#chosen_list option[value="+$(this).val()+"]").size() == 0 )
+				{
+					$(this).clone(false).appendTo( $("#chosen_list") ) ;
+				}
+			});
+		}) ;
+		//取消选择教师按钮
+		$("#unselect_teacher").die( "click") ;
+		$("#unselect_teacher").live( "click",function(){
+			$("#chosen_list option:selected").remove() ;
+		}) ;
+		$("#teacher_list").die("dblclick") ;
+		$("#teacher_list").live("dblclick",function(){
+			if( $("#chosen_list option[value="+$(this).val()+"]").size() == 0 )
+			{
+				$(this).find("option:selected").clone(false).appendTo( $("#chosen_list") ) ;
+			}
+		});
+		$("#chosen_list").die("dblclick") ;
+		$("#chosen_list").live("dblclick",function(){
+			$(this).find("option:selected").remove() ;
+		});
+		$("#org_id").die("change") ;
+		$("#org_id").live("change",function(){
+			if( '' != $(this).val() )
+			{
+				url = "__APP__/ThesisTitle/getTeacher/orgid/" + $(this).val();
+				$("#teacher_list").html("<option value=''>---正在努力加载中---<option>") ;
+				$.getJSON( url, function(data){
+					if( data.status == 1 )
+					{
+						$("#teacher_list").empty() ;
+						$.each(data.data, function(id,value){
+							$("#teacher_list").append( "<option value='"+value.id+"' job_title='"+value.job_title+"' telphone1='"+value.telphone1+"' name='"+value.name+"'>"+value.name+"("+ value.code+")</option>");
+						})
+					}
+					else
+					{
+						$("#teacher_list").html("<option value=''>---对不起，没有教师---</option>") ;
+					}
+				});
+			}
+		});
+		$("#main_table tr td .student_name").die( "click" ) ;
+		$("#main_table tr td .student_name").live( "click" ,function(){
+			if( $("#main_table tr td .div_border_red").size() > 0 )
+			{
+				$("#main_table tr td .div_border_red").removeClass("div_border_red") ;
+			}
+			$(this).addClass("div_border_red") ;
+		}) ;
+		$(".student_name a").die("click") ;
+		$(".student_name a").live("click",function(){
+			return false ;
+		});
+		$(".student_name a").die("dblclick") ;
+		$(".student_name a").live("dblclick",function(){
+			$("#majorid_student select").append("<option value='"+$(this).attr("stu_id")+"' stu_name='"+$(this).attr("stu_name")+"' stu_code='"+$(this).attr("stu_code")+"'>"+$(this).attr("stu_name")+"("+$(this).attr("stu_code")+")"+"</option>") ;
+			$(this).remove() ;
+			re_cal_num();
+			return false ;
+		});
+		$(".sub_student_num").die("click") ;
+		$(".sub_student_num").live("click",function(){
+			next_input = $(this).next(":input") ;
+			if( next_input.val() == "" || isNaN( next_input.val() ) || parseInt(next_input.val()) < 0 )
+			{
+				next_input.val( 0 ) ;
+			}
+			if( parseInt(next_input.val()) > 0 )
+			{
+				next_input.val( parseInt(next_input.val()) - 1 ) ;
+				if( $(this).closest("tr").find("td .student_name a").size() > parseInt(next_input.val()) )
+				{
+					art.dialog.tips("对不起，无法减小，已经安排足够的学生！") ;
+					next_input.val( parseInt(next_input.val()) + 1 ) ;
+				}
+			}
+		}) ;
+		$(".add_student_num").die("click") ;
+		$(".add_student_num").live("click",function(){
+			next_input = $(this).prev(":input") ;
+			if( next_input.val() == "" || isNaN( next_input.val() ) || parseInt(next_input.val()) < 0 )
+			{
+				next_input.val(0) ;
+			}
+			next_input.val( parseInt(next_input.val() ) + 1 ) ;
+		}) ;
+		
+	});
+</script>
+<fieldset>
+	<div class="mainbox">
+		指导学生：
+		<select class="check_input limit_width" name="majorid" id="majorid_id">
+			<option value="">--请选择专业--</option>
+			<volist name="major_list" id="ma">
+				<if condition="$_SESSION['majorid'] eq $ma[majorid]">
+				<option value="{$ma['majorid']}" selected>{$ma[name]}</option>
+				<else/>
+				<option value="{$ma['majorid']}">{$ma[name]}</option>
+			</if>
+			</volist>
+		</select>
+		<select class="check_input" name="year" id="year_id">
+			<option value="">--请选择学年--</option>
+			<volist name="year_list" id="year">
+				<if condition="$_SESSION['year'] eq $year['id']">
+				<option value="{$year['id']}" selected>{$year['name']}</option>
+				<else/>
+				<option value="{$year['id']}">{$year['name']}</option>
+			</if>
+			</volist>
+		</select>
+		<input class="check_input" type="hidden" name="category" id="category_id" value="{$_GET['category']}">
+		指导学年：
+		<input type="text" class="check_input" id="guide_year" name="guide_year" value="{$guide_year}"/>
+		<select class="check_input" id="guide_semester" name="guide_semester">
+			<volist name="semester_list" id="semester">
+				<if condition="$semester['id'] eq $cur_semester">
+					<option value="{$semester['id']}" selected>{$semester['name']}</option>
+					<else/>
+					<option value="{$semester['id']}">{$semester['name']}</option>
+				</if> 
+			</volist>
+		</select>
+	</div>
+	<div class="top">
+		<div class="table-list select_teacher">
+			<table width="100%" cellspacing="0">
+				<thead>
+					<tr>
+						<th>指导老师</th>
+						<th>职称</th>
+						<th>导师电话</th>
+						<th>指导学生数</th>
+						<th>指导学生</th>
+					</tr>
+				</thead>	
+				<tbody  id="main_table">
+					
+				</tbody>	
+			</table>
+			<div class="btn">
+				<input type="button"  value="选择教师" class="button add_teacher"/>
+				<input type="button" value="设置" id="set_guide_student_num" class="button hide_on_start"/>
+				<span class="hide_on_start">学生数</span>
+				<input type='button' class='sub_student_num hide_on_start' value='-'/>
+				<input type="text" class="student_num hide_on_start" id="guide_student_num"/>
+				<input type='button' class='add_student_num hide_on_start' value='+'/>
+				<input type="button"  value="自动安排" class="button auto_arrange hide_on_start"/>
+				<input type="button" id="arrange_all" value="确定" class="button hide_on_start"/>
+			</div>
+		</div>
+		<div id="majorid_student">
+			<select multiple name="student">
+				<volist name="student_list" id="student">
+					<option value="{$student['id']}" stu_name ="{$student['name']}" stu_code="{$student['user_code']}">{$student['name']}({$student['user_code']})</option>
+				</volist>
+			</select>
+		</div>
+	</div>
+</fieldset>
+<div id="dasha_footer">{$show}</div>

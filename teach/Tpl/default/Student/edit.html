@@ -1,0 +1,112 @@
+<link rel="stylesheet" type="text/css" href="../Public/css/style.css" />
+<link rel="stylesheet" href="../Public/jquery/development-bundle/themes/base/jquery.ui.all.css"/>
+<script src="../Public/jquery/development-bundle/jquery-1.8.0.js"></script>
+<script src="../Public/jquery/development-bundle/ui/jquery.ui.core.js"></script>
+<script src="../Public/jquery/development-bundle/ui/jquery.ui.widget.js"></script>
+<script src="../Public/jquery/development-bundle/ui/jquery.ui.datepicker.js"></script>
+<script>
+	$(function() {
+		$( "#birthday" ).datepicker();
+	});
+</script>
+<script charset="utf-8" src="../Public/kindeditor/kindeditor-min.js"></script>
+<script charset="utf-8" src="../Public/kindeditor/lang/zh_CN.js"></script>
+<script>
+	var editor;
+	KindEditor.ready(function(K) {
+		editor = K.create('textarea[name="introduction"]', {
+			allowFileManager : true
+		});
+	});
+</script>
+&nbsp;</br>
+&nbsp;</br>
+<form action="__URL__/update" method="post">
+	<fieldset>
+		<legend>{$stu['user_code']}</legend>
+		<table width="100%" class="dasha_table">
+			<tr>
+				<td class="key" width="70">姓名</td>
+				<td>{$stu['name']}</td>
+				<td class="key" width="70">性别</td>
+				<td>
+					<select name="gender" id="gender">
+						<volist name="gender_list" id="gl">
+							<if condition="$stu[gender] eq $gl[id]">
+								<option value="{$gl['id']}" selected="">{$gl['name']}</option>
+								<else/>
+								<option value="{$gl['id']}">{$gl['name']}</option>
+							</if>
+						</volist>
+					</select>
+				</td>
+				<td class="key" width="70">出生年月</td>
+				<td>
+					<input type="text" class="input-text"  name="birthday" id="birthday" value="{$stu['birthday']}" />
+				</td>
+			</tr>
+			<tr>
+				<td class="key">民族</td>
+				<td>
+					<select name="nationality" id="nationality">
+						<volist name="nationality_list" id="nl">
+							<if condition="$stu[nationality] eq $nl[id]">
+								<option value="{$nl['id']}" selected="">{$nl['name']}</option>
+								<else/>
+								<option value="{$nl['id']}">{$nl['name']}</option>
+							</if>
+						</volist>
+					</select>
+				</td>
+				<td class="key">政治面貌</td>
+				<td>
+					<select name="Politics_status" id="Politics_status">
+						<volist name="Politics_status_list" id="pl">
+							<if condition="$stu[Politics_status] eq $pl[id]">
+								<option value="{$pl['id']}" selected="">{$pl['name']}</option>
+								<else/>
+								<option value="{$pl['id']}">{$pl['name']}</option>
+							</if>
+						</volist>
+					</select>
+				</td>
+				<td class="key">身份证号</td>
+				<td>
+					<input type="text" class="input-text"  name="idno" id="idno" value="{$stu['idno']}" />
+				</td>
+			</tr>
+			<tr>
+				<td class="key">所在专业</td>
+				<td>{$stu['majorname']}</td>
+				<td class="key">所在班级</td>
+				<td>{$stu['classname']}</td>
+				<td class="key">入学年</td>
+				<td>{$stu['admissiondate']}</td>
+			</tr>
+			<tr>
+				<td class="key">QQ号</td>
+				<td>
+					<input type="text" class="input-text"  name="qq" id="qq" value="{$stu['qq']}" />
+				</td>
+				<td class="key">email地址</td>
+				<td>
+					<input type="text" class="input-text"  name="email" id="email" value="{$stu['email']}" />
+				</td>
+				<td class="key">电话号码</td>
+				<td>
+					<input type="text" class="input-text"  name="telephone" id="telephone" value="{$stu['telephone']}" />
+				</td>
+			</tr>
+			<tr>
+				<td class="key">个人简历</td>
+				<td colspan="5">
+					<textarea name="introduction" style="width:100%;height:300px;">{$stu[introduction]}</textarea>
+				</td>
+			</tr>
+		</table>
+		<div class="btn">
+			<input type="hidden" name="userid" value="{$stu['userid']}" />
+			<input type="submit" value="提交" class="button" />
+		</div>
+	</fieldset>
+</form>

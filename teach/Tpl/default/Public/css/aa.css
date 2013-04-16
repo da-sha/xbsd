@@ -1,0 +1,77 @@
+@CHARSET "UTF-8";
+/*aa=auto arrange自动安排模型*/
+
+
+/*aam=auto arrange main自动安排模型主页面*/
+.aam_c_left{
+	float: left;
+	width: 79%;
+}
+.aam_c_right{
+	float: right;
+	width: 20%;
+}
+.aam_c_right select{
+	height: 400px;
+	width: 100%;
+}
+.aam_input{
+	border: 1px solid gainsboro;
+	background-color: white ;
+	width: 99%;
+}
+.aam_input a {
+	color:#004499;
+	margin:0 3px;
+	padding:1px 3px;
+	background:#EFEFEF;
+}
+.aam_input a:hover {
+	background:#498CD0;
+	color:#FFF;
+}
+.aam_cur_input{
+	border-color: red;
+}
+.aam_adjust_num{
+	width: 20px;
+	vertical-align:middle;
+	line-height:28px;
+	height:28px;
+	margin: 0px;
+	text-align:center;
+}
+.aam_adjust_num_sub,.aam_adjust_num_add{
+	height: 30px;
+	margin: 1px;
+	padding: 3px;
+	cursor: pointer; 
+}
+
+.aac_left,.aac_right{
+	float: left ;
+	width: 200px ;
+}
+.aac_left select,.aac_right select{
+	width: 100% ;
+}
+.aac_middle{
+	 float: left ; 
+	 width: 50px;
+	 padding: 68px 5px;
+	 margin: 0px;
+}
+.aac_add_move,.aac_remove_move{ 
+	margin: 2px; 
+	width: 40px ; 
+	height: 30px;
+}
+.aac_l_top{
+	height: 30px;
+}
+.aac_l_content{
+	height: 170px;
+}
+.aac_r_content{
+	height: 200px;
+}

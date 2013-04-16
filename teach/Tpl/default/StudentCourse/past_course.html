@@ -1,0 +1,51 @@
+<layout name="layout_no_nav"/>
+<script type="text/javascript">
+var cou_info_dialog = function(url,title,width,height){
+    width = width || 700;
+    height = height || 400;
+    art.dialog.open(url,{
+        title: title,
+        width: width,
+        height: height
+    });
+}
+</script>
+<form id="teacher_past">
+    <div class="table-list">
+        <table width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th align="left">课程名</th>
+                    <th width="100">授课教师</th>
+                    <th width="100">修读时间</th>
+                    <th width="100">授课学期</th>
+                    <th width="100">课程类型</th>
+                    <th width="100">考核</th>
+                    <th width="100">课程异动</th>
+                    <th width="100">进度</th>
+                </tr>
+            </thead>
+            <tbody>
+                <volist name="course_list" id="course">
+                <tr>
+                    <td align="left">{$course["coursename"]|default="&nbsp;"}</td>
+                    <td align="center">{$course["teacher_name"]|default="&nbsp;"}</td>
+                    <td align="center">{$course["teach_year"]|default="&nbsp;"}</td>
+                    <td align="center">{$course["semester"]|default="&nbsp;"}</td>
+                    <td align="center">{$course["cou_type"]|default="&nbsp;"}</td>
+                    <td align="center">
+                        <a href="jvascript:void(0)" onClick="cou_info_dialog('__APP__/Assessment/student_assess/teachid/{$course[teachid]}','查看考核',700,400)">查看考核</a>
+                    </td>
+                    <td align="center">
+                        <a href="jvascript:void(0)" onClick="cou_info_dialog('__APP__/CourseChange/student_cou_change/teachid/{$course[teachid]}','查看异动',700,400)">查看异动</a>
+                    </td>
+                    <td align="center">
+                        <a href="jvascript:void(0)" onClick="cou_info_dialog('__APP__/TeachPlan/student_plan/teachid/{$course[teachid]}','查看进度',900,400)">查看进度</a>
+                    </td>
+                </tr>
+                </volist>
+            </tbody>
+        </table>
+        <div id="dasha_footer">{$show}</div>
+    </div>
+</form>

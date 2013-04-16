@@ -1,0 +1,28 @@
+<header>
+<!-- 主导航 -->
+<div class="header">
+	<div class="logo"><a href="" target="_blank"><img src="../Public/images/logo.gif"></a></div>
+	      <div class="menu">
+	          <ul>
+	          	<volist name="menuGroupList" id="tag">	 
+					<li id="menu_{$tag.id}" onClick="sethighlight({$tag.id});">
+					<a href="javascript:void(0);" onClick="sethighlight({$tag.id});">{$tag.name}</a>
+					</li>		 
+				</volist>
+	           </ul>
+	       </div>
+
+	<div class="right">
+		{:L('welcome_user')}{$Think.session.user_code}
+		 <i>|</i> 
+		 [{$usergroup}]
+		 <i>|</i>
+		 <if condition="$notlogin eq 1">
+		 [<a href="{:U('Login/index')}" target="_top">{:L('login')}</a>]
+		 <else />
+		 [<a href="{:U('Login/logout')}" target="_top">{:L('logout')}</a>]
+		 </if>
+	</div>
+</div>
+<!-- 主导航 end-->
+</header>

@@ -1,0 +1,44 @@
+<layout name="layout_no_nav"/>
+
+<script>
+    $(function(){
+    });
+    
+</script>
+
+<style>
+label.noselItem {
+    color: #3059A8;
+    cursor: pointer;
+}
+.table_form td, .table_form th {
+	padding: 1px 0 1px 8px;
+	line-height: 22px;
+}
+</style>
+<form method='post'  id="myform" action="__URL__/insert">
+    <div>
+		<volist name="majors" id="major">
+            <div id="class_box">
+                <table border="0" cellspacing="0" cellpadding="0" width="100%" class="table_form">
+                    <tr>
+                        <td width="250">{$major.name}</td>
+                        <td>
+                            <div id="major{$major.majorid}">
+                                <table width="100%" cellspacing="0" cellpadding="0" border="0" class="chebox">
+                                    <tbody>{:list_class($major['class'])}</tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+		</volist>
+    </div>
+    <div class="btn">
+        <input type="submit" value="提交" class="button" style="float:right"/>
+    </div>
+</form>
+
+
+

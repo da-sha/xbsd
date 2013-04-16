@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>西北师大教务支持系统 - 专业管理</title>
+		<link rel="stylesheet" type="text/css" href="../Public/css/style.css" />
+	</head>
+	<body>
+		<div class="mainbox">
+			<div class="table-list">
+				<table width="100%" cellspacing="0">
+					<thead>
+						<tr>
+							<th align="left">专业代码</th>
+							<th align="left">专业名称</th>
+							<th>所属机构</th>
+							<th>层次</th>
+							<th>类别</th>
+							<th>学制</th>
+							<th  width="120">管理操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<volist id="major" name="major_list">
+							<tr>
+								<td align="left">{$major["majorid"]}</td>
+								<td align="left">{$major["name"]}</td>
+								<td align="center">{$major["orgid"]}</td>
+								<td align="center">{$major["level"]}</td>
+								<td align="center">{$major["type"]}</td>
+								<td align="center">{$major["School_system"]}</td>
+								<td align="center">
+									<a href="__URL__/edit/majorid/{$major['majorid']}">修改</a> |
+									<a href="__URL__/delete/majorid/{$major['majorid']}">删除</a>
+								</td>
+							</tr>
+						</volist>
+					</tbody>
+				</table>
+				<div id="dasha_footer">{$show}</div>
+			</div>
+		</div>
+	</body>
+</html>

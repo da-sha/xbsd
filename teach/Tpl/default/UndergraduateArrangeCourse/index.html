@@ -1,0 +1,515 @@
+<layout name="layout_no_nav"/>
+{:define_json('major',$major_list)}
+{:define_json('admissiondate',$admissiondate_list)}
+{:define_json('semester',$semester_list)}
+
+{:define_json('level',$level_list)}
+{:define_json('property',$course_property_list)}
+{:define_json('cou_type',$course_type_list)}
+{:define_json('exam_type',$exam_list)}
+{:define_json('cou_category',$course_category_list)}
+
+{:define_json('teach_workload',$teach_workload)}
+
+<script src="../Public/js/course.js"></script>
+<script src="../Public/js/easyui/plugins/datagrid-detailview.js"></script>
+
+<style>
+    .progress_text {
+        text-align: left;
+        color: black;
+        position: relative;
+    }
+    .progress_value {
+        background-color: #a2d041;
+        width: 100%;
+        height:20px;
+    }
+	.table-list tbody td{
+		line-height: 22px;
+	}
+</style>
+<div id="cc" class="easyui-layout" style="width:auto;height:700px;">  
+    <div data-options="region:'west',title:'教师排课工作量',split:true" style="width:300px" class="table-list">
+		<table>
+			<thead>
+				<tr>
+					<th>教师姓名</th>
+					<th >教师代号</th>
+					<th>本学年工作量</th>
+					<th>近三年工作量</th>
+				</tr>
+			</thead>
+			<tbody id="workload_wrap">
+				<volist name="teach_workload" id="workload">
+					<tr data-teacherid="{$workload[id]}">
+						<td>{$workload[name]}</td>
+						<td style="color:#999">{$workload[user_code]}</td>
+						<td align="center" style="color:#F60">{$workload[this_year_workload]}</td>
+						<td align="center" style="color:#78AA00">{$workload[three_year_workload]}</td>
+						<td style="display:none">{$workload[id]}</td>
+					</tr>
+				</volist>
+			</tbody>
+		</table>
+    </div>  
+    <div data-options="region:'center',title:'排课管理'" style="width:600px;height:auto;background:#eee;">
+		<div id="tt" class="easyui-tabs" style="width:auto;height:auto;" fit="true">  
+			<div title="专业必修课" style="">  
+			   <table id="major_course_require_table" style="width:1000px;height:auto;overflow:scroll"
+						data-options="singleSelect:true,fit:true">
+					<thead>
+						<tr>
+							<th data-options="field:'ck',checkbox:true"></th>
+							<th data-options="field:'grade',width:50,sortable:true">年级</th>
+							<th data-options="field:'classname',width:150,sortable:true">班级</th>
+							<th data-options="field:'name',width:200,sortable:true">课程名称</th>
+							<th data-options="field:'property',width:80,formatter:data_formatter('property')">课程性质</th>
+							<th data-options="field:'exam_type',width:80,formatter:data_formatter('exam_type')">考试类型</th>
+							<th data-options="field:'semester',width:80,formatter:data_formatter('semester')">开课学期</th>
+							<th data-options="field:'planweektime',width:80">理论周学时</th>
+							<th data-options="field:'expweektime',width:80">实验周学时</th>
+							<th data-options="field:'week',width:80">开设周数</th>
+							<th data-options="field:'totaltime',width:70">总学时</th>
+							<th data-options="field:'credit',width:50">学分</th>
+							<th data-options="field:'userid',width:100,
+							editor:{
+							type:'combobox',
+							options:{
+								valueField:'id',
+								textField:'name',
+								data:teach_workload,
+								panelHeight:300,
+								required:true
+								}
+								},
+							formatter:data_formatter('teach_workload')
+							">教师</th>
+						</tr>
+					</thead>
+				</table>
+				<div id="tb_major_course_require" style="padding:5px;height:auto">
+					<form id="major_course_require_form">
+						专业<input name="majorid" class="easyui-combobox" style="width:170px"  
+						data-options="data:major,valueField:'majorid',textField:'name',panelHeight:200,required:true,editable:false" />
+						<a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="
+							if($('#major_course_require_form').form('validate')){
+								$('#major_course_require_table').edatagrid('load',$('#major_course_require_form').serializeJson())
+							};
+							" plain="true" title="查看指定专业的计划课程">查看</a>
+						<a href="#" class="easyui-linkbutton" iconCls="icon-save" plain="true" onclick="javascript:$('#major_course_require_table').edatagrid('saveRow')">保存</a>
+						<a href="#" class="easyui-linkbutton" iconCls="icon-undo" plain="true" onclick="javascript:$('#major_course_require_table').edatagrid('cancelRow')">撤销</a>
+					</form>
+				</div>  
+			</div>
+			 <div title="专业选修课" style="">
+			   <table id="major_course_select_table" style="width:1000px;height:auto;overflow:scroll"
+						data-options="singleSelect:true,fit:true,idField:'teachid'">
+					<thead>
+						<tr>
+							<th data-options="field:'ck',checkbox:true"></th>
+							<th data-options="field:'grade',width:50,sortable:true">年级</th>
+							<th data-options="field:'name',width:200,sortable:true">课程名称</th>
+							<th data-options="field:'property',width:80,formatter:data_formatter('property')">课程性质</th>
+							<th data-options="field:'exam_type',width:80,formatter:data_formatter('exam_type')">考试类型</th>
+							<th data-options="field:'semester',width:80,formatter:data_formatter('semester')">开课学期</th>
+							<th data-options="field:'planweektime',width:80">理论周学时</th>
+							<th data-options="field:'expweektime',width:80">实验周学时</th>
+							<th data-options="field:'week',width:80">开设周数</th>
+							<th data-options="field:'totaltime',width:70">总学时</th>
+							<th data-options="field:'credit',width:50">学分</th>
+							<th data-options="field:'userid',width:100,
+							editor:{
+							type:'combobox',
+							options:{
+								valueField:'id',
+								textField:'name',
+								data:teach_workload,
+								panelHeight:300,
+								required:true
+								}
+								},
+							formatter:data_formatter('teach_workload')
+							">教师</th>
+						</tr>
+					</thead>
+				</table>
+				<div id="tb_major_course_select" style="padding:5px;height:auto">
+					<form id="major_course_select_form">
+						<a href="#" class="easyui-linkbutton" iconCls="icon-copy" plain="true" onclick="javascript:$('#major_course_select_table').edatagrid('copy')" title="选定一门课程，点击该项为该课程安排新的任课教师">安排新课程</a>
+						<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="javascript:$('#major_course_select_table').edatagrid('destroyRow')" title="选定一门课程，将该课程从安排的新课程中删除">删除</a>
+						<a href="#" class="easyui-linkbutton" iconCls="icon-save" plain="true" onclick="javascript:$('#major_course_select_table').edatagrid('saveRow')">保存</a>
+						<a href="#" class="easyui-linkbutton" iconCls="icon-undo" plain="true" onclick="javascript:$('#major_course_select_table').edatagrid('cancelRow')">撤销</a>
+					</form>
+				</div>  
+			</div>
+			 <div title="学院必修课" style=""> 
+			   <table id="academy_course_require_table" style="width:1000px;height:auto;overflow:scroll"
+						data-options="singleSelect:true,fit:true">
+					<thead>
+						<tr>
+							<th data-options="field:'ck',checkbox:true"></th>
+							<th data-options="field:'grade',width:50,sortable:true">年级</th>
+							<th data-options="field:'classname',width:150,sortable:true">班级</th>
+							<th data-options="field:'name',width:200,sortable:true">课程名称</th>
+							<th data-options="field:'property',width:80,formatter:data_formatter('property')">课程性质</th>
+							<th data-options="field:'exam_type',width:80,formatter:data_formatter('exam_type')">考试类型</th>
+							<th data-options="field:'semester',width:80,formatter:data_formatter('semester')">开课学期</th>
+							<th data-options="field:'planweektime',width:80">理论周学时</th>
+							<th data-options="field:'expweektime',width:80">实验周学时</th>
+							<th data-options="field:'week',width:80">开设周数</th>
+							<th data-options="field:'totaltime',width:70">总学时</th>
+							<th data-options="field:'credit',width:50">学分</th>
+							<th data-options="field:'userid',width:100,
+							editor:{
+							type:'combobox',
+							options:{
+								valueField:'id',
+								textField:'name',
+								data:teach_workload,
+								panelHeight:300,
+								required:true
+								}
+								},
+							formatter:data_formatter('teach_workload')
+							">教师</th>
+						</tr>
+					</thead>
+				</table>
+				<div id="tb_academy_course_require" style="padding:5px;height:auto">
+					<form id="academy_course_require_form">
+						专业<input name="majorid" class="easyui-combobox" style="width:170px"  
+						data-options="data:major,valueField:'majorid',textField:'name',panelHeight:200,required:true,editable:false" />
+						<a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="
+							if($('#academy_course_require_form').form('validate')){
+								$('#academy_course_require_table').edatagrid('load',$('#academy_course_require_form').serializeJson())
+							};
+							" plain="true" title="查看指定专业的计划课程">查看</a>
+						<a href="#" class="easyui-linkbutton" iconCls="icon-save" plain="true" onclick="javascript:$('#academy_course_require_table').edatagrid('saveRow')">保存</a>
+						<a href="#" class="easyui-linkbutton" iconCls="icon-undo" plain="true" onclick="javascript:$('#academy_course_require_table').edatagrid('cancelRow')">撤销</a>
+					</form>
+				</div>  
+			</div>
+			
+			 <div title="学院选修课" style="">
+			   <table id="academy_course_select_table" style="width:1000px;height:auto;overflow:scroll"
+						data-options="singleSelect:true,fit:true,idField:'teachid'">
+					<thead>
+						<tr>
+							<th data-options="field:'ck',checkbox:true"></th>
+							<th data-options="field:'grade',width:50,sortable:true">年级</th>
+							<th data-options="field:'name',width:200,sortable:true">课程名称</th>
+							<th data-options="field:'property',width:80,formatter:data_formatter('property')">课程性质</th>
+							<th data-options="field:'exam_type',width:80,formatter:data_formatter('exam_type')">考试类型</th>
+							<th data-options="field:'semester',width:80,formatter:data_formatter('semester')">开课学期</th>
+							<th data-options="field:'planweektime',width:80">理论周学时</th>
+							<th data-options="field:'expweektime',width:80">实验周学时</th>
+							<th data-options="field:'week',width:80">开设周数</th>
+							<th data-options="field:'totaltime',width:70">总学时</th>
+							<th data-options="field:'credit',width:50">学分</th>
+							<th data-options="field:'userid',width:100,
+							editor:{
+							type:'combobox',
+							options:{
+								valueField:'id',
+								textField:'name',
+								data:teach_workload,
+								panelHeight:300,
+								required:true
+								}
+								},
+							formatter:data_formatter('teach_workload')
+							">教师</th>
+						</tr>
+					</thead>
+				</table>
+				<div id="tb_academy_course_select" style="padding:5px;height:auto">
+					<form id="academy_course_select_form">
+						<a href="#" class="easyui-linkbutton" iconCls="icon-copy" plain="true" onclick="javascript:$('#academy_course_select_table').edatagrid('copy')" title="选定一门课程，点击该项为该课程安排新的任课教师">安排新课程</a>
+						<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="javascript:$('#academy_course_select_table').edatagrid('destroyRow')" title="选定一门课程，将该课程从安排的新课程中删除">删除</a>
+						<a href="#" class="easyui-linkbutton" iconCls="icon-save" plain="true" onclick="javascript:$('#academy_course_select_table').edatagrid('saveRow')">保存</a>
+						<a href="#" class="easyui-linkbutton" iconCls="icon-undo" plain="true" onclick="javascript:$('#academy_course_select_table').edatagrid('cancelRow')">撤销</a>
+					</form>
+				</div>  
+			</div>
+			 <div title="学校必修课" style="">  
+			   <table id="shool_course_require_table" style="width:1000px;height:auto;overflow:scroll"
+						data-options="singleSelect:true,fit:true">
+					<thead>
+						<tr>
+							<th data-options="field:'ck',checkbox:true"></th>
+							<th data-options="field:'grade',width:50,sortable:true">年级</th>
+							<th data-options="field:'classname',width:150,sortable:true">班级</th>
+							<th data-options="field:'name',width:200,sortable:true">课程名称</th>
+							<th data-options="field:'property',width:80,formatter:data_formatter('property')">课程性质</th>
+							<th data-options="field:'exam_type',width:80,formatter:data_formatter('exam_type')">考试类型</th>
+							<th data-options="field:'semester',width:80,formatter:data_formatter('semester')">开课学期</th>
+							<th data-options="field:'planweektime',width:80">理论周学时</th>
+							<th data-options="field:'expweektime',width:80">实验周学时</th>
+							<th data-options="field:'week',width:80">开设周数</th>
+							<th data-options="field:'totaltime',width:70">总学时</th>
+							<th data-options="field:'credit',width:50">学分</th>
+							<th data-options="field:'userid',width:100,
+							editor:{
+							type:'combobox',
+							options:{
+								valueField:'id',
+								textField:'name',
+								data:teach_workload,
+								panelHeight:300,
+								required:true
+								}
+								},
+							formatter:data_formatter('teach_workload')
+							">教师</th>
+						</tr>
+					</thead>
+				</table>
+				<div id="tb_school_course_require" style="padding:5px;height:auto">
+					<form id="school_course_require_form">
+						<a href="#" class="easyui-linkbutton" iconCls="icon-save" plain="true" onclick="javascript:$('#shool_course_require_table').edatagrid('saveRow')">保存</a>
+						<a href="#" class="easyui-linkbutton" iconCls="icon-undo" plain="true" onclick="javascript:$('#shool_course_require_table').edatagrid('cancelRow')">撤销</a>
+					</form>
+				</div>  
+			</div>
+			 <div title="学校选修课" style="">
+			   <table id="school_course_select_table" style="width:1000px;height:auto;overflow:scroll"
+						data-options="singleSelect:true,fit:true,idField:'teachid'">
+					<thead>
+						<tr>
+							<th data-options="field:'ck',checkbox:true"></th>
+							<th data-options="field:'name',width:200,sortable:true">课程名称</th>
+							<th data-options="field:'property',width:80,formatter:data_formatter('property')">课程性质</th>
+							<th data-options="field:'exam_type',width:80,formatter:data_formatter('exam_type')">考试类型</th>
+							<th data-options="field:'semester',width:80,formatter:data_formatter('semester')">开课学期</th>
+							<th data-options="field:'planweektime',width:80">理论周学时</th>
+							<th data-options="field:'expweektime',width:80">实验周学时</th>
+							<th data-options="field:'week',width:80">开设周数</th>
+							<th data-options="field:'totaltime',width:70">总学时</th>
+							<th data-options="field:'credit',width:50">学分</th>
+							<th data-options="field:'userid',width:100,
+							editor:{
+								type:'combobox',
+								options:{
+									valueField:'id',
+									textField:'name',
+									data:teach_workload,
+									panelHeight:300,
+									required:true
+									}
+								},
+							formatter:data_formatter('teach_workload')
+							">教师</th>
+						</tr>
+					</thead>
+				</table>
+				<div id="tb_school_course_select" style="padding:5px;height:auto">
+					<form id="school_course_select_form">
+						<a href="#" class="easyui-linkbutton" iconCls="icon-copy" plain="true" onclick="javascript:$('#school_course_select_table').edatagrid('copy')" title="选定一门课程，点击该项为该课程安排新的任课教师">安排新课程</a>
+						<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="javascript:$('#school_course_select_table').edatagrid('destroyRow')" title="选定一门课程，将该课程从安排的新课程中删除">删除</a>
+						<a href="#" class="easyui-linkbutton" iconCls="icon-save" plain="true" onclick="javascript:$('#school_course_select_table').edatagrid('saveRow')">保存</a>
+						<a href="#" class="easyui-linkbutton" iconCls="icon-undo" plain="true" onclick="javascript:$('#school_course_select_table').edatagrid('cancelRow')">撤销</a>
+					</form>
+				</div>  
+			</div>
+        </div>  
+    </div>
+</div>
+<script>
+var workloadSort = function() {
+    this.initialize.apply(this, arguments);
+}
+
+workloadSort.prototype = {
+    /*传入父节点的选择器*/
+    initialize: function(selector) {		
+        this.Table = document.getElementById(selector);
+        this.rows = this.Table.rows; 
+		this.$workload_parent = $('#' + selector);
+        this.startRow = 1;
+        this.endRow = this.rows.length;
+		
+		this.this_year_workload_index = 2;
+		this.three_year_workload_index = 3;
+		this.teacherid_index = 4;
+		
+		this.editing_userid = 0;	/*正在编辑的教师id*/
+        var sortClosure = function(){
+            this.sort();
+            this.setDataArr();
+        }
+
+        this.T2Arr = this.getDataArr();
+        this.$workload_parent.bind('sort',Bind(this,sortClosure));
+        this.$workload_parent.trigger('sort');
+    },
+    /*得到所有的工作量信息，然后以二维数组方式返回*/
+    getDataArr: function(){
+		var arr = [];
+        for (var i = (this.startRow - 1), l = 0; i < (this.endRow); i++, l++) {
+            arr[l] = [];
+            for (var n = 0; n < this.rows[i].cells.length; n++) {
+                arr[l].push(this.rows[i].cells[n].innerHTML);
+				if(n == this.this_year_workload_index){
+					var x = killHTML(arr[l][n]);
+					arr[l][n] = Number(x);
+				}
+            }
+        }
+        return arr;
+    },
+    /*将排序后的二维数组，传回到DOM中*/
+    setDataArr: function(){
+        for (var i = (this.startRow - 1), l = 0; i < (this.endRow); i++, l++) {
+            for (var n = 0; n < this.rows[i].cells.length; n++) {
+                this.rows[i].cells[n].innerHTML = this.T2Arr[l][n];
+            }
+        }
+    },
+    sort: function() {
+		var _this = this;
+        this.T2Arr.sort(function(a, b) {
+			x = a[_this.this_year_workload_index];
+            y = b[_this.this_year_workload_index];
+			
+            switch (isNaN(x)) {
+                case false:
+                    return Number(y) - Number(x);
+                    break;
+                case true:
+                    return y.localeCompare(x);
+                    break;
+            }
+        });
+    },
+    /*增加teacherid的workload*/
+    incWorkload:function(teacherid,val){
+		val = Number(val);
+        for(var index = 0;index < this.T2Arr.length;index++){
+            if(this.T2Arr[index][this.teacherid_index] == teacherid){
+                this.T2Arr[index][this.this_year_workload_index] = Number(this.T2Arr[index][this.this_year_workload_index]) + val;
+				this.T2Arr[index][this.three_year_workload_index] = Number(this.T2Arr[index][this.three_year_workload_index]) + val;
+                this.$workload_parent.trigger('sort');
+                return;
+            }
+        }
+    },
+    /*递减teacherid的workload*/
+    decWorkload:function(teacherid,val){
+		val = Number(val);
+        for(var index = 0;index < this.T2Arr.length;index++){
+            if(this.T2Arr[index][this.teacherid_index] == teacherid){
+                this.T2Arr[index][this.this_year_workload_index] = Number(this.T2Arr[index][this.this_year_workload_index]) - val;
+				this.T2Arr[index][this.three_year_workload_index] = Number(this.T2Arr[index][this.three_year_workload_index]) - val;
+                this.$workload_parent.trigger('sort');
+                return;
+            }
+        }
+    }
+}
+var Bind = function(object, fun) {
+    return function() {
+        return fun.apply(object, arguments);
+    }
+}
+//去掉所有的html标记
+function killHTML(str){
+    return str.replace(/<[^>]+>/g,"");
+}
+
+$(function(){
+    var workloadsort = new workloadSort("workload_wrap");
+    $('#major_course_require_table').edatagrid({
+		toolbar:"#tb_major_course_require",
+        url:"__URL__/get_major_require_data",
+		updateUrl: '__URL__/major_require_update',
+		onSave:function(index,row){
+			workloadsort.decWorkload(workloadsort.editing_userid,row.totaltime);
+			workloadsort.incWorkload(row.userid,row.totaltime);
+		},
+		onEdit:function(index,row){
+			workloadsort.editing_userid = row.userid;
+		}
+    });	
+	$.extend($.fn.edatagrid.methods, {  
+		copy: function(jq){			
+			var row = jq.edatagrid("getSelected");
+			if(row){
+				var url = "__URL__/teach_task_insert";
+				row.userid = undefined;
+				$.post(url, row, function(data){
+					jq.edatagrid("appendRow",JSON.parse(data));
+				});
+			}
+		}
+	});
+
+	$('#major_course_select_table').edatagrid({
+		toolbar:"#tb_major_course_select",
+        url:"__URL__/get_major_select_data",
+		updateUrl: '__URL__/major_select_update',
+		destroyUrl: '__URL__/major_select_delete',
+		onBeforeSave : function(index){
+		},
+		onSave:function(index,row){
+			workloadsort.decWorkload(workloadsort.editing_userid,row.totaltime);
+			workloadsort.incWorkload(row.userid,row.totaltime);
+		},
+		onEdit:function(index,row){
+			workloadsort.editing_userid = row.userid;
+		}
+    });
+	$('#shool_course_require_table').edatagrid({
+		toolbar:"#tb_school_course_require",
+        url:"__URL__/get_school_require_data",
+		updateUrl: '__URL__/school_require_update',
+		onSave:function(index,row){
+			workloadsort.decWorkload(workloadsort.editing_userid,row.totaltime);
+			workloadsort.incWorkload(row.userid,row.totaltime);
+		},
+		onEdit:function(index,row){
+			workloadsort.editing_userid = row.userid;
+		}
+    });
+	$('#academy_course_require_table').edatagrid({
+		toolbar:"#tb_academy_course_require",
+        url:"__URL__/get_academy_require_data",
+		updateUrl: '__URL__/academy_require_update',
+		onSave:function(index,row){
+			workloadsort.decWorkload(workloadsort.editing_userid,row.totaltime);
+			workloadsort.incWorkload(row.userid,row.totaltime);
+		},
+		onEdit:function(index,row){
+			workloadsort.editing_userid = row.userid;
+		}
+    });
+	
+	$('#academy_course_select_table').edatagrid({
+		toolbar:"#tb_academy_course_select",
+        url:"__URL__/get_academy_select_data",
+		updateUrl: '__URL__/academy_select_update',
+		destroyUrl: '__URL__/academy_select_delete',
+		onSave:function(index,row){
+			workloadsort.decWorkload(workloadsort.editing_userid,row.totaltime);
+			workloadsort.incWorkload(row.userid,row.totaltime);
+		},
+		onEdit:function(index,row){
+			workloadsort.editing_userid = row.userid;
+		}
+    });
+	$('#school_course_select_table').edatagrid({
+		toolbar:"#tb_school_course_select",
+        url:"__URL__/get_school_select_data",
+		updateUrl: '__URL__/school_select_update',
+		destroyUrl: '__URL__/school_select_delete',
+		onSave:function(index,row){
+			workloadsort.decWorkload(workloadsort.editing_userid,row.totaltime);
+			workloadsort.incWorkload(row.userid,row.totaltime);
+		},
+		onEdit:function(index,row){
+			workloadsort.editing_userid = row.userid;
+		}
+    });
+});
+
+</script>

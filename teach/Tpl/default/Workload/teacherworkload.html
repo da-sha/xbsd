@@ -1,0 +1,58 @@
+<layout name="layout"/>
+<div class="mainbox">
+	<form action="__SELF__" method="get">
+		<select name="year">
+			<option value="">---请选择---</option>
+			<volist name="year_list" id="year">
+				<if condition="$year eq $_GET['year']">
+					<option value="{$year}" selected>{$year}</option>
+					<else/>
+					<option value="{$year}">{$year}</option>
+				</if>
+			</volist>
+		</select>
+		<select name="semester">
+			<option value="">---请选择---</option>
+			<volist name="semester_list" id="semester">
+				<if condition="$semester['id'] eq $_GET['semester']">
+					<option value="{$semester['id']}" selected>{$semester['name']}</option>
+					<else/>
+					<option value="{$semester['id']}">{$semester['name']}</option>
+				</if>
+			</volist>
+		</select>
+		<input type="submit" class="button"/>
+	</form>
+</div>
+<div class="table-list">
+	<table width="100%" cellspacing="0">
+		<thead>
+			<tr>
+				<th align="left">教师名</th>
+				<th>理论课总学时</th>
+				<th>实验课总学时</th>
+				<th>指导论文总学时</th>
+				<th>监考总学时</th>
+				<th>指导实习总学时</th>
+				<th>其他总计</th>
+				<th>总计</th>
+			</tr>
+		</thead>
+		<tbody>
+			<volist name="workloadlist" id="tea_work">
+			<tr>
+				<td align="left">{$tea_work['tea_name']}</td>
+				<td align="center">{$tea_work['thsum_time']}</td>
+				<td align="center">{$tea_work['expsum_time']}</td>
+				<td align="center">{$tea_work['papthisum_time']}</td>
+				<td align="center">{$tea_work['examsum_time']}</td>
+				<td align="center">{$tea_work['prasum_time']}</td>
+				<td align="center">{$tea_work['others']}</td>
+				<td align="center">{$tea_work['total_time']}</td>
+			</tr>
+			</volist>
+		</tbody>
+	</table>
+	
+	<div id="dasha_footer">{$show}</div>
+</div>

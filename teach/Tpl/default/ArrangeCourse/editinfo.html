@@ -1,0 +1,82 @@
+<tr class="on" id="edit_teacher_info">
+	<td colspan="9">
+		<div>
+			<table width="100%">
+				<form id="change_info_form" method="post" action="__URL__/update">
+					<tr>
+						<td width="12%"></td>
+						<td width="16%"></td>
+						<td width="12%"></td>
+						<td width="12%"></td>
+						<td width="12%"></td>
+						<td width="12%"></td>
+						<td width="12%"></td>
+						<td width="12%"></td>
+					</tr>
+					<tr id="teacherinfo" class="on">
+						<td>所在院系机构</td>
+						<td colspan="2">
+							<select id="orgid" style="width:90%;">
+								<option value="">-----------请选择机构-----------</option>
+								<volist name="orgid_list" id="or">
+									<option value="{$or[id]}">{$or[name]}</option>
+								</volist>
+							</select>
+						</td>
+						<td>教师姓名</td>
+						<td colspan="2">
+							<select name="userid" id="userid" style="width:90%;">
+								<option value="">--------请选择教师--------</option>
+								<volist name="userid_list" id="user">
+									<option value="{$user[id]}">{$user[name]}</option>
+								</volist>
+							</select>
+						</td>
+						<td>参考信息</td>
+						<td>
+							<select name="ref" id="reference">
+								<option value="1">近 1 个学年</option>
+								<volist name="reference_list" id="re" >
+									<option value="{$re['id']}">{$re['name']}</option>
+								</volist>
+							</select>
+						</td>
+					</tr>
+					<tr class="teacher_info">
+						<td>性别</td>
+						<td colspan="1" align="center">{$teacher[gender]}</td>
+						<td>职称</td>
+						<td colspan="2" align="center">{$teacher[job_title]}</td>
+						<td>学历</td>
+						<td colspan="2" align="center">{$teacher[degree]}</td>
+					</tr>
+					<tr class="teacher_info on">
+						<td>理论课总学时</td>
+						<td align="center">{$workload_list['thsum_time']}</td>
+						<td>实验课总学时</td>
+						<td align="center">{$workload_list['expsum_time']}</td>
+						<td>指导论文总学时</td>
+						<td align="center">{$workload_list['papthisum_time']}</td>
+						<td>工作量总计</td>
+						<td align="center">{$workload_list['total_time']}</td>
+					</tr>
+					<tr class="teacher_info on">
+						<td>以往所授课程</td>
+						<td colspan="7">
+							<volist name="course_list" id="cou">
+							{$cou[name]}</br>
+							</volist>
+						</td>
+					</tr>
+					<tr class="aui_buttons">
+						<td colspan="9">
+							<input type="hidden" name="teachid" value="{$teachid}"/>
+							<button id="change_info_submit" class="aui_state_highlight">确认</button>
+							<button  id="change_info_cancel">取消</button>&nbsp;
+						</td>
+					</tr>
+				</form>
+			</table>
+		</div>
+	</td>
+</tr>

@@ -1,0 +1,57 @@
+<layout name="layout"/>
+<div class="mainbox">
+	<form action="__SELF__" method="get">
+		<select name="year">
+			<option value="">---请选择---</option>
+			<volist name="year_list" id="year">
+				<if condition="$year eq $_GET['year']">
+					<option value="{$year}" selected>{$year}</option>
+					<else/>
+					<option value="{$year}">{$year}</option>
+				</if>
+			</volist>
+		</select>
+		<select name="semester">
+			<option value="">---请选择---</option>
+			<volist name="semester_list" id="semester">
+				<if condition="$semester['id'] eq $_GET['semester']">
+					<option value="{$semester['id']}" selected>{$semester['name']}</option>
+					<else/>
+					<option value="{$semester['id']}">{$semester['name']}</option>
+				</if>
+			</volist>
+		</select>
+		<input type="submit" class="button"/>
+	</form>
+</div>
+<div class="table-list">
+	<table width="100%" cellspacing="0">
+		<thead>
+			<tr>
+				<th>课程名称</th>
+				<th>考试类型</th>
+				<th>考试年-学期</th>
+				<th>考试日期-时间</th>
+				<th>考试地点</th>
+				<th>考试人数</th>
+				<th>主考</th>
+				<th>监考</th>
+			</tr>
+		</thead>
+		<tbody>
+			<volist name="list" id="data">
+			<tr>
+				<td align="left">{$data['coursename']}</td>
+				<td align="center">{$data['type']}</td>
+				<td align="center">{$data['year']}-{$data['semester']}</td>
+				<td align="center">{$data['date']}-{$data['time']}</td>
+				<td align="center">{$data['roomname']}</td>
+				<td align="center">{$data['num']}</td>
+				<td align="center">{$data['examiner1']}</td>
+				<td align="center">{$data['examiner2']}</td>
+			</tr>
+			</volist>
+		</tbody>
+	</table>
+	<div id="dasha_footer">{$show}</div>
+</div>

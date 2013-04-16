@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>西北师大教务支持系统 - 班级管理</title>
+        <link rel="stylesheet" type="text/css" href="../Public/css/style.css" />
+        <script type="text/javascript" src="../Public/js/jquery.min.js"></script>
+        <script type="text/javascript" src="../Public/js/jquery.form.js"></script>
+        <script type="text/javascript" src="../Public/js/jquery.validate.js"></script>
+		<script>
+			$(function() {
+				$("#majorid_id").change( function(){
+					$("#year_id").html("<option value=''>---正在努力加载！---</option>") ;
+					$.getJSON("__APP__/Ajax/getyear/majorid/"+$(this).val(), function(data){
+						if( data.status == 1 )
+						{
+							$("#year_id").empty();
+							$("#year_id").html("<option value=''>---请选择年级---</option>") ;
+							$.each(data.data, function(id,value){
+								$("#year_id").append( "<option value='"+value.year+"'>"+value.year+"级"+"</option>");
+							})
+						}
+						else
+						{
+							$("#year_id").html("<option value=''>---"+data.info+"---</option>") ;
+						}
+					}) ;
+				}).ajaxError(function(){
+					//
+					art.dialog.tips( "ajax error" );
+				});
+
+				var get_class_info = function(){
+					if($("#year_id").val()!='' && $("#majorid_id").val()!=''){
+						$("#classid_id").html("<option value=''>---正在努力加载！---</option>") ;
+						$.getJSON("__APP__/Ajax/getClass/majorid/"+$("#majorid_id").val() + "/year/" + $("#year_id").val(), function(data){
+							if( data.status == 1 )
+							{
+								$("#classid_id").empty();
+								$("#classid_id").html("<option value=''>---请选择班级---</option>") ;
+								$.each(data.data, function(id,value){
+									$("#classid_id").append( "<option value='"+value.id+"'>"+value.name+"</option>");
+								})
+							}
+							else
+							{
+								$("#classid_id").html("<option value=''>---"+data.info+"---</option>") ;
+							}
+						}) ;
+					}
+				}
+
+				$("#condition_table tr td select.allid").change( function(){
+					get_class_info() ;
+				} );
+			});
+		</script>
+	</head>
+	<body>
+		<div class="mainbox">
+			<div id="nav" class="mainnav_title">
+				<ul>
+					<a href="__URL__/index/level/{$stulevel}">学生管理</a>|
+					<a href="#" class="on">添加学生</a>|
+				</ul>
+			</div>
+			<form method='post'  id="myform" action="__URL__/insert">
+				<table cellpadding=0 cellspacing=0 class="table_form" width="100%" id="condition_table">
+					<tr>
+						<td  width="120">专业</td>
+						<td>
+							<select name="majorid" id="majorid_id" class="allid" validate="required:true">
+								<option value="false" selected>---请选择专业---</option>
+								<volist name="majorid_list" id="ma">
+									<option value="{$ma['id']}">{$ma['name']}</option>
+								</volist>
+							</select>
+							<span class="red">*</span>
+						</td>
+					</tr>
+					<tr>
+						<td  width="120">年级</td>
+						<td>
+							<select name="year" id="year_id" class="allid" validate="required:true">
+								<option value="false" selected>---请先选择专业---</option>
+								<volist name="year_list" id="ye">
+									<option value="{$ye['id']}">{$ye['id']}级</option>
+								</volist>
+							</select>
+							<span class="red">*</span>
+						</td>
+					</tr>
+					<tr>
+						<td  width="120">班级</td>
+						<td>
+							<select name="classid" id="classid_id" validate="required:true">
+								<option value="false" selected>---请先选择专业、年级---</option>
+								<volist name="classid_list" id="cl">
+									<option value="{$cl['id']}">{$cl['name']}级</option>
+								</volist>
+							</select>
+							<span class="red">*</span>
+						</td>
+					</tr>
+					<tr>
+						<td  width="120">学号</td>
+						<td>
+							<input type="text" class="input-text"  name="user_code" id="user_code" validate="required:true,digits:true, min:1"/>
+							<span class="red">*</span>
+						</td>
+					</tr>
+					<tr>
+						<td  width="120">姓名</td>
+						<td>
+							<input type="text" class="input-text"  name="name" id="name" validate="required:true"/>
+							<span class="red">*</span>
+						</td>
+					</tr>
+					<tr>
+						<td  width="120">性别</td>
+						<td>
+							<select name="gender" id="gender">
+								<volist name="gender_list" id="ge">
+									<if condition="$stu[gender] eq $ge[id]">
+										<option value="{$ge['id']}" selected>{$ge['name']}</option>
+										<else/>
+										<option value="{$ge['id']}">{$ge['name']}</option>
+									</if>
+								</volist>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td  width="120">入学年</td>
+						<td>
+							<select name="admissiondate"  validate="required:true">
+								<volist name="admissiondate_list" id="rl">
+									<option value="{$rl['id']}">{$rl[name]}年</option>
+								</volist>
+							</select>
+							<span class="red">*</span>
+						</td>
+					</tr>
+				</table>
+				<div class="btn">
+					<input type="hidden" name="level" value="{$stulevel}">
+					<input TYPE="submit" name="dosubmit"  value="提交" class="button"/>
+				</div>
+			</form>
+		</div>
+	</body>
+</html>

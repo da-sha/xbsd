@@ -1,0 +1,49 @@
+		<link rel="stylesheet" type="text/css" href="../Public/css/style.css" />
+		<script type="text/javascript" src="../Public/js/jquery.min.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				$("#yearid_id").change( function(){
+					$.get(  "__URL__/awardinfo/year/"+ $("#yearid_id").val() +"/type/" + $("#typeid_id").val(), function(data){
+						$("#content").html(data) ;
+					});
+					return false;
+				}).ajaxError(function(){
+					art.dialog.tips( "ajax error" );
+				});
+			});
+		</script>
+		<div class="mainbox">
+			<table width="100%" class="search_table" id="condition_table">
+				<tr>
+					<td align="left">
+						<select name="year" id="yearid_id">
+							<option value="false" selected>---请选择年份---</option>
+							<volist name="yearlist" id="yl" >
+								<if condition="$today_year eq $yl['id']">
+									<option value="{$yl['id']}" selected>{$yl['year']}</option>
+									<else/>
+									<option value="{$yl['id']}">{$yl['year']}</option>
+								</if>
+							</volist>
+						</select>
+					</td>
+				</tr>
+			</table>
+			<div id="content">
+				<div class="table-list">
+					<table width="100%" cellspacing="0">
+						<thead>
+							<tr>
+								<th align="left">姓名</th>
+								<th>获奖年度</th>
+								<th>奖项名称</th>
+								<th>奖金额度</th>
+								<th>奖励物品</th>
+							</tr>
+						</thead>
+					</table>
+					<div id="dasha_footer">{$show}</div>
+					<input type="hidden" name="type" id="typeid_id" value="{$type}">
+				</div>
+			</div>
+		</div>

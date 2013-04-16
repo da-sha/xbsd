@@ -1,0 +1,111 @@
+<layout name="layout"/>
+<script src="../Public/js/verify.js" type="text/javascript"></script>
+<script type="text/javascript">
+	function checkForm()
+	{
+		if (
+		!isNull('name_id', '课程名称') ||
+		!isNull('level_id', '学生层次') ||
+		!isNull('cou_type_id', '课程类型') ||
+		!isNull('cou_category_id', '课程类别') ||
+		!isNull('exam_type_id', '考试类型') ||
+		!isNull('theweektime', '理论周学时') ||
+		!isNull('property_id', '课程性质'))
+		{
+			return false;
+		}
+		return true;
+	}
+</script>
+<div class="mainbox">
+    <form method='post'  id="myform" action="<if condition="$action_name=='add'">{:U('PublicCourse/insert')}<else />{:U('PublicCourse/update')}</if>">
+		<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+			<tr>
+				<td  width="120">课程名称</td>
+				<td>
+					<input type="text" class="input-text" id="name_id" name="name" value="{$vo['name']}"></input>
+				</td>
+			</tr>
+			<tr>
+				<td  width="120">学生层次</td>
+				<td>
+					<select id="level_id" name="level">
+						<volist name="level_list" id="lev">
+							<if condition="$lev['id'] eq $vo['level']">
+								<option value="{$lev['id']}" selected>{$lev['name']}</option>
+								<else/>
+								<option value="{$lev['id']}">{$lev['name']}</option>
+							</if>
+						</volist>
+					</select>
+				</td>
+			</tr><tr>
+				<td  width="120">课程性质</td>
+				<td>
+					<select id="property_id" name="property">
+						<volist name="course_property_list" id="pro">
+							<if condition="$pro['id'] eq $vo['property']">
+								<option value="{$pro['id']}" selected>{$pro['name']}</option>
+								<else/>
+								<option value="{$pro['id']}">{$pro['name']}</option>
+							</if>
+						</volist>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td  width="120">课程类型</td>
+				<td>
+					<select id="cou_type_id" name="cou_type">
+						<volist name="course_type_list" id="type">
+							<if condition="$type['id'] eq $vo['cou_type']">
+								<option value="{$type['id']}" selected>{$type['name']}</option>
+								<else/>
+								<option value="{$type['id']}">{$type['name']}</option>
+							</if>
+						</volist>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td  width="120">考试类型</td>
+				<td>
+					<select id="exam_type_id" name="exam_type">
+						<volist name="exam_list" id="exam">
+							<if condition="$exam['id'] eq $vo['exam_type']">
+								<option value="{$exam['id']}" selected>{$exam['name']}</option>
+								<else/>
+								<option value="{$exam['id']}">{$exam['name']}</option>
+							</if>
+						</volist>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td  width="120">理论周学时</td>
+				<td>
+					<input type="text" class="input-text" id="theweektime" name="theweektime" value="{$vo['theweektime']}"></input>
+				</td>
+			</tr>
+			<tr>
+				<td  width="120">实验周学时</td>
+				<td>
+					<input type="text" class="input-text"  name="expweektime" value="{$vo['expweektime']}"></input>
+				</td>
+			</tr>
+			<tr>
+				<td  width="120">开设周数</td>
+				<td>
+					<input type="text" class="input-text"  name="week" value="{$vo['week']}"></input>
+				</td>
+			</tr>
+		</table>
+        <div class="btn">
+            <if condition="$vo[id]!=''">
+            <input TYPE="hidden" name="id" value="{$vo[id]}">
+            </if>
+            <INPUT TYPE="submit"  value="{:L('dosubmit')}" class="button" >
+            <input TYPE="reset"  value="{:L('reset')}" class="button">
+        </div>
+	</form>
+</div>

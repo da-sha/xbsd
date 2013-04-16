@@ -1,0 +1,42 @@
+<layout name="layout"/>
+
+<form id="myform" action="<if condition="$action_name=='edit'">{:U('Role/update')}<else />{:U('Role/insert')}</if>" method="post">
+    <table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+        <tr>
+            <td width="120">{:L('user_group')}{:L('name')}</td>
+            <td><input type="text" name="name" class="inputbox" class="input-text"  value="{$vo['name']}"  validate="required:true,cn_username:true,  minlength:2, maxlength:20"/></td>
+        </tr>
+        <tr>
+            <td width="140">{:L('menu_parent_menu')}:</td>
+            <td>
+                <SELECT name="pid">
+                    <option value="0" <eq name="vo['pid']" value="0"> selected</eq>>顶级用户组</option>
+
+                    <volist name="roledata" id="role">
+                    <option value="{$role[id]}" <eq name="vo['pid']" value="$role['id']"> selected</eq>>{$role['name']}</option>
+                    </volist>
+            	</SELECT>
+            </td>
+        </tr>
+        <tr>
+            <td>{:L('user_is_enable')}</td>
+            <td>
+                {:L('yes')}<input type="radio" name="status" value="1" <eq name="vo['status']" value="1">checked="checked"</eq> />
+                {:L('no')}<input type="radio" name="status" value="0" <eq name="vo['status']" value="0">checked="checked"</eq> />
+            </td>
+        </tr>
+
+        <tr>
+            <td>{:L('remark')}</td>
+            <td>
+                <textarea rows="5" cols="30" name="remark">{$vo['remark']}</textarea>
+            </td>
+        </tr>
+    </table>
+    <div class="btn">
+        <if condition="$action_name=='edit'"><input type="hidden" id="id" name="id" value="{$vo['id']}" /></if>
+        <INPUT TYPE="submit"  value="{:L('dosubmit')}" class="button" >
+        <input TYPE="reset"  value="{:L('cancel')}" class="button">
+    </div>
+</form>
+</div>

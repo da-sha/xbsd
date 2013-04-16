@@ -1,0 +1,77 @@
+<script type="text/javascript" src="../Public/js/dasha_chosen.js"></script>
+<script src="../Public/js/verify.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="../Public/css/dasha_chosen.css" /> 
+<script type="text/javascript">
+	ajaxurl = "__APP__/Ajax/getteacher" ;
+	trytip = "---正在努力加载中---" ;
+	titletip = "请选择老师" ;
+	closetip = "关闭" ;
+	function checkForm()
+	{
+		if (
+		!isNull('userid_id', '教师名称') ||
+		!isNull('orgid_id', '所在机构') ||
+		!isNull('name_id', '职务名称') ||
+		!isNull('level_id', '级别'))
+			return false;
+		return true;
+	}
+</script>
+<div class="mainbox">
+	<form method='post'  id="myform" action="__URL__/insert">
+		<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+			<tr>
+				<td  width="120">教师名称</td>
+				<td>
+					<input type="text" class="dasha_chosen_input input-text" id="userid_id" name="userid"></input>
+					<span class="red">*</span>
+				</td>
+			</tr>
+			<tr>
+				<td  width="120">所在机构</td>
+				<td>
+					<select id="orgid_id" name="orgid">
+						<option value="" selected>--请选择机构--</option>
+						<volist name="org_list" id="org">
+							<option value="{$org['id']}">{$org['name']}</option>
+						</volist>
+					</select>
+					<span class="red">*</span>
+				</td>
+			</tr>
+			<tr>
+				<td  width="120">职务名称</td>
+				<td>
+					<select id="name_id" name="name">
+						<option value="" selected>--请选择职务名称--</option>
+						<volist name="name_list" id="name">
+							<option value="{$name['id']}">{$name['name']}</option>
+						</volist>
+					</select>
+					<span class="red">*</span>
+				</td>
+			</tr>
+			<tr>
+				<td  width="120">级别</td>
+				<td>
+					<select id="level_id" name="level">
+						<option value="" selected>--请选择级别--</option>
+						<volist name="lev_list" id="lev">
+							<option value="{$lev['id']}">{$lev[name]}</option>
+						</volist>
+					</select>
+					<span class="red">*</span>
+				</td>
+			</tr>
+			<tr>
+				<td  width="120">办公室</td>
+				<td>
+					<input type="text" class="input-text"  name="office"></input>
+				</td>
+			</tr>
+		</table>
+		<div class="btn">
+			<input type="submit"  onclick="return checkForm()" class="checkform" value="提交" class="button" />
+		</div>
+	</form>
+</div>

@@ -1,0 +1,71 @@
+<layout name="layout_no_nav"/>
+<script type="text/javascript">
+	$(function(){
+		$("#edit_info").click(function(){
+			self.location = URL + "/edit"
+		}) ;
+	}) ;
+</script>
+&nbsp;
+<fieldset>
+	<legend>个人基本资料：</legend>
+	<table width="100%" class="dasha_table edit_table">
+		<tr>
+			<td class="key" width="70px">教师姓名</td>
+			<td class="edit_input" name="name">{$teacher['name']}</td>
+			<td class="key"  width="70px">教工代码</td>
+			<td>{$_SESSION["user_code"]}</td>
+			<td class="key"  width="70px">性别</td>
+			<td>{$teacher['gender_name']}</td>
+		</tr>
+		<tr>
+			<td class="key">名族</td>
+			<td>{$teacher['nationality_name']}</td>
+			<td class="key">政治面貌</td>
+			<td>{$teacher['Politics_status_name']}</td>
+			<td class="key">身份证号</td>
+			<td class="edit_input" name="idno">{$teacher['idno']}</td>
+		</tr>
+		<tr>
+			<td class="key">职称</td>
+			<td>{$teacher['job_title_name']}</td>
+			<td class="key">所属机构</td>
+			<td>{$teacher['orgid_name']}</td>
+			<td class="key">最终学历</td>
+			<td>{$teacher['degree_name']}</td>
+		</tr>
+		<tr>
+			<td class="key">毕业学校</td>
+			<td class="edit_input" name="school">{$teacher['school']}</td>
+			<td class="key"  width="75px">所学专业</td>
+			<td colspan="3" class="edit_input" name="major">{$teacher['major']}</td>
+		</tr>
+		<tr>
+			<td class="key">研究方向</td>
+			<td colspan="5">
+				<pre>{$teacher['research']}</pre>
+			</td>
+		</tr>
+		<tr>
+			<td class="key">电话(公开)</td>
+			<td>{$teacher['telphone1']}</td>
+			<td class="key">电话(非公开)</td>
+			<td colspan="3">{$teacher['telphone2']}</td>
+		</tr>
+		<tr>
+			<td class="key">通讯地址</td>
+			<td colspan="5">
+				{$teacher['address']|default="&nbsp;"}
+			</td>
+		</tr>
+		<tr>
+			<td class="key">个人简历</td>
+			<td colspan="5">
+				{$teacher['resume']|default="&nbsp;"}
+			</td>
+		</tr>
+	</table>
+</fieldset>
+<div class="btn">
+	<input class="button" id="edit_info" type="button" value="修改"/>
+</div>

@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>西北师大教务支持系统 - 修改班级信息管理</title>
+		<link rel="stylesheet" type="text/css" href="../Public/css/style.css" />
+        <script type="text/javascript" src="../Public/js/jquery.min.js"></script>
+        <script type="text/javascript" src="../Public/js/jquery.form.js"></script>
+        <script type="text/javascript" src="../Public/js/jquery.validate.js"></script>
+		<link rel="stylesheet" type="text/css" href="../Public/css/dasha_chosen.css" />
+		<script type="text/javascript" src="../Public/js/dasha_chosen.js"></script>
+		<script type="text/javascript">
+			ajaxurl = "__APP__/Ajax/getteacher" ;
+			trytip = "---正在努力加载中---" ;
+			titletip = "请选择老师" ;
+			closetip = "关闭" ;
+		</script>
+	</head>
+	<body width="100%">
+		<div class="mainbox">
+			<div id="nav" class="mainnav_title">
+				<ul>
+					<a href="__URL__/index">班级信息管理</a>|
+					<a href="__URL__/add">添加班级</a>|
+					<a href="__URL__/edit/classid/{$class['classid']}" class="on">修改班级信息</a>|
+				</ul>
+			</div>
+			<form method='post'  id="myform" action="__URL__/update">
+				<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+					<tr>
+						<td  width="120">学生层次</td>
+						<td>
+							<select name="level" id="level_id" validate="required:true">
+								<option value="false" selected>---请选择学生层次---</option>
+								<volist name="level_list" id="lel">
+									<if condition="$level_const eq $lel[id]">
+										<option value="{$lel['id']}" selected>{$lel['name']}</option>
+										<else/>
+										<option value="{$lel['id']}">{$lel['name']}</option>
+									</if>
+								</volist>
+							</select>
+							<span class="red">*</span>
+						</td>
+					</tr>
+					<tr>
+						<td  width="120">所属专业</td>
+						<td>
+							<select name="majorid" id="majorid" validate="required:true">
+								<volist name="major_list" id="ma">
+									<if condition="$class[majorid] eq $ma[id]">
+										<option value="{$ma['id']}" selected>{$ma[name]}</option>
+										<else/>
+										<option value="{$ma['id']}">{$ma[name]}</option>
+									</if>
+								</volist>
+							</select>
+							<span class="red">*</span>
+						</td>
+					</tr>
+					<tr>
+						<td  width="120">班级名称</td>
+						<td>
+							<input type="text" class="input-text"  name="name" id="name" value="{$class[name]}" validate="required:true" ></input>
+							<span class="red">*</span>
+						</td>
+					</tr>
+					<tr>
+						<td  width="120">班级人数</td>
+						<td>
+							<input type="text" class="input-text"  name="num" id="num" value="{$class[num]}" validate="required:true,digits:true, min:1"></input>
+							<span class="red">*</span>
+						</td>
+					</tr>
+					<tr>
+						<td  width="120">班主任</td>
+						<td>
+							<input type="text" name="head_teacher" id="htname" class="dasha_chosen_input" size="50" value="{$class[htname]}" validate="required:true"/>
+							<input type="hidden" name="head_teacher" id="htname_chosen_value" size="50" value="{$class[head_teacher]}" />
+							<span class="red">*</span>
+						</td>
+					</tr>
+					<tr>
+						<td  width="120">辅导员</td>
+						<td>
+							<input type="text" name="instructor" id="instr" class="dasha_chosen_input" size="50" value="{$class[instr]}" validate="required:true"/>
+							<input type="hidden" name="instructor" id="instr_chosen_value" size="50" value="{$class[instructor]}" />
+							<span class="red">*</span>
+						</td>
+					</tr>
+					<tr>
+						<td  width="120">班级成立年</td>
+						<td>
+							<select name="register_date"  validate="required:true">
+								<volist name="register_date_list" id="rl">
+									<if condition="$class[register_date] eq $rl[id]">
+										<option value="{$rl['id']}" selected>{$rl[name]}年</option>
+										<else/>
+										<option value="{$rl['id']}">{$rl[name]}年</option>
+									</if>
+								</volist>
+							</select>
+							<span class="red">*</span>
+						</td>
+					</tr>
+				</table>
+				<div class="btn">
+					<input type="hidden" name="classid" id="classid" value="{$class[classid]}" />
+					<input type="submit" value="提交" class="button" />
+				</div>
+			</form>
+		</div>
+	</body>
+</html>

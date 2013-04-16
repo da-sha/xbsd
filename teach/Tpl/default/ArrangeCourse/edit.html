@@ -1,0 +1,208 @@
+<script type="text/javascript">
+	$("#edit_info_teach_semester,#edit_info_teach_year").change(function(){
+		if( $(this).val() )
+		{
+			get_teacher_info() ;
+		}
+	});
+	$(".editinfo").click( function(){
+		clickinfo = $(this) ;
+		loadart = art.dialog.through({}) ;
+		$.get( clickinfo.attr("href") , function(content){
+			loadart.close() ;
+			$("#edit_teacher_info").remove() ;
+			clickinfo.closest("tr").after(content) ;
+			$("#teacherinfo td :input").bind("change", function(){
+				get_teacher_info() ;
+			});
+		}) ;
+		return false ;
+	}) ;
+	//动态绑定用户删除选课事件！
+	$(".deleteinfo").click( function(){
+		clickinfo = $(this) ;
+		art.dialog.confirm('你确认删除操作？', function(){
+			$("#edit_teacher_info").remove() ;
+			loadart = art.dialog.through({}) ;
+			$.getJSON( clickinfo.attr("href") , function(data){
+				loadart.close() ;
+				if( data.status == 1 )
+				{
+					art.dialog.tips( data.info );
+					clickinfo.closest("tr").remove() ;
+				}
+				else
+				{
+					art.dialog.alert.through( data.info );
+				}
+			}) ;
+		}, function(){});
+		return false ;
+	}) ;
+	$("#orgid").die( "change" ) ;
+	$("#orgid").live( "change", function() {
+		if( $(this).val() != '' )
+		{
+			url = "__APP__/ArrangeCourse/getTeacher/orgid/" + $(this).val();
+			$("select#userid").html("<option value=''>-----------正在努力加载中-----------option>") ;
+			$.getJSON( url, function(data){
+				if( data.status == 1 )
+				{
+					$("select#userid").empty() ;
+					$("select#userid").append("<option value=''>-----------请选择教师-----------</option>") ;
+					$.each(data.data, function(id,value){
+						$("select#userid").append( "<option value='"+value.id+"'>"+value.name+"("+ value.code+")</option>");
+					})
+				}
+				else
+				{
+					$("select#userid").html("<option value=''>-----------对不起，没有教师-----------</option>") ;
+				}
+			});
+		}
+	});
+	$("#change_info_cancel").die( "click" ) ;
+	$("#change_info_cancel").live( "click" , function(){
+		$("#edit_teacher_info").remove() ;
+		return false ;
+	}) ;
+	//确认更改信息，后台提交
+	$("#change_info_submit").die( "click" ) ;
+	$("#change_info_submit").live( "click" , function(){
+		senddata = $("#change_info_form").serialize() ;
+		try{
+			$.post( "__URL__/update" , senddata , function(data){
+				if( data.status == 1 )
+				{
+					name = $("#edit_teacher_info select#userid option:selected").text() ;
+					name = name.substr( 0 , name.indexOf( '(' ) ) ;
+					$("#edit_teacher_info").prev().children("td.teach_name").text( name ) ;
+					$("#edit_teacher_info").remove() ;
+					art.dialog.tips( data.info );
+				}
+				else
+				{
+					art.dialog.alert( data.info );
+				}
+			}, "json");
+		}
+		catch(e){
+			art.dialog.alert("错误："+ e.message);
+		}
+		finally{
+			return false ;
+		}
+	}) ;
+	
+	//检测筛选器后下面的所有输入框是否都不为空
+	var check_input_not_null = function(selector){
+		all_input = $(selector) ;
+		ready_input = true ;
+		$.each( all_input , function( i , data ){
+			if( '' == $(this).val() )
+			{
+				$(this).addClass( "input_border_red" ) ;
+				$(this).one("click", function(){
+					$(this).removeClass( "input_border_red" ) ;
+				});
+				ready_input = false ;
+				return false ;
+			}
+		});
+		return ready_input ;
+	};
+	
+	var  get_teacher_info = function(){
+		if( check_input_not_null("#teacherinfo td :input") )
+		{
+			$.get( "__URL__/teacherInfo/userid/"+$("#userid").val()+"/teach_year/"+$("#edit_info_teach_year").val()+"/semester/"+$("#edit_info_teach_semester").val()+"/ref/"+$("#reference").val() , function(data){
+				$(".teacher_info").remove();
+				$("#teacherinfo").after(data) ;
+			});
+		}
+	};
+	$("#teacherinfo td :input,#edit_info_teach_semester,#edit_info_teach_year,#change_info_submit,#userid,.editinfo,.deleteinfo,#orgid").ajaxError(function(event,request, settings){
+		loadart.close() ;
+		art.dialog.tips("又出错了，请检查网络！", 2 ) ;
+	}) ;
+</script>
+<div class="dasha_empty_line"><span class="red">{$show}</span></div>
+<form id="teach_task" action="__URL__/insert" method="post">
+	<fieldset>
+		<table width="900px" class="dasha_table">
+			<tr>
+				<td width="12%"></td>
+				<td width="16%"></td>
+				<td width="12%"></td>
+				<td width="12%"></td>
+				<td width="12%"></td>
+				<td width="12%"></td>
+				<td width="12%"></td>
+				<td width="12%"></td>
+			</tr>
+			<tr class="on">
+				<td>课程名:</td>
+				<td>
+					{$course['name']}
+					<input TYPE="hidden"  name="courseid" id="courseid" value="{$course['courseid']}" />
+				</td>
+				<td>课程性质</td>
+				<td>{$course['property']}</td>
+				<td>课程类型</td>
+				<td>{$course['cou_type']}</td>
+				<td>课程类别</td>
+				<td>{$course['cou_category']}</td>
+
+			</tr>
+			<tr>
+				<td>开课学期</td>
+				<td>{$course['semester_name']}</td>
+				<td>理论周学时</td>
+				<td>{$course['theweektime']}</td>
+				<td>实验周学时</td>
+				<td>{$course['expweektime']}</td>
+				<td>考试类型</td>
+				<td>{$course['exam_type']}</td>
+			</tr>
+			<tr class="on">
+				<td>开课学年</td>
+				<td>
+					<input style="width:45%;" name="teach_year" id="edit_info_teach_year" value="{$year}"/>
+					<select style="width:45%;" name="teach_semester" id="edit_info_teach_semester">
+						<volist name="Tsemester_list" id="t_semester">
+							<if condition="$semester eq $t_semester['id']">
+								<option value="{$t_semester['id']}" selected>{$t_semester['name']}</option>
+								<else/>
+								<option value="{$t_semester['id']}">{$t_semester['name']}</option>
+							</if>
+						</volist>
+					</select>
+				</td>
+				<td>开始授课周</td>
+				<td>
+					<input name="start_week" id="start_week_id" value="{$startweek}"/>
+				</td>
+				<td>开设周数</td>
+				<td>
+					<input name="week" id="week_id" value="{$teachweek}"/>
+				</td>
+				<td>总学时</td>
+				<td>
+					<input name="totaltime" id="totaltime_id" value="{$course['totaltime']}"/>
+				</td>
+			</tr>
+			<volist name="teach_list" id="tea">
+				<tr>
+					<td>授课班级</td>
+					<td colspan="4">{$tea['classid']}</td>
+					<td>授课教师</td>
+					<td class="teach_name">{$tea['teacher']}</td>
+					<td colspan="2">
+						<a class="editinfo" href="__URL__/editinfo/teachid/{$tea['teachid']}">修改</a> |
+						<a class="deleteinfo red" href="__URL__/delete/teachid/{$tea['teachid']}">删除</a>
+					</td>
+				</tr>
+			</volist>
+		</table>
+	</fieldset>
+</form>

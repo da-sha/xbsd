@@ -1,0 +1,66 @@
+<layout name="layout"/>
+<script type="text/javascript">
+	$(function(){
+		$(".mainbox select").change(function(){
+			if( checkCondition() )
+			{
+				self.location = "__SELF__/year/"+$("#select_year_id").val()+"/semester/"+$("#select_semester_id").val()
+			}
+		}) ;
+	}) ;
+	
+</script>
+<div class="mainbox">
+	请选择：
+	<select name="year" id="select_year_id">
+		<option value="">---请选择---</option>
+		<volist name="year_list" id="year">
+			<if condition="$year eq $_GET['year']">
+				<option value="{$year}" selected>{$year}</option>
+				<else/>
+				<option value="{$year}">{$year}</option>
+			</if>
+		</volist>
+	</select>
+	<select name="semester" id="select_semester_id">
+		<option value="">---请选择---</option>
+		<volist name="semester_list" id="semester">
+			<if condition="$semester['id'] eq $_GET['semester']">
+				<option value="{$semester['id']}" selected>{$semester['name']}</option>
+				<else/>
+				<option value="{$semester['id']}">{$semester['name']}</option>
+			</if>
+		</volist>
+	</select>
+</div>
+<div class="table-list">
+	<table width="100%" cellspacing="0">
+		<thead>
+			<tr>
+				<th>考试日期</th>
+				<th>考试时间</th>
+				<th align="left">考试地点</th>
+				<th>课程名称</th>
+				<th>考试类型</th>
+				<th>主考</th>
+				<th>监考</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+		<volist name="exam_list" id="exam">
+			<tr>
+				<td align="center">{$exam['date']}</td>
+				<td align="center">{$exam['time']}</td>
+				<td>{$exam['addr']}</td>
+				<td align="center">{$exam['name']}</td>
+				<td align="center">{$exam['type']}</td>
+				<td align="center">{$exam['examiner1']}</td>
+				<td align="center">{$exam['examiner2']}</td>
+				<td align="center"><a clas="red" href="__URL__/delete/examid/{$exam['examid']}">删除</a></td>
+			</tr>
+		</volist>
+		</tbody>
+	</table>
+	<div id="dasha_footer">{$show}</div>
+</div>

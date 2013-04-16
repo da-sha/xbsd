@@ -1,0 +1,48 @@
+<layout name="layout_no_nav"/>
+
+<link rel="stylesheet" href="../Public/jquery/development-bundle/themes/base/jquery.ui.all.css">
+<script src="../Public/jquery/development-bundle/ui/jquery.ui.core.js"></script>
+<script src="../Public/jquery/development-bundle/ui/jquery.ui.datepicker.js"></script>
+
+<script type="text/javascript">
+	$(function() {
+		$("#publish_time").datepicker();
+	});
+</script>
+<form method='post'  id="teach_plan_edit">
+    <table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+        <tr>
+            <td  width="120">发布时间</td>
+            <td>
+                <input type="text" class="input-text"  name="publish_time" id="publish_time" value="{$plan[publish_time]}" />
+            </td>
+        </tr>
+        <tr>
+            <td  width="120">周次</td>
+            <td>
+                <input type="text" class="input-text"  name="week_num" id="week_num" value="{$plan[week_num]}" />
+            </td>
+        </tr>
+        <tr>
+            <td  width="120">周学时</td>
+            <td>
+                <input type="text" class="input-text"  name="week_time" id="week_time" value="{$plan[week_time]}" />
+            </td>
+        </tr>
+        <tr>
+            <td  width="120">计划内容</td>
+            <td>
+                <textarea name="plan_content" id="plan_content" rows="10" cols="60">{$plan[plan_content]}</textarea>
+            </td>
+        </tr>
+        <tr>
+            <td  width="120">教学形式与手段</td>
+            <td>
+                <textarea name="teach_method" id="teach_method" rows="3" cols="60">{$plan[teach_method]}</textarea>
+            </td>
+        </tr>
+    </table>
+    <if condition="$plan[id]!=''">
+		<input TYPE="hidden" name="id" value="{$plan[id]}">
+    </if>
+</form>

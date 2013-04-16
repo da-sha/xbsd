@@ -1,0 +1,160 @@
+#course_box{
+	margin: 15px 0 0 15px;
+	font: normal 12PX Tahoma,Verdana,Helvetica,Arial,sans-serif;
+}
+
+#course_box .cou_list{
+	width: 99%;
+	margin: 10px 0;
+}
+
+#course_box .simplemode{
+	height: 42px;
+	width: 100%;
+	box-shadow: 0px 0px 5px rgba(204, 204, 204, 0.5);
+	border: 1px solid #E9E9E9;
+	cursor: pointer;
+}
+
+#course_box .title{
+	float:left;
+	padding-left: 40px;
+	height: 100%;
+	width: 20%;
+	line-height: 42px;
+	background: url(../images/down.gif) no-repeat 10px 17px;
+	color: #333;
+	text-decoration: none;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+#course_box .progress{
+	width: 40%;
+	float: left;
+	line-height: 42px;
+
+	margin-top:13px;
+	height: 18px;
+	overflow: hidden;
+	border: 1px solid white;
+	border-radius: 10px;
+	background-color: #F6F6F6;
+	-webkit-box-shadow: inset 0 2px 1px #E5E5E5;
+	-moz-box-shadow: inset 0 2px 1px #e5e5e5;
+	box-shadow: inset 0 2px 1px #E5E5E5;
+}
+
+#course_box .grogress_bar{
+	background: url(../Images/barline.gif) repeat-x;
+	height: 19px;
+}
+
+#course_box .progress_text{
+	line-height: 19px;
+	height: 19px;
+	font-size: 10px;
+	color: white;
+	width:100%;
+	text-align:center;
+}
+
+#course_box .school_year{
+	text-align: right;
+	width: 20%;
+	padding-right: 20px;
+	float: right;
+	height: 100%;
+	line-height: 42px;
+}
+
+#course_box .fulmode{
+	height: auto;
+	width: 100%;
+	box-shadow: 0px 0px 5px rgba(204, 204, 204, 0.5);
+	border: 1px solid #E9E9E9;
+}
+
+#course_box .ful_title{
+	float:left;
+	padding-left: 40px;
+	height: 100%;
+	width: 20%;
+	line-height: 37px;
+	background: url(../Images/up.gif) no-repeat 10px 13px;
+	color: #333;
+	text-decoration: none;
+	font-size: 14px;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.cou_menu{
+	float: right;
+	height: 28px;
+	margin: 8px -1px 0 0;
+}
+.fulmode .ico{
+	background: url(../Images/profile.gif) no-repeat;
+	width:16px;
+	height:15px;
+	display: inline-block;
+	float: left;
+	margin: 7px 5px 0 5px;
+}
+
+ul.cou_menu li{
+	float: left;
+	margin: 0 -1px 0 0;
+	border: 1px solid #C6C6C6;
+	border-bottom: none;
+
+	line-height: 28px;
+	height: 28px;
+}
+.fulmode .cou_menu a{
+	display:inline-block;
+	width: 82px;
+	outline:none;
+	height: 28px;
+}
+
+.cou_main{
+	min-height: 100px;
+	border: 1px solid;
+	
+	border-color: #DBDBDB;
+	border-top-color: #C7CDD3;
+	background-color: #F8F8F8;
+	width: 100%;
+}
+.cou_menu .on{
+	position: relative;
+	padding-bottom: 1px;
+	margin-bottom: -1px;
+	background-color: #F8F8F8;
+}
+
+#course_box .thead{
+	background: #F8F8F8;
+	border:none;
+}
+
+#course_box .inner_table_list{
+    float: right;
+    margin-left: -40px;
+    height: 100%;
+    width: 80%;
+}
+
+.inner_table_list li{
+    text-decoration: none;
+    list-style:none;
+}
+.inner_table_list ul{
+    float: right;
+    line-height: 42px;
+    color: #8b8b8b;
+    font-size: 14px;
+    margin: 0 30px;
+}

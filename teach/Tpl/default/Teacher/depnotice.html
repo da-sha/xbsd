@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>西北师大教务支持系统 - 通知公告管理</title>
+		<link rel="stylesheet" type="text/css" href="../Public/css/style.css" />
+	</head>
+	<body>
+		<div class="mainbox">
+			<div class="table-list">
+				<ul>
+					<volist name="list" id="data">
+						<li>
+							<div class="green">
+								[{$data[update_date]|date='Y-m-d',###}]
+								<a href="__APP__/Notice/noticeinfo/noticeid/{$data[noticeid]}">{$data[title]}</a>
+							</div>
+						</li>
+					</volist>
+				</ul>
+				<div id="dasha_footer">{$show}</div>
+			</div>
+		</div>
+	</body>
+</html>

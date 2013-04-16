@@ -1,0 +1,90 @@
+<div class="mainbox">
+	<form method='post'  id="myform" action="__URL__/update">
+		<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+			<tr>
+				<td  width="120">授课教师</td>
+				<td>
+					<input type="text" class="input-text" name="userid" value="{$t_task['userid']}"></input>
+					<span class="red">*</span>
+				</td>
+			</tr>
+			<tr>
+				<td  width="120">课程</td>
+				<td>
+					<select name="courseid">
+						<option value="" selected>--请选择课程--</option>
+						<volist name="cou_list" id="cou">
+							<if condition="$cou['id'] eq $t_task['courseid']">
+								<option value="{$cou['id']}" selected>{$cou['name']}</option>
+								<else/>
+								<option value="{$cou['id']}">{$cou['name']}</option>
+							</if>
+						</volist>
+					</select>
+					<span class="red">*</span>
+				</td>
+			</tr>
+			<tr>
+				<td  width="120">授课班级</td>
+				<td>
+					{$class['name']}
+					<input type="hidden" name="classid" value="{$t_task['classid']}"/>
+					<span class="red">*</span>
+				</td>
+			</tr>
+			<tr>
+				<td  width="120">授课地点</td>
+				<td>
+					<input type="text" class="input-text"  name="place" value="{$t_task['place']}"></input>
+					<span class="red">*</span>
+				</td>
+			</tr>
+			<tr>
+				<td  width="120">起始授课周</td>
+				<td>
+					<input type="text" class="input-text"  name="start_week" value="{$t_task['start_week']}"></input>
+				</td>
+			</tr>
+			<tr>
+				<td  width="120">授课周数</td>
+				<td>
+					<input type="text" class="input-text"  name="week" value="{$t_task['week']}"></input>
+				</td>
+			</tr>
+			<tr>
+				<td  width="120">考试时间</td>
+				<td>
+					<input type="text" class="input-text"  name="exam_week" value="{$t_task['exam_week']}"></input>
+				</td>
+			</tr>
+			<tr>
+				<td  width="120">授课评价</td>
+				<td>
+					<textarea cols="27" rows="5" name="assess">{$t_task['assess']}</textarea>
+				</td>
+			</tr>
+			<tr>
+				<td  width="120">机构评语</td>
+				<td>
+					<textarea cols="27" rows="5" name="comment">{$t_task['comment']}</textarea>
+				</td>
+			</tr>
+			<tr>
+				<td  width="120">教师总结</td>
+				<td>
+					<textarea cols="27" rows="5" name="summary">{$t_task['summary']}</textarea>
+				</td>
+			</tr>
+			<tr>
+				<td  width="120">教学建议</td>
+				<td>
+					<textarea cols="27" rows="5" name="adviser">{$t_task['adviser']}</textarea>
+				</td>
+			</tr>
+		</table>
+		<div class="btn">
+			<input type="hidden" name="teachid" value="{$t_task['teachid']}"/>
+			<input type="submit" value="提交" class="button" />
+		</div>
+	</form>
+</div>

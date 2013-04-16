@@ -1,0 +1,44 @@
+<layout name="layout"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<script language="javascript">
+	function ready()
+	{
+		var tb_name = document.getElementById("tb_name").value ;
+		if( tb_name == 'false')
+		{
+			document.getElementById("notic").innerHTML = '请选择数据表！' ;
+		}
+		else
+		{
+			document.getElementById("notic").innerHTML = '' ;
+			document.getElementById("add").href= "__URL__/add/tb_name/"+tb_name ;
+			document.getElementById("dasha_body_id").src = "__URL__/body/tb_name/"+tb_name ;
+		}
+	}
+</script>
+<style type="text/css">
+	#tb_select
+	{
+		margin:5px;
+		padding:4px 7px;
+		float:left;
+	}
+</style>
+<div class="mainbox">
+	<div >
+		<div id="tb_select">
+			<select id="tb_name" onchange="ready()">
+				<option value='false'>--请选择数据表--</option>
+				<volist id="tb" name="data">
+					<option value="{$tb['tb_name']}">{$tb["comment"]}({$tb["tb_name"]})</option>
+				</volist>
+			</select>
+		</div>
+		<div class="mainnav_title">
+			<a id="add" href="__URL__/add" target="dasha_body">添加</a>
+			<span id="notic" class="red">请选择数据表！</span>
+		</div>
+	</div>
+</div>
+<iframe id="dasha_body_id" name="dasha_body" src="__URL__/body" width="100%" scrolling="no" frameborder="0" onload="this.height=this.contentWindow.document.documentElement.scrollHeight"></iframe>

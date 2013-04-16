@@ -1,0 +1,91 @@
+<layout name="layout"/>
+<link href="../Public/css/course.css" rel="stylesheet">
+<script type="text/javascript">
+	$(function(){
+		$(".simplemode").click(function(){
+			$(this).slideToggle("slow");
+			$(this).next(".fulmode").slideToggle("slow");
+			ful_mode = $(this).next(".fulmode") ;
+			if( ful_mode.find(".cou_main").text() == '' )
+			{
+				ful_mode.find(".cou_menu li:first").addClass("on") ;
+				$.get( ful_mode.find(".cou_menu li a:first").attr("href") , function(data){
+					ful_mode.find(".cou_main").html(data) ;
+				}) ;
+			}
+		}) ;
+		$(".fulmode .ful_title").click(function(){
+			$(this).closest(".fulmode").prev(".simplemode").slideToggle("slow");
+			$(this).closest(".fulmode").slideToggle("slow");
+		}) ;
+		$(".cou_menu li a").click(function(){
+			cur = $(this) ;
+			cur.closest(".cou_menu").find(".on").removeClass("on") ;
+			$.get( cur.attr("href") , function(data){
+				cur.closest(".cou_menu").next(".cou_main").html(data) ;
+			}) ;
+			cur.parent().addClass("on") ;
+			return false ;
+		}) ;
+		$(".cou_main a:not(.exce)").die( "click" ) ;
+		$(".cou_main a:not(.exce)").live( "click" , function(){
+			cur = $(this) ;
+			$.get( cur.attr("href") , function(data){
+				cur.closest(".cou_main").html(data) ;
+			}) ;
+			return false ;
+		});
+		$(".cou_main a.exce").die( "click" ) ;
+		$(".cou_main a.exce").live( "click" , function(){
+			cur = $(this) ;
+			$.get(cur.attr("href") , function(data){
+				art.dialog.tips(data.info) ;
+			},"json") ;
+			var fulmode = cur.closest(".fulmode") ;
+			$.get( fulmode.find(".cou_menu li.on a").attr("href"), function(data){
+				fulmode.find(".cou_main").html( data ) ;
+			}) ;
+			return false ;
+		});
+	}) ;
+</script>
+<div id="course_box">
+    <div class="cou_list">
+	    <volist name="guide_list" id="guide" key="key">
+	    	<div>
+				<div class="simplemode">
+					<div class="title clear" style="width: auto;">{$guide['majorid_name']}</div>
+					<div class="inner_table_list" style="width: auto;">
+						<li>
+							<ul>{$guide['category_name']}</ul>
+							<ul>{$guide['grade']}</ul>
+						</li>
+					</div>
+				</div>
+				<div class="fulmode" style="display:none">
+					<div class="ful_title clear">&nbsp;</div>
+					<ul class="cou_menu">
+						<volist name="guide['student']" id="stu" key="k">
+						<li>
+							<a style="width: auto;margin-right: 10px;" href="__URL__/stuthesis/studentid/{$stu['studentid']}/category/{$_GET['category']}" hideFocus="hidefocus">
+								<b class="ico"></b>
+								<span >{$stu["studentid_name"]}</span>
+							</a>
+						</li>
+						</volist>
+						<li>
+							<a href="__URL__/guide_record/guideid/{$guide['guideid']}" hideFocus="hidefocus">
+								<b class="ico"></b>
+								<span >论文指导</span>
+							</a>
+						</li>
+					</ul>
+					<div class="cou_main clear"></div>
+				</div>
+	    	</div>
+	    </volist>
+    </div>
+	<if condition="$show">
+		<div id="dasha_footer">{$show}</div>
+	</if>
+</div>

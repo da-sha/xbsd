@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>西北师大教务支持系统 - 班级管理</title>
+		<link rel="stylesheet" type="text/css" href="../Public/css/style.css" />
+	</head>
+	<body>
+		<form name="myform" action="" method="post">
+			<div class="table-list">
+				<table width="100%" cellspacing="0">
+					<thead>
+						<tr>
+							<th align="left">学号</th>
+							<th>姓名</th>
+							<th>性别</th>
+							<th>入学时间</th>
+							<th>QQ</th>
+							<th>email</th>
+							<th>联系电话</th>
+							<th>管理操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<volist name="stulist" id="data">
+						<tr>
+							<td align="left">{$data[user_code]}</td>
+							<td align="center">{$data[name]}</td>
+							<td align="center">{$data[gender]}</td>
+							<td align="center">{$data[admissiondate]}</td>
+							<td align="center">{$data[qq]}</td>
+							<td align="center">{$data[email]}</td>
+							<td align="center">{$data[telephone]}</td>
+							<td align="center">
+								<a class="red" href="__URL__/delete/userid/{$data[userid]}/level/{$stulevel}">删除</a>
+							</td>
+						</tr>
+						</volist>
+					</tbody>
+				</table>
+				<div id="dasha_footer">{$show}</div>
+			</div>
+		</form>
+	</body>
+</html>

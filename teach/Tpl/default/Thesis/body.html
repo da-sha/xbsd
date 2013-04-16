@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>西北师大教务支持系统 - 学生论文管理</title>
+		<link rel="stylesheet" type="text/css" href="../Public/css/style.css" />
+	</head>
+	<body width="100%">
+			<form name="myform" action="" method="post">
+				<div class="table-list">
+					<table width="100%" cellspacing="0">
+						<thead>
+							<tr>
+								<th align="left">学生姓名</th>
+								<th>论文题目</th>
+								<th>选题来源</th>
+								<th>论文字数统计</th>
+								<th>完成时间</th>
+								<th>初评成绩</th>
+								<th>总评成绩</th>
+								<th>导师评语</th>
+								<th>管理操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<volist name="list" id="data">
+							<tr>
+								<td align="left">{$data[userid]}</td>
+								<td align="center">{$data[thesisid]}</td>
+								<td align="center">{$data[title_source]}</td>
+								<td align="center">{$data[word_num]}</td>
+								<td align="center">{$data[deadline]}</td>
+								<td align="center">{$data[first_score]}</td>
+								<td align="center">{$data[final_score]}</td>
+								<td align="center">{$data[comment]}</td>
+								<td align="center">
+									<a href="__URL__/edit/userid/{$data[id]}/thesisid/{$data[tid]}">修改</a> |
+									<a href="__URL__/delete/userid/{$data[id]}/thesisid/{$data[tid]}">删除</a>
+								</td>
+							</tr>
+							</volist>
+						</tbody>
+					</table>
+					<div id="dasha_footer">{$show}</div>
+				</div>
+			</form>
+	</body>
+</html>

@@ -1,0 +1,62 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript">
+	function newhref()
+	{
+		E('dasha_search').href = "__URL__/index/classid/"+E('class').value ;
+		E('dasha_add').href = "__URL__/add/classid/"+E('class').value ;
+	}
+	function E( id )
+	{
+		return document.getElementById(id) ;
+	}
+</script>
+<div id="result" class="result none"></div>
+<div class="mainbox">
+		<table  class="search_table" width="100%">
+		<tr>
+			<td>
+				选择专业：
+				<select id="class" onchange="newhref()">
+					<option value="" selected>--请选择班级--</option>
+					<volist name="cla_list" id="cla">
+						<option value="{$cla['id']}">{$cla['name']}</option>
+					</volist>
+				</select>
+				<span class="mainnav_title">
+					<a id="dasha_search" href="__SELF__" class="on">查询</a>
+					<a id="dasha_add" href="__SELF__" class="on">添加</a>
+				</span>
+			</td>
+		</tr>
+	</table>
+	<div class="table-list">
+		<table width="100%" cellspacing="0">
+			<thead>
+				<tr>
+					<th>课程名称</th>
+					<th>授课教师</th>
+					<th>授课班级</th>
+					<th>授课学期</th>
+					<th>授课周数</th>
+					<th>管理操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<volist id="teatask" name="teatask_list">
+					<tr>
+						<td align="center">{$teatask["courseid"]}</td>
+						<td align="center">{$teatask["userid"]|default="&nbsp;"}</td>
+						<td align="center">{$teatask["classid"]|default="&nbsp;"}</td>
+						<td align="center">{$teatask["teach_year"]|default="&nbsp;"}{$teatask["teach_semester"]}</td>
+						<td align="center">{$teatask["week"]|default="&nbsp;"}</td>
+						<td align="center">
+							<a href="__URL__/edit/teachid/{$teatask['teachid']}">修改</a> | 
+							<a href="__URL__/delete/teachid/{$teatask['teachid']}">删除</a>
+						</td>
+					</tr>
+				</volist>
+			</tbody>
+		</table>
+		<div id="dasha_footer">{$show}</div>
+	</div>
+</div>

@@ -1,0 +1,49 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<div class="mainbox">
+	<table  class="search_table" width="100%">
+		<tr>
+			<td>
+				<form action="__URL__/index" method="post">
+					选择专业：
+					<select name="orgid">
+						<option value="" selected>--请机构专业--</option>
+						<volist name="org_list" id="org">
+							<option value="{$org['orgid']}">{$org['name']}</option>
+						</volist>
+					</select>
+					<input type="submit" value="查询"  class="button"/>
+				</form>
+			</td>
+		</tr>
+	</table>
+	<div class="table-list">
+		<table width="100%" cellspacing="0">
+			<thead>
+				<tr>
+					<th>教师</th>
+					<th>机构</th>
+					<th>职务名称</th>
+					<th>级别</th>
+					<th>办公室</th>
+					<th>管理操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<volist id="orgduty" name="orgduty_list">
+					<tr>
+						<td align="center">{$orgduty["user_name"]}</td>
+						<td align="center">{$orgduty["org_name"]|default="&nbsp;"}</td>
+						<td align="center">{$orgduty["duty_name"]|default="&nbsp;"}</td>
+						<td align="center">{$orgduty["level"]|default="&nbsp;"}</td>
+						<td align="center">{$orgduty["office"]|default="&nbsp;"}</td>
+						<td align="center">
+							<a href="__URL__/edit/userid/{$orgduty['userid']}/orgid/{$orgduty['orgid']}/name/{$orgduty['name']}">修改</a> | 
+							<a href="__URL__/delete/userid/{$orgduty['userid']}/orgid/{$orgduty['orgid']}/name/{$orgduty['name']}">删除</a>
+						</td>
+					</tr>
+				</volist>
+			</tbody>
+		</table>
+		<div id="dasha_footer">{$show}</div>
+	</div>
+</div>

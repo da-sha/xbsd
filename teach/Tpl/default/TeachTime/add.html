@@ -1,0 +1,64 @@
+<div class="mainbox">
+	<form method='post'  id="myform" action="__URL__/insert">
+		<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+			<tr>
+				<td  width="120">课程</td>
+				<td>
+					<select name="teachid">
+						<option value="" selected>---请选择课程---</option>
+						<volist name="teach_list" id="teach">
+							<option value="{$teach['id']}">{$teach['name']}</option>
+						</volist>
+					</select>
+					<span class="red">*</span>
+				</td>
+			</tr>
+			<tr>
+				<td  width="120">星期</td>
+				<td>
+					<select name="day">
+						<option value="" selected>---请选择星期---</option>
+						<volist name="day_list" id="day">
+							<option value="{$day['id']}">{$day['name']}</option>
+						</volist>
+					</select>
+					<span class="red">*</span>
+				</td>
+			</tr>
+			<tr>
+				<td  width="120">课序</td>
+				<td>
+					<select name="seq">
+						<option value="" selected>---请选择课程---</option>
+						<volist name="seq_list" id="seq">
+							<option value="{$seq['id']}">{$seq['name']}</option>
+						</volist>
+					</select>
+					<span class="red">*</span>
+				</td>
+			</tr>
+			<tr>
+				<td  width="120">类型</td>
+				<td>
+					<select name="type">
+						<option value="" selected>---请选择课程---</option>
+						<volist name="type_list" id="type">
+							<option value="{$type['id']}">{$type['name']}</option>
+						</volist>
+					</select>
+					<span class="red">*</span>
+				</td>
+			</tr>
+			<tr>
+				<td>授课地点</td>
+				<td>
+					<input type="text" class="input-text"  name="place"/>
+				</td>
+			</tr>
+		</table>
+		<div class="btn">
+			<input type="hidden" name="classid" value="{$classid}"/>
+			<input type="submit" value="提交" class="button" />
+		</div>
+	</form>
+</div>

@@ -1,0 +1,31 @@
+<layout name="layout_no_nav"/>
+<!-- 考核管理 -->
+<form id="assess">
+    <div class="table-list">
+        <table width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th width="100">周次</th>
+                    <th width="100">周学时</th>
+                    <th>教学内容（章节和名称）</th>
+                    <th width="100">教学形式和手段</th>
+                </tr>
+            </thead>
+            <tbody>
+                <volist name="plan_list" id="plan">
+                <tr>
+                    <td align="center">{$plan["week_num"]}</td>
+                    <td align="center">{$plan["week_time"]|default="&nbsp;"}</td>
+                    <td align="left">{$plan["plan_content"]|default="&nbsp;"}</td>
+                    <td align="center">{$plan["teach_method"]|default="&nbsp;"}</td>
+                </tr>
+                </volist>
+            </tbody>
+        </table>
+		<php>
+            if(empty($plan) == true){
+                echo "<div id='dasha_footer'>对不起，没有数据</div>";
+            }
+        </php>
+    </div>
+</form>

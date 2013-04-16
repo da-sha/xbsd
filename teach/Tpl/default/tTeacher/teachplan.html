@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>教学计划</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<link rel="stylesheet" type="text/css" href="../Public/css/style.css" />
+		<link rel="stylesheet" href="../Public/jquery/development-bundle/themes/base/jquery.ui.all.css">
+		<script type="text/javascript" src="../Public/js/jquery.min.js"></script>
+		<script src="../Public/jquery/development-bundle/ui/jquery.ui.core.js"></script>
+		<script src="../Public/jquery/development-bundle/ui/jquery.ui.widget.js"></script>
+		<script src="../Public/jquery/development-bundle/ui/jquery.ui.tabs.js"></script>
+		<script src="../Public/jquery/development-bundle/ui/jquery.ui.mouse.js"></script>
+		<script src="../Public/jquery/development-bundle/ui/jquery.ui.sortable.js"></script>
+		<script src="../Public/jquery/development-bundle/ui/jquery.ui.datepicker.js"></script>
+		<script language="javascript">
+			$(function() {
+				$( "#tabs" ).tabs().find( ".ui-tabs-nav" ).sortable({ axis: "x" });
+			});
+		</script>
+		<style type="text/css">
+			.dasha_tab_ul{
+				width: 10000px ;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="tabs">
+			<ul class="dasha_tab_ul">
+				<volist name="teachp_list" id="teachplan">
+					<li><a href="__URL__/teachplaninfo/teachid/{$teachplan['teachid']}/seq/{$teachplan['seq']}">{$teachplan['plan_title']}</a></li>
+				</volist>
+			</ul>
+		</div>
+		<div id="dasha_footer">{$show}</div>
+	</body>
+</html>

@@ -1,0 +1,120 @@
+<layout name="layout"/>
+<link rel="stylesheet" href="../Public/css/aa.css"/>
+<script src="../Public/js/aa.js"></script>
+<style type="text/css">
+	.aac_l_content{
+		height: 370px ;
+	}
+	.aac_r_content{
+		height: 400px ;
+	}
+</style>
+<script type="text/javascript">
+	$(function(){
+		function addteacher( aoption ){
+			if( aoption.val() != "" && $(".aac_r_content option[value="+aoption.val()+"]" ).size() == 0 )
+			{
+				var data = {year:"",semester:"",teacherid:aoption.val()} ;
+				data.year = {$_GET['year']} ;
+				data.semester = {$_GET['semester']} ;
+				$.post("__URL__/addexaminer", $.param(data), function(jdata){
+					if( jdata.status == 1 )
+					{
+						aoption.clone(false).attr("id", jdata.data.id).appendTo( $(".aac_r_content") ) ;
+					}else{
+						art.dialog.tips( jdata.info ) ;
+					}
+				},"json") ;
+			}
+		}
+		function delteacher( aoption ){
+			if( aoption.val() != "" )
+			{
+				$.getJSON("__URL__/delexaminer/id/"+aoption.attr("id") , function(data){
+					if( data.status == 1 ){
+						aoption.remove() ;
+					}else{
+ 						art.dialog.tips( data.info ) ;
+					}
+				}) ;
+			}
+		}
+		$(".aac_l_content").dblclick(function(){
+			var curselect = $(this).find("option:selected") ;
+			addteacher( curselect ) ;
+			return false ;
+		}) ;
+		$(".aac_add_move").click(function(){
+			$(".aac_l_content").find("option:selected").each(function(){
+				addteacher( $(this) ) ;
+			}) ;
+			return false ;
+		}) ;
+		$(".aac_r_content").dblclick( function(){
+			var curselect = $(this).find("option:selected") ;
+			delteacher( curselect ) ;
+			return false ;
+		}) ;
+		$(".aac_remove_move").click(function(){
+			$(".aac_r_content").find("option:selected").each(function(){
+				delteacher( $(this) ) ;
+			}) ;
+		}) ;
+	}) ;
+</script>
+<div class="mainbox">
+	<form action="__SELF__" method="get">
+		<select name="year">
+			<option value="">---请选择---</option>
+			<volist name="year_list" id="year">
+				<if condition="$year eq $_GET['year']">
+					<option value="{$year}" selected>{$year}</option>
+					<else/>
+					<option value="{$year}">{$year}</option>
+				</if>
+			</volist>
+		</select>
+		<select name="semester">
+			<option value="">---请选择---</option>
+			<volist name="semester_list" id="semester">
+				<if condition="$semester['id'] eq $_GET['semester']">
+					<option value="{$semester['id']}" selected>{$semester['name']}</option>
+					<else/>
+					<option value="{$semester['id']}">{$semester['name']}</option>
+				</if>
+			</volist>
+		</select>
+		<input type="submit" class="button"/>
+	</form>
+</div>
+<div>
+	<if condition="!$show">
+		<fieldset>
+			<legend>监考教师</legend>
+			<div class="aac_left">
+				<form action="__APP__/Ajax/getteacher" method="get">
+					<select name="orgid" class="aac_l_top">
+						<option value="">---请选择机构---</option>
+						<volist name="org_list" id="org">
+							<option value="{$org['id']}">{$org['name']}</option>
+						</volist>
+					</select>
+				</form>
+				<select class="aac_l_content" multiple>
+				</select>
+			</div>
+			<div class="aac_middle">
+				<input type="button" class="button aac_add_move" value=">>"/>
+				<input type="button" class="button aac_remove_move" value="<<"/>
+			</div>
+			<div class="aac_right">
+				<select class="aac_r_content" multiple>
+					<volist name="examiner_list" id="examiner">
+						<option id="{$examiner['id']}" value="{$examiner['teacherid']}">{$examiner['teachername']}</option>
+					</volist>
+				</select>
+			</div>
+		</fieldset>
+	</if>
+	<div id="dasha_footer">{$show}</div>
+</div>

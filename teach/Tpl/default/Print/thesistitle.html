@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title></title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<script type="text/javascript" src="../Public/js/jquery.min.js"></script>
+		<style type="text/css">
+		*{
+			font-size: 17px;
+			font-family: 宋体,微软雅黑,Verdana,serif; 
+			line-height: 25px ;
+			margin: 0px ;
+			padding: 0px ;
+		}
+		.left{
+			float: left ;
+		}
+		.right{
+			float: right ;
+		}
+		.page{
+			width:80%;
+			margin: 70px auto 10px auto;
+			page-break-after: auto ;
+			page-break-inside: avoid ;
+		}
+		.page .big_title{
+			font-size: 21px ;
+			font-family: 微软雅黑,Verdana,serif; 
+			text-align:center;
+		}
+		.page .small_title {
+			height: 30px ;
+			line-height: 30px ;
+			margin: 15px 0px 5px 0px;
+		}
+		.print_table{
+			border-width: 2px 1px 1px 2px;
+			border-style: solid ;
+			border-color: #000 ;
+		}
+		.print_table td{
+			padding: 6px;
+			border-width: 0px 1px 1px 0px;
+			border-style: solid ;
+			border-color: #000 ;
+		}
+		.big_in{
+			height: 3.4in ;
+		}
+		.mid_in{
+			height: 1.6in ;
+		}
+		.mid_in .one_line{
+			height: 15% ;
+		}
+		.mid_in .one_line .sign{
+			padding: 0px 100px;
+			float: left
+		}
+		.mid_in .main_line{
+			height: 70% ;
+		}
+		.date{
+			padding: 0px;
+			float: right;
+			letter-spacing:30px;
+		}
+		.comment{
+			font-size: 13px;
+			padding-left: 10px ;
+		}
+		.value{
+			padding: 5px 5px 5px 40px ;
+		}
+        </style>
+		<script type="text/javascript">
+			$(function(){
+				if( $.browser.msie )
+				{
+					alert($.browser.version) ;
+				}
+				//window.print();
+				
+			}) ;
+		</script>
+	</head>
+	<body>
+		<div class="page">
+			<div class="big_title">
+				{$thesis['grade']}届本科学生毕业论文（设计）题目审批表
+			</div>
+			<div class="small_title">
+				<div class="left">计算机科学与工程学院</div>
+				<div class="right" style="z-index:2 ;">
+					{$thesis['major_name']}
+				</div>
+			</div>
+			<table width="100%" cellspacing="0" cellpadding="0" class="print_table">
+				<tr>
+					<td class="key" width="100px">指导教师</td>
+					<td>{$thesis['teacher']['name']}</td>
+					<td class="key"  width="100px">职称</td>
+					<td>{$thesis['teacher']['job_title']}</td>
+				</tr>
+				<tr>
+					<td colspan="4">
+						<div class="left key">论文（设计）题目:</div>
+						<div class="left" style="padding-left: 20px;">{$thesis['name']}</div>
+					</td>
+				</tr>
+				<tr>
+
+					<td colspan="4" class="big_in"  valign="top">
+						<div class="key">选题内容与要求：</div>
+						<div class="value"><pre>{$thesis['content']}</pre></div>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="4" class="mid_in" valign="top">
+						<div class="key one_line">系、所、中心负责人审查意见：</div>
+						<div class="value main_line"><pre>{$thesis['comment']}</pre></div>
+						<div class="one_line">
+							<div class="sign">签字：</div>
+							<div class="date">年月日</div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="4" class="mid_in" valign="top">
+						<div class="key one_line">主管院长意见：</div>
+						<div class="value main_line"><pre>{$thesis['dean_comment']}</pre></div>
+						<div class="one_line">
+							<div class="sign">签字：</div>
+							<div class="date">年月日</div>
+						</div>
+					</td>
+				</tr>
+			</table>
+			<div class="comment">注：本表分选题填写，每题一页，由学院存档。</div>
+		</div>
+	</body>
+</html>
+
+

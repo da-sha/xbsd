@@ -1,0 +1,60 @@
+<link rel="stylesheet" type="text/css" href="../Public/css/style.css" />
+<script type="text/javascript" src="../Public/js/jquery.min.js"></script>
+<script type="text/javascript" src="../Public/js/jquery.form.js"></script>
+<script type="text/javascript" src="../Public/js/jquery.validate.js"></script>
+&nbsp;
+<fieldset>
+	<form action="__URL__/insertaward" method="post">
+		<legend>{$classname}</legend>
+		<table width="100%" class="dasha_table">
+			<tr>
+				<td class="key" width="90px">学生姓名</td>
+				<td>
+					<select name="userid" validate="required:true">
+						<option value="">---请选择学生--</option>
+						<volist name="name_list" id="nl">
+							<option value="{$nl['id']}">{$nl['name']}</option>
+						</volist>
+					</select>
+				</td>
+				<td class="key" width="50px">学年</td>
+				<td>
+					<select name="year"  validate="required:true" class="narrow">
+						<volist name="year_list" id="rl">
+							<option value="{$rl['id']}">{$rl[name]}年</option>
+						</volist>
+					</select>
+				</td>
+				<td class="key" width="70px">学期</td>
+				<td>
+					<select name="semester" validate="required:true" class="narrow">
+						<volist name="semester_list" id="sl">
+							<option value="{$sl['id']}">{$sl['name']}</option>
+						</volist>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="key">获奖名称</td>
+				<td colspan="3">
+					<input type="text" class="input-text"  name="name"  validate="required:true"></input>
+				</td>
+				<td class="key">获奖金额</td>
+				<td>
+					<input type="text" class="input-text" name="money" validate="required:true,digits:true"/></input>
+				</td>
+			</tr>
+			<tr>
+				<td class="key">获奖证书及物品</td>
+				<td colspan="5">
+					<input type="text" class="input-text"  name="award" />
+				</td>
+			</tr>
+		</table>
+		<div class="btn">
+			<input TYPE="hidden" name="type" value="{$type}"/>
+			<input TYPE="submit" value="提交" class="button"/>
+			<input TYPE="button"  value="取消" class="button" onclick="history.back(-1);"/>
+		</div>
+	</form>
+</fieldset>

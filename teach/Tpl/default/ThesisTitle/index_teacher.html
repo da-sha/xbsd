@@ -1,0 +1,61 @@
+<layout name="layout"/>
+<script type="text/javascript" src="../Public/js/thesis.js"></script>
+<div class="mainbox">
+	请选择：
+	<select class="check_input" name="year" id="year_id">
+		<option value="">--请选择学年--</option>
+		<volist name="year_list" id="year">
+			<if condition="$_GET['year'] eq $year">
+				<option value="{$year}" selected>{$year}</option>
+				<else/>
+				<option value="{$year}">{$year}</option>
+			</if>
+		</volist>
+	</select>
+	<input class="check_input" type="hidden" name="category" id="category_value" value="{$_GET['category']}">
+</div>
+<form name="myform" action="" method="post">
+	<div class="table-list">
+		<table width="100%" cellspacing="0">
+			<thead>
+				<tr>
+					<th>题目名称</th>
+					<th>针对年级</th>
+					<th>针对专业</th>
+					<th>已选/限选</th>
+					<th>评审结果</th>
+					<th>管理操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<volist name="list" id="data">
+				<tr>
+					<td align="left">{$data['name']}</td>
+					<td align="center">{$data['grade']}</td>
+					<td align="center">{$data['majorid']}</td>
+					<td align="center">{$data['select_num']}/{$data['max_num']}</td>
+					<td align="center">
+						<if condition="$data['result'] eq $thesis_dean_result_pass">
+						<span class="green">{$data['result_name']}</span>
+						<elseif condition="$data['result'] eq $thesis_result_failed"/>
+						<span class="red">{$data['result_name']}</span>
+						<else />
+						<span>{$data['result_name']}</span>
+						</if>
+					</td>
+					<td align="center">
+						<if condition=" ($data[result] eq $thesis_result_failed) or ($data[result] eq $thesis_result_wait)">
+							<a class="green thesis_view" href="__URL__/view/thesisid/{$data[thesisid]}">查看</a> |
+							<a class="green" href="__URL__/edit/thesisid/{$data[thesisid]}/category/{$category}">修改</a> |
+							<a class="red" href="javascript:confirm_delete('__URL__/delete/thesisid/{$data[thesisid]}')">删除</a>
+						<else/>
+							<a class="green thesis_view" href="__URL__/view/thesisid/{$data[thesisid]}">查看</a>
+						</if>
+					</td>
+				</tr>
+				</volist>
+			</tbody>
+		</table>
+		<div id="dasha_footer">{$show}</div>
+	</div>
+</form>

@@ -1,0 +1,41 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<form name="myform" action="" method="post">
+	<div class="table-list">
+		<table width="100%" cellspacing="0">
+			<thead>
+				<tr>
+					<th>代码</th>
+					<th>姓名</th>
+					<th>性别</th>
+					<th>民族</th>
+					<th>所属机构</th>
+					<th>职称</th>
+					<th>最终学历</th>
+					<th>电话1</th>
+					<th>Email 1</th>
+					<th>管理操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<volist name="list" id="data">
+				<tr>
+					<td align="center">{$data["userid"]}</td>
+					<td align="center">{$data["name"]}</td>
+					<td align="center">{$data["gender"]}</td>
+					<td align="center">{$data["nationality"]}</td>
+					<td align="center">{$data["orgid"]}</td>
+					<td align="center">{$data["job_title"]}</td>
+					<td align="center">{$data["degree"]}</td>
+					<td align="center">{$data["telphone1"]}</td>
+					<td align="center">{$data["email1"]}</td>
+					<td align="center">
+						<a href="__URL__/edit/userid/{$data['userid']}">修改</a> |
+						<a href="__URL__/delete/userid/{$data['userid']}">删除</a>
+					</td>
+				</tr>
+				</volist>
+			</tbody>
+		</table>
+		<div id="dasha_footer">{$show}</div>
+	</div>
+</form>

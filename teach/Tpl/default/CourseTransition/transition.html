@@ -1,0 +1,165 @@
+<layout name="layout"/>
+<script>
+    var do_transition = function(teachid){
+        var url = APP + "/CourseTransition/do_transition/teachid/" + teachid;
+        art.dialog.confirm("确定将课程过渡至已授吗?", function(){
+            $.ajax({
+                url:url,
+                success: function(data, textStatus, jqXHR){
+                     window.setTimeout("window.location.reload();", 500);
+                    art.dialog.tips(data.info,0.5);
+                },
+                type: 'GET',
+                error: function(XMLHttpRequest, textStatus, errorThrown){
+                    art.dialog.through({
+                        title:textStatus,
+                        content: "发生错误"
+                    });
+                },
+                dataType : 'json',
+            });
+        });
+    }
+    var do_transition_all = function(){
+        var url = APP + "/CourseTransition/do_transition_all";
+        art.dialog.confirm("确定将课程全部过渡至已授吗?", function(){
+            values = $("#transition_form").serialize();
+            $.ajax({
+                url:url,
+                success: function(data, textStatus, jqXHR){
+                     window.setTimeout("window.location.reload();", 500);
+                    art.dialog.tips(data.info,0.5);
+                },
+                type: 'POST',
+                error: function(XMLHttpRequest, textStatus, errorThrown){
+                    art.dialog.through({
+                        title:textStatus,
+                        content: "发生错误"
+                    });
+                },
+                dataType : 'json',
+                data: values
+            });
+        });
+    }
+</script>
+<table  class="search_table" width="100%">
+    <tr>
+        <td>
+            <form action="{:U('CourseManage/transition')}" method="get">
+                <input type="hidden" name="m" value="{$Think.MODULE_NAME}" />
+                <input type="hidden" name="a" value="{$Think.ACTION_NAME}" />			
+
+                <input id="title" type="text" class="input-text" name="keyword" value="{$Think.get.keyword}" />
+                <select name="searchtype">
+                    <option value="course.name" <eq name="searchtype" value='course.name'>selected="selected"</eq>>课程名</option>
+                    <option value="teacher.name" <eq name="searchtype" value="teacher.name">selected="selected"</eq>>教师名</option>
+                    <option value="teach_task.teachid" <eq name="searchtype" value="teach_task.teachid">selected="selected"</eq>>课程ID</option>
+                </select>
+                <select name="level" id ="level">
+                    <option value="">---学生层次---</option>
+                    <volist name="level_list" id="s_level" >
+                    <if condition="$level eq $s_level['id']">
+                    <option value="{$s_level['id']}" selected>{$s_level['name']}</option>
+                    <else/>
+                    <option value="{$s_level['id']}">{$s_level['name']}</option>
+                    </if>
+                    </volist>
+                </select>
+                <select name="cou_category" id ="cou_category">
+                    <option value="">---课程类别---</option>
+                    <volist name="cou_category_list" id="cou" >
+                    <if condition="$cou_category eq $cou['id']">
+                    <option value="{$cou['id']}" selected>{$cou['name']}</option>
+                    <else/>
+                    <option value="{$cou['id']}">{$cou['name']}</option>
+                    </if>
+                    </volist>
+                </select>
+                     <select name="majorid" id="majorid">
+                    <option value="" selected id="sel">---请选择专业---</option>
+                    <volist name="majorid_list" id="ma" >
+                    <if condition="$majorid eq $ma['id']">
+                    <option value="{$ma['id']}" selected>{$ma['name']}</option>
+                    <else/>
+                    <option value="{$ma['id']}">{$ma['name']}</option>
+                    </if>
+                    </volist>
+                </select>
+                
+                <select name="admissiondate" id ="admissiondate">
+                    <option value="">---请选择年级---</option>
+                    <volist name="admissiondate_list" id="ad" >
+                    <if condition="$admissiondate eq $ad['id']">
+                    <option value="{$ad['id']}" selected>{$ad['name']}级</option>
+                    <else/>
+                    <option value="{$ad['id']}">{$ad['name']}级</option>
+                    </if>
+                    </volist>
+                </select>
+
+                <input type="submit" value="{:L('chaxun')}"  class="button" />
+                <input type="reset" value="{:L('reset')}" class="button"  />
+            </form>
+        </td>
+
+    </tr>
+</table>
+<div class="mainbox">
+    <form id="transition_form" action="{:U('CourseManage/do_transition_all')}" method="post">
+        <div class="table-list">
+            <table width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th width="20" align="left">
+                            <input type="checkbox"  id="check_box"  onclick="selectall('teachs[]');" />
+                        </th>
+                        <th>授课ID</th>
+                        <th>课程名</th>
+                        <th>授课教师</th>
+                        <th>针对专业</th>
+                        <th>学生层次</th>
+                        <th>课程性质</th>
+                        <th>课程类型</th>
+                        <th>课程类别</th>
+                        <th>考试类型</th>
+                        <th>开设周数</th>
+                        <th>课程状态</th>
+                        <th>管理操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <volist id="teach" name="teach_list">
+                    <tr>
+                        <td align="left"><input type="checkbox" name="teachs[]" value="{$teach['teachid']}" /></td>
+                        <td align="center">{$teach["teachid"]|default="&nbsp;"}</td>
+                        <td align="center">{$teach["course_name"]|default="&nbsp;"}</td>
+                        <td align="center">{$teach["teacher_name"]|default="&nbsp;"}</td>
+                        <td align="center"></td>
+                        <td align="center">{$teach["level"]|default="&nbsp;"}</td>
+                        <td align="center">{$teach["property"]|default="&nbsp;"}</td>
+                        <td align="center">{$teach["cou_type"]|default="&nbsp;"}</td>
+                        <td align="center">{$teach["cou_category"]|default="&nbsp;"}</td>
+                        <td align="center">{$teach["exam_type"]|default="&nbsp;"}</td>
+                        <td align="center">{$teach["week"]|default="&nbsp;"}</td>
+                        <td align="center">{$teach["finish_status"]|default="&nbsp;"}</td>
+                        <td align="center">
+                            <a href="javascript:do_transition({$teach[teachid]})">过渡</a>
+                        </td>
+                    </tr>
+                    </volist>
+                </tbody>
+            </table>
+            <php>
+                if(empty($teach_list) == true){
+                    echo "<div id='dasha_footer'>对不起，没有数据</div>";
+                }else{
+                    echo "<div id='dasha_footer'>".$show."</div>";
+                }
+            </php>
+            <div class="btn">
+                <input type="button" class="button" value="过渡至已授" onclick="do_transition_all()"/>
+            </div>
+        </div>
+    </form>
+</div>

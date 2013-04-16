@@ -1,0 +1,33 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="../Public/js/Score.js"></script>
+<script type="text/javascript">
+	action = "__URL__" ;
+</script>
+<div class="mainbox">
+	<table  class="search_table" width="100%">
+		<tr>
+			<td width="100">
+				&nbsp;&nbsp;
+			</td>
+			<td>
+				选择课程：
+				<select id="teach">
+					<option value="" selected>--请选择课程--</option>
+					<volist name="tea_list" id="tea">
+						<option value="{$tea['id']}">{$tea['name']}</option>
+					</volist>
+				</select>
+				选择考核：
+				<select id="assess">
+					<option value="0" selected>--请首先选择课程--</option>
+				</select>
+				<span class="mainnav_title">
+					<a id="search" href="__URL__/main" target="dasha_main">查询</a>
+					<a id="add" href="__URL__/add" target="dasha_main">填报成绩</a>
+					<span id="notic" class="red"></span>
+				</span>
+			</td>
+		</tr>
+	</table>
+	<iframe name="dasha_main" src="__URL__/main" width="100%" scrolling="no" frameborder="0" onload="this.height=this.contentWindow.document.documentElement.scrollHeight"></iframe>
+</div>

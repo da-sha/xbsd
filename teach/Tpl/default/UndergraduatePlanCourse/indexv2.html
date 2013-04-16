@@ -1,0 +1,175 @@
+<layout name="layout_no_nav"/>
+
+{:define_json('level',$level_list)}
+{:define_json('property',$course_property_list)}
+{:define_json('cou_type',$course_type_list)}
+{:define_json('exam_type',$exam_list)}
+{:define_json('cou_category',$course_category_list)}
+<script src="../Public/js/course.js"></script>
+<script>
+
+    $(function(){
+        /*将相应的数据字典取出*/
+        $('#course_table').edatagrid({
+            toolbar:"#tb",
+            destroyMsg:{
+                norecord:{	// when no record is selected
+                    title:'Warning',
+                    msg:'没有选择数据'
+                },
+                confirm:{	// when select a row
+                    title:'Confirm',
+                    msg:'你确定要删除吗?'
+                }
+            },
+            singleSelect:true,
+            url: '__URL__/course_data',  
+            saveUrl: '__URL__/insert',  
+            updateUrl: '__URL__/update',  
+            destroyUrl: '__URL__/delete'  
+        });
+    });
+</script>
+
+<table id="course_table" style="width:auto;height:auto;overflow:scroll"
+    data-options="iconCls:'icon-edit',idField:'courseid',
+        pagination:true,nowrap:true,pageSize:20"
+    title="课程管理">
+    <thead>
+        <tr>
+            <th data-options="field:'courseid',width:60,sortable:true,align:'center'">课程ID</th>
+            <th data-options="field:'name',width:150,sortable:true,editor:{
+                type:'text',
+                options:{
+                required:true
+                }
+                }">课程名称</th>
+            <th data-options="field:'level',width:80,
+                editor:{
+                type:'combobox',
+                options:{
+                    valueField:'id',
+                    textField:'name',
+                    data:level,
+                    panelHeight:110,
+                    required:true,
+                    editable:false
+                    }
+                    },
+                formatter:data_formatter('level')
+                ">学生层次</th>
+            <th data-options="field:'cou_category',width:80,
+                editor:{
+                type:'combobox',
+                options:{
+                    valueField:'id',
+                    textField:'name',
+                    data:cou_category,
+                    panelHeight:50,
+                    required:true,
+                    editable:false
+                    }
+                    },
+                formatter:data_formatter('cou_category')
+                ">课程类别</th>
+            <th data-options="field:'cou_type',width:80,
+                editor:{
+                type:'combobox',
+                options:{
+                    valueField:'id',
+                    textField:'name',
+                    data:cou_type,
+                    panelHeight:90,
+                    required:true,
+                    editable:false
+                    }
+                    },
+                formatter:data_formatter('cou_type')
+                ">课程类型</th>
+            <th data-options="field:'property',width:80,
+                editor:{
+                type:'combobox',
+                options:{
+                    valueField:'id',
+                    textField:'name',
+                    data:property,
+                    panelHeight:90,
+                    required:true,
+                    editable:false
+                    }
+                    },
+                formatter:data_formatter('property')
+                ">课程性质</th>
+            <th data-options="field:'exam_type',width:80,
+                editor:{
+                type:'combobox',
+                options:{
+                    valueField:'id',
+                    textField:'name',
+                    data:exam_type,
+                    panelHeight:70,
+                    required:true,
+                    editable:false
+                    }
+                    },
+                formatter:data_formatter('exam_type')
+                ">考试类型</th>
+            <th data-options="field:'planweektime',width:80,
+                editor:{
+                type:'numberbox'
+                }
+                ">理论周学时</th>
+            <th data-options="field:'expweektime',width:80,
+                editor:{
+                type:'numberbox'
+                }
+                ">实验周学时</th>
+            <th data-options="field:'week',width:80,
+                editor:{
+                type:'numberbox'
+                }
+                ">开设周数</th>
+            <th data-options="field:'totaltime',width:80,
+                editor:{
+                type:'numberbox'
+                }
+                ">总学时</th>
+            <th data-options="field:'credit',width:80,
+                editor:{
+                type:'numberbox'
+                }
+                ">学分</th>
+            <th data-options="field:'syllabus',width: 150,
+                editor:{
+                type:'textarea'
+                }
+                ">教学大纲</th>
+        </tr>
+    </thead>
+</table>
+<div id="tb" style="padding:5px;height:auto">  
+    <div style="margin-bottom:5px">  
+        <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="javascript:$('#course_table').edatagrid('addRow')">增加</a>  
+        <a href="#" class="easyui-linkbutton" iconCls="icon-save" plain="true" onclick="javascript:$('#course_table').edatagrid('saveRow')">保存</a>  
+        <a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="javascript:$('#course_table').edatagrid('destroyRow')">删除</a>  
+        <a href="#" class="easyui-linkbutton" iconCls="icon-undo" plain="true" onclick="javascript:$('#course_table').edatagrid('cancelRow')">撤销</a>  
+    </div>
+    <div>
+        <form id="search_form">
+            课程名<input id="name" name="name" class="easyui-text" style="width:120px">  
+            学生层次<input id="level" name="level" class="easyui-combobox" style="width:100px"  
+            data-options="data:level,valueField:'id',textField:'name',panelHeight:110"/>
+            课程类别<input id="cou_category" name="cou_category" class="easyui-combobox" style="width:70px"  
+            data-options="data:cou_category,valueField:'id',textField:'name',panelHeight:50"/>
+            课程类型<input id="cou_type" name="cou_type" class="easyui-combobox" style="width:70px"  
+            data-options="data:cou_type,valueField:'id',textField:'name',panelHeight:100"/>
+            课程性质<input id="property" name="property" class="easyui-combobox" style="width:70px"  
+            data-options="data:property,valueField:'id',textField:'name',panelHeight:90"/>
+            考试类型<input id="exam_type" name="exam_type" class="easyui-combobox" style="width:70px"  
+            data-options="data:exam_type,valueField:'id',textField:'name',panelHeight:50"/>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="
+                $('#course_table').edatagrid('load',$('#search_form').serializeJson())" plain="true">Search</a>  
+        </form>
+    </div>  
+</div>  
+

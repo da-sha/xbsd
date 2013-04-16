@@ -1,0 +1,61 @@
+<script type="text/javascript">
+	function newhref()
+	{
+		E('dasha_search').href = "__URL__/index/classid/"+E('class').value ;
+		E('admin_cou').href = "__URL__/index/classid/"+E('class').value ;
+		E('add_cou').href = "__URL__/add/classid/"+E('class').value ;
+	}
+	function E( id )
+	{
+		return document.getElementById(id) ;
+	}
+</script>
+<div id="result" class="result none"></div>
+<div class="mainbox">
+	<table  class="search_table" width="100%">
+		<tr>
+			<td>
+				选择专业：
+				<select id="class" onchange="newhref()">
+					<option value="" selected>--请选择班级--</option>
+					<volist name="cla_list" id="cla">
+						<option value="{$cla['id']}">{$cla['name']}</option>
+					</volist>
+				</select>
+				<span class="mainnav_title">
+					<a id="dasha_search" href="__SELF__" class="on">查询</a>
+				</span>
+			</td>
+		</tr>
+	</table>
+	<div class="table-list">
+		<table width="100%" cellspacing="0">
+			<thead>
+				<tr>
+					<th>课程名称</th>
+					<th>星期</th>
+					<th>课序</th>
+					<th>授课类型</th>
+					<th>授课地点</th>
+					<th>管理操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<volist id="teatime" name="teatime_list">
+					<tr>
+						<td align="center">{$teatime["courseid_name"]}</td>
+						<td align="center">{$teatime["day"]|default="&nbsp;"}</td>
+						<td align="center">{$teatime["seq"]|default="&nbsp;"}</td>
+						<td align="center">{$teatime["type"]|default="&nbsp;"}</td>
+						<td align="center">{$teatime["place"]|default="&nbsp;"}</td>
+						<td align="center">
+							<a href="__URL__/edit/teachid/{$teatime['teachid']}/day/{$teatime['day']}/seq/{$teatime['seq']}">修改</a> | 
+							<a href="__URL__/delete/teachid/{$teatime['teachid']}/day/{$teatime['day']}/seq/{$teatime['seq']}">删除</a>
+						</td>
+					</tr>
+				</volist>
+			</tbody>
+		</table>
+		<div id="dasha_footer">{$show}</div>
+	</div>
+</div>

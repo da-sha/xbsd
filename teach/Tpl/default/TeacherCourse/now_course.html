@@ -1,0 +1,60 @@
+<layout name="layout_no_nav"/>
+
+<link href="../Public/css/course.css" rel="stylesheet">
+
+<div id="course_box">
+    <div class="cou_list">
+	    <!-- loop begin -->
+	    <volist name="teachs" id="teach" key="key">
+	    	<div id="list{$key}">
+				<div  class="simplemode">
+                    <div class="title clear">{$teach[coursename]}</div>
+                    <div class="inner_table_list">
+                        <li>
+                            <ul>{$teach[cou_category]}</ul>
+							<php>
+								if($teach[classname] != ''){
+							</php>
+                            <ul>{$teach[level]}{$teach[grade]}级{$teach[classname]}</ul>
+							<php>
+								}
+								else{
+							</php>
+							 <ul>{$teach[cou_type]}</ul>
+							<php>
+								}
+							</php>
+                        </li>
+                    </div>
+				</div>
+				<div class="fulmode" style="display:none">
+					<div class="ful_title clear">{$teach[coursename]}</div>
+					<ul class="cou_menu">
+						<volist name="child_menu" id="m" key="k">
+							<php>
+								if(eval($m[condition])){
+							</php>
+								<li>
+								<a href="javascript:void(0);"" class="m{$k}" hideFocus="hidefocus">
+									<b class="ico"></b>
+									<span>{$m[name]}</span>
+								</a>
+								</li>
+							<php>
+								}
+							</php>
+						</volist>
+					</ul>
+					<div class="cou_main clear">
+						<volist name="child_menu" id="m" key="k">
+							<div class="{$m[cla]}" data-model="{$m[model]}" data-action="{$m[action]}" data-teachid="{$teach[teachid]}">
+							</div>
+						</volist>
+					</div>
+				</div>
+	    	</div>
+	    </volist>
+	    <!-- loop end -->
+    </div>
+<script type="text/javascript" src="../Public/js/course.js"></script>
+</div>

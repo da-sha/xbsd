@@ -1,0 +1,134 @@
+<layout name="layout"/>
+<script type="text/javascript">
+	$(function(){
+		$("#majorid_id").change( function(){
+			$("#year_id").html("<option value=''>---正在努力加载！---</option>") ;
+			$.getJSON("__APP__/Major/ajax_get_major_year/majorid/"+$(this).val(), function(data){
+				if( data.status == 1 )
+				{
+					$("#year_id").html("<option value=''>---请选择学年！---</option>") ;
+					$.each(data.data, function(id,value){
+						$("#year_id").append( "<option value='"+value.year+"'>"+value.year+"级"+"</option>");
+					})
+				}
+				else
+				{
+					$("#year_id").html("<option value=''>---"+data.info+"---</option>") ;
+				}
+			}) ;
+		}).ajaxError(function(){
+			//
+			art.dialog.tips( "ajax error" );
+		});
+		$(".goback").click(function(){
+			history.go(-1) ;
+		});
+	});
+	
+</script>
+<form method='post' id="thesisTltleEditForm" action="<if condition="$action_name=='add'">{:U('ThesisTitle/insert')}<else />{:U('ThesisTitle/update')}</if>">
+	<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+		<tr>
+			<td width="90px" class="on">论文题目</td>
+			<td>
+				<input type="text" class="input-text"  name="name" id="name" value="{$thesis['name']}" validate="required:true, minlength:2, maxlength:64"/>
+				<span class="red">*</span>
+			</td>
+		</tr>
+		<tr>
+			<td class="on">题目类别</td>
+			<td>
+				<select name="type" id="type">
+					<volist name="type_list" id="ty">
+						<if condition="$thesis[type] eq $ty[id]">
+							<option value="{$ty['id']}" selected>{$ty['name']}</option>
+							<else/>
+							<option value="{$ty['id']}">{$ty['name']}</option>
+						</if>
+					</volist>
+				</select>
+				<span class="red">*</span>
+			</td>
+		</tr>
+		<tr>
+			<td class="on">论文类别</td>
+			<td>
+				<input type="text" class="input-text" value="{$category_name|default=$thesis['category_name']}" disabled/>
+				<input type="hidden" name="category" value="{$category_value|default=$thesis['category']}"/>
+			</td>
+		</tr>
+		<tr>
+			<td class="on">学生层次</td>
+			<td>
+				<select name="level" id="level">
+					<volist name="level_list" id="le">
+						<if condition="$thesis[level] eq $le[id]">
+							<option value="{$le['id']}" selected>{$le['name']}</option>
+							<else/>
+							<option value="{$le['id']}">{$le['name']}</option>
+						</if>
+					</volist>
+				</select>
+				<span class="red">*</span>
+			</td>
+		</tr>
+		<tr>
+			<td class="on">针对专业</td>
+			<td>
+				<select name="majorid" class="limit_width" id="majorid_id">
+					<option value="">---请选择专业---</option>
+					<volist name="major_list" id="ma">
+						<if condition="$thesis[majorid] eq $ma[id]">
+							<option value="{$ma['id']}" selected>{$ma['name']}</option>
+							<else/>
+							<option value="{$ma['id']}">{$ma['name']}</option>
+						</if>
+					</volist>
+				</select>
+				<span class="red">*</span>
+			</td>
+		</tr>
+		<tr>
+			<td class="on">针对年级</td>
+			<td>
+				<select name="grade" id="year_id">
+					<option value="">---请选择学年---</option>
+					<volist name="year_list" id="year">
+						<if condition="$thesis['grade'] eq $year['year']">
+							<option value="{$year['year']}" selected="">{$year["year"]}</option>
+							<else/>
+							<option value="{$year['year']}">{$year["year"]}</option>
+						</if>
+					</volist>
+				</select>
+				<span class="red">*</span>
+			</td>
+		</tr>
+		<tr>
+			<td class="on">允许最大人数</td>
+			<td>
+				<input type="text" class="input-text"  name="max_num" id="max_num" value="{$thesis[max_num]}" validate="required:true,digits:true, min:1"/>
+				<span class="red">*</span>
+			</td>
+		</tr>
+		<tr>
+			<td class="on">题目内容与要求</td>
+			<td>
+				<textarea name="content" id="content" rows="20" cols="80" validate="required:true, minlength:2, maxlength:1024">{$thesis[content]}</textarea>
+				<span class="red">*</span>
+			</td>
+		</tr>
+	</table>
+	<div class="btn">
+        <php>
+        	if($thesis['thesisid'] != ''){
+        		echo '<input TYPE="hidden" name="thesisid" value="';
+        		echo $thesis['thesisid'];
+        		echo '">';
+        	}
+        </php>
+        <input type="hidden" name="forward" value="__APP__/ThesisTitle/index/category/{$category}"/>
+		<input TYPE="button" value="返回" class="button goback"/>
+		<input TYPE="submit" name="dosubmit"  value="提交" class="button"/>
+	</div>
+</form>

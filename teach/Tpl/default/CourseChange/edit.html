@@ -1,0 +1,122 @@
+<layout name="layout_no_nav"/>
+
+<link rel="stylesheet" href="../Public/css/jquery.autocomplete.css">
+
+<form method='post' id="cou_change_edit"">
+	<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+		<tr>
+			<td  width="120">时间类型</td>
+			<td>
+				<select name="time_type" id="time_type">
+					<volist name="time_type_list" id="tiy">
+						<if condition="$change[time_type] eq $tiy[id]">
+							<option value="{$tiy['id']}">{$tiy['name']}</option>
+							<else/>
+							<option value="{$tiy['id']}">{$tiy['name']}</option>
+						</if>
+					</volist>
+				</select>
+				<span class="red">*</span>
+			</td>
+		</tr>
+		<tr>
+			<td  width="120">调换类型</td>
+			<td>
+				<select name="type" id="type">
+					<volist name="type_list" id="ty">
+						<if condition="$change[type] eq $ty[id]">
+							<option value="{$ty['id']}" selected>{$ty['name']}</option>
+							<else/>
+							<option value="{$ty['id']}">{$ty['name']}</option>
+						</if>
+					</volist>
+				</select>
+				<span class="red">*</span>
+			</td>
+		</tr>
+		<tr>
+			<td  width="120">星期</td>
+			<td>
+				<select name="week" id="week">
+					<volist name="day_list" id="da">
+						<if condition="$change[day] eq $da[id]">
+							<option value="{$da['id']}" selected>{$da['name']}</option>
+							<else/>
+							<option value="{$da['id']}">{$da['name']}</option>
+						</if>
+					</volist>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td  width="120">第几节课</td>
+			<td>
+				<select name="seq" id="seq">
+					<volist name="seq_list" id="se">
+						<if condition="$change[seq] eq $se[id]">
+							<option value="{$se['id']}">{$se['name']}</option>
+							<else/>
+							<option value="{$se['id']}">{$se['name']}</option>
+						</if>
+					</volist>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td  width="120">教学楼</td>
+			<td>
+				<input type="text" class="input-text"  name="teach_building" id="teach_building" value="{$change[teach_building]}" />
+			</td>
+		</tr>
+		<tr>
+			<td  width="120">教室编号</td>
+			<td>
+				<input type="text" class="input-text"  name="roomid" id="roomid" value="{$change[roomid]}" />
+			</td>
+		</tr>
+		<tr>
+			<td  width="120">调课任课教师姓名</td>
+			<td>
+				<input type="text" class="input-text" name="teacher_naem" id="teacher_selector" value="{$authored_teacher_info[name]}"/>
+				<input type="hidden" class="input-text" name="teacherid" id="teacher_id_selector" value="{$authored_teacher_info[userid]}"/>
+			</td>
+		</tr>
+		<tr>
+			<td  width="120">调换原因</td>
+			<td>
+				<textarea name="reason" id="reason" rows="10" cols="60">{$change[reason]}</textarea>
+			</td>
+		</tr>
+	</table>
+	<input TYPE="hidden"  name="id" id="id" value="{$change[id]}" />
+</form>
+<script type="text/javascript">
+    $("#teacher_selector").autocomplete({
+        url: APP + "/Teacher/teacher_info_json",
+        showResult: function(value, data) {
+            //console.log(value);
+            //console.log(data);
+            var item = "<table style='width:100%;'>\
+				<tr>\
+					<td align='left'>" + value + "</td>\
+					<td align='right' style='color:#669ACC;'>" + data[0].user_code + "</td>\
+				</tr>\
+			</table>";
+            return item;
+        },
+        /*选定之后设置其id*/
+        onItemSelect: function(item) {
+            console.log(item);
+            var text = item.data[0].userid;
+            $("#teacher_id_selector").val(text);
+        },
+        mustMatch: true,
+        minChars: 1,
+        maxItemsToShow: 10,
+        selectFirst: false,
+        autoFill: false,
+        sortResults: false,
+        selectOnly: true,
+        remoteDataType: 'json'
+    });
+</script>

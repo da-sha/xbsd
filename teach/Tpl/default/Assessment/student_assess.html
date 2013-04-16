@@ -1,0 +1,31 @@
+<!-- 考核管理 -->
+<layout name="layout_no_nav"/>
+<form id="assess">
+    <div class="table-list">
+        <table width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th width="100">考核名称</th>
+                    <th width="100">考核类型</th>
+                    <th width="100">考核比重</th>
+                    <th width="100">成绩</th>
+                </tr>
+            </thead>
+            <tbody>
+                <volist id="asse" name="asse_list">
+                <tr>
+                    <td align="center">{$asse["name"]}</td>
+                    <td align="center">{$asse["type"]|default="&nbsp;"}</td>
+                    <td align="center">{$asse["weight"]|default="&nbsp;"}</td>
+                    <td align="center">{$asse["mark"]|default="&nbsp;"}</td>
+                </tr>
+                </volist>
+            </tbody>
+        </table>
+		<php>
+            if(empty($asse_list) == true){
+                echo "<div id='dasha_footer'>对不起，没有数据</div>";
+            }
+        </php>
+    </div>
+</form>

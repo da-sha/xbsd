@@ -1,0 +1,65 @@
+<layout name="layout"/>
+<script type="text/javascript" src="../Public/js/thesis.js"></script>
+<form name="myform" action="" method="post">
+	<div class="table-list">
+		<table width="100%" cellspacing="0">
+			<thead>
+				<tr>
+					<td>题目名称</td>
+					<th>类别</th>
+					<th width="50px">针对年级</th>
+					<td>针对专业</td>
+					<th width="50px">学生层次</th>
+					<th width="80px">已选/限制</th>
+					<th>状态</th>
+					<th width="50px">管理操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<volist name="title_list" id="title">
+				<tr>
+					<td>{$title['name']}</td>
+					<td align="center">{$title['type']}</td>
+					<td align="center">{$title['grade']}</td>
+					<td>{$title['majorid']}</td>
+					<td align="center">{$title['level']}</td>
+					<td align="center">{$title['select_num']}/{$title['max_num']}</td>
+					<td align="center">
+						<if condition="$title['result'] eq $thesis_dean_result_pass">
+							<span class="green">{$title['result_name']}</span>
+							<else/>
+							<span class="red">{$title['result_name']}</span>
+						</if>
+					</td>
+					<td align="center">
+						<a class="green thesis_do_select" href="__URL__/thesis_title_view/thesisid/{$title['thesisid']}">查看选修</a>
+					</td>
+				</tr>
+				</volist>
+			</tbody>
+		</table>
+		<div id="dasha_footer">{$show}</div>
+	</div>
+</form>
+&nbsp;
+<if condition="$teacher">
+	<fieldset>
+		<legend>我的导师：</legend>
+		<table width="100%" class="dasha_table">
+			<tr>
+				<td class="key">导师姓名</td>
+				<td>{$teacher['name']}</td>
+				<td class="key">职称</td>
+				<td>{$teacher['job_title']|default="&nbsp;"}</td>
+				<td class="key">所属机构</td>
+				<td >{$teacher['orgid_name']|default="&nbsp;"}</td>
+			</tr>
+			<tr>
+				<td class="key">研究方向</td>
+				<td colspan="3">{$teacher['research']|default="&nbsp;"}</td>
+				<td class="key">联系电话</td>
+				<td>{$teacher['telphone1']|default="&nbsp;"}</td>
+			</tr>
+		</table>
+	</fieldset>
+</if>

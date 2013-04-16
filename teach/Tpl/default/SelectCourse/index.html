@@ -1,0 +1,64 @@
+<layout name="layout_no_nav"/>
+<script type="text/javascript">
+	function confirm_select(teachid){
+		art.dialog.confirm("确定将该课程加入在修课程？提示：如果你没有选修这门课，请点取消。", function(){
+			location.href = URL + "/select/teachid/" + teachid;
+		});
+	}
+	function confirm_unselect(teachid){
+		art.dialog.confirm("确定将该课程从你的在修课程中删除？", function(){
+			location.href = URL + "/unselect/teachid/" + teachid;
+		});
+	}
+</script>
+<form id="teacher_future">
+    <div class="table-list">
+        <table width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th align="left">课程名</th>
+                    <th width="70">授课时间</th>
+                    <th width="70">课程类型</th>
+                    <th width="70">课程性质</th>
+                    <th width="70">学生层次</th>
+                    <th width="300">可选班级</th>
+                    <th width="70">管理操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <volist name="course_list" id="course">
+                <tr>
+                    <td align="left">{$course["name"]|default="&nbsp;"}</td>
+                    <td align="center">{$course["teach_year"]|default="&nbsp;"}{$course[teach_quarter]}</td>
+                    <td align="center">{$course["cou_type"]|default="&nbsp;"}</td>
+                    <td align="center">{$course["property"]|default="&nbsp;"}</td>
+                    <td align="center">{$course["level"]|default="&nbsp;"}</td>
+                    <td align="left">
+                        <volist name="course[classes]" id="cla">
+                            {$cla["register_date"]}级{$cla["classname"]}<br/>
+                        </volist>
+                    </td>
+                    <td align="center">
+						<php>
+							if($course["is_select"]){
+								echo "<a href='javascript:void(0)' onClick='confirm_unselect(".$course[teachid].")' style='color:red'>取消选修该课程</a>";
+							}
+							else{
+								echo "<a href='javascript:void(0)' onClick='confirm_select(".$course[teachid].")'>加入该课程</a>";
+							}
+						</php>
+						
+                    </td>
+                </tr>
+                </volist>
+            </tbody>
+        </table>
+        <php>
+            if(empty($course_list) == true){
+                echo "<div id='dasha_footer'>对不起，没有数据</div>";
+            }else{
+				echo "<div id='dasha_footer'>".$show."</div>";
+			}
+        </php>
+    </div>
+</form>

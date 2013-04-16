@@ -1,0 +1,24 @@
+<div class="table-list">
+	<table width="100%" cellspacing="0">
+		<thead>
+			<tr>
+				<th align="left">姓名</th>
+				<th align="left">奖项名称</th>
+				<th align="left">奖金额度</th>
+				<th align="left">奖励物品</th>
+			</tr>
+		</thead>
+		<tbody>
+			<volist name="datalist" id="dl">
+				<tr>
+					<td align="left">{$dl['stuname']}</td>
+					<td align="left">{$dl['name']}</td>
+					<td align="left">{$dl['money']}</td>
+					<td align="left">{$dl['award']}</td>
+				</tr>
+			</volist>
+		</tbody>
+	</table>
+	<div id="dasha_footer">{$show}</div>
+	<input type="hidden" name="type" id="typeid_id" value="{$type}">
+</div>

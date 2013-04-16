@@ -1,0 +1,55 @@
+<layout name="layout"/>
+<script type="text/javascript" src="../Public/js/thesis.js"></script>
+<div class="mainbox">
+	请选择：
+	<select class="check_input limit_width" name="majorid" id="majorid_id">
+		<option value="">--请选择专业--</option>
+		<volist name="major_list" id="ma">
+			<if condition="$_GET['majorid'] eq $ma[majorid]">
+				<option value="{$ma['majorid']}" selected>{$ma[name]}</option>
+				<else/>
+				<option value="{$ma['majorid']}">{$ma[name]}</option>
+			</if>
+		</volist>
+	</select>
+	<select class="check_input" name="year" id="year_id">
+		<option value="">--请选择学年--</option>
+		<volist name="year_list" id="year">
+			<if condition="$_GET['year'] eq $year['id']">
+				<option value="{$year['id']}" selected>{$year['name']}</option>
+				<else/>
+				<option value="{$year['id']}">{$year['name']}</option>
+			</if>
+		</volist>
+	</select>
+	<input class="check_input" type="hidden" name="category" id="category_value" value="{$category}">
+</div>
+<div class="table-list">
+	<table width="100%" cellspacing="0">
+		<thead>
+			<tr>
+				<td>指导老师</td>
+				<td>职称</td>
+				<th>导师电话</th>
+				<td>总学生数</td>
+				<td>学生数</td>
+				<td>指导学生</td>
+				<td>管理操作</td>
+			</tr>
+		</thead>	
+		<tbody>
+			<volist name="task_list" id="task">
+				<tr>
+					<td>{$task['name']}</td>
+					<td>{$task['job_title']}</td>
+					<td>{$task['telphone1']}</td>
+					<td>{$task['sum_num']}</td>
+					<td>{$task['assign_num']}</td>
+					<td>{$task['student_list']}</td>
+					<td><a class="red" href="__URL__/deleteguide/guideid/{$task['guideid']}">删除</a></td>
+				</tr>
+			</volist>
+		</tbody>	
+	</table>
+	<div id="dasha_footer">{$show}</div>
+</div>

@@ -1,0 +1,45 @@
+<link rel="stylesheet" type="text/css" href="../Public/css/style.css" />
+<script type="text/javascript" src="../Public/js/thesis.js"></script>
+&nbsp;</br>
+&nbsp;</br>
+<fieldset>
+	<legend>{$stu['user_code']}</legend>
+	<table width="100%" class="dasha_table">
+		<tr>
+			<td class="key" width="70">姓名</td>
+			<td>{$stu['name']}</td>
+			<td class="key" width="70">性别</td>
+			<td>{$stu['gender']}</td>
+			<td class="key" width="70">出生年月</td>
+			<td>{$stu['birthday']}</td>
+		</tr>
+		<tr>
+			<td class="key">民族</td>
+			<td>{$stu['nationality']}</td>
+			<td class="key">政治面貌</td>
+			<td>{$stu['Politics_status']}</td>
+			<td class="key">身份证号</td>
+			<td>{$stu['idno']}</td>
+		</tr>
+		<tr>
+			<td class="key">所在专业</td>
+			<td>{$stu['majorname']}</td>
+			<td class="key">所在班级</td>
+			<td>{$stu['classname']}</td>
+			<td class="key">入学年</td>
+			<td>{$stu['admissiondate']}</td>
+		</tr>
+		<tr>
+			<td class="key">QQ号</td>
+			<td>{$stu['qq']}</td>
+			<td class="key">email地址</td>
+			<td>{$stu['email']}</td>
+			<td class="key">电话号码</td>
+			<td>{$stu['telephone']}</td>
+		</tr>
+		<tr>
+			<td class="key">个人简历</td>
+			<td colspan="5">{$stu[introduction]}</td>
+		</tr>
+	</table>
+</fieldset>

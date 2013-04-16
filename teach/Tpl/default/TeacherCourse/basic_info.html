@@ -1,0 +1,94 @@
+<style>
+    .inner_form{
+        border: 1px solid #cccccc;
+    }
+</style>
+<link rel="stylesheet" href="../Public/jquery/development-bundle/themes/base/jquery.ui.all.css">
+<script src="../Public/jquery/development-bundle/ui/jquery.ui.core.js"></script>
+<script src="../Public/jquery/development-bundle/ui/jquery.ui.datepicker.js"></script>
+
+<script type="text/javascript">
+	$(function() {
+            $(".publish_date").each(function(){
+                $(this).datepicker();
+            });
+	});
+</script>
+<div class="mainbox">
+    <table cellpadding="0" cellspacing="0" width="100%" class="table_form">
+        <tbody>
+            <tr>
+                <th style="width:120px;">课程名:</th>
+                <td>{$course[name]}</td>
+                <th style="width:120px;">课程类型:</th>
+                <td>{$course[cou_type]}</td>
+                <th style="width:120px;">学生层次:</th>
+                <td>{$course[level]}</td>
+            </tr>
+            <tr>
+                <th style="width:120px;">课程性质:</th>
+                <td>{$course[property]}</td>
+                <th style="width:120px;">课程分类:</th>
+                <td>{$course[cou_category]}</td>
+                <th style="width:120px;">考试类型:</th>
+                <td>{$course[exam_type]}</td>
+            </tr>
+            <tr>
+                <th style="width:120px;">理论周学时:</th>
+                <td>{$course[planweektime]}</td>
+                <th style="width:120px;">实验周学时:</th>
+                <td>{$course[expweektime]}</td>
+                <th style="width:120px;">开设周数:</th>
+                <td>{$course[week]}</td>
+            </tr>
+        </table>
+        <form method="post" id="basic_info_edit" class="inner_form">
+            <table cellpadding="0" cellspacing="0" width="100%" class="table_form">
+                <tr>
+                    <th style="width:120px;">教材名称:</th>
+                    <td>
+                        <input type="text" class="input-text" name="textbook" value="{$course[textbook]}">
+                    </td>
+                    <th style="width:120px;">出版社:</th>
+                    <td>
+                        <input type="text" class="input-text" name="publisher" value="{$course[publisher]}">
+                    </td>
+                </tr>
+                <tr>
+                    <th style="width:120px;">出版年限:</th>
+                    <td>
+                        <input type="text" class="input-text publish_date" name="publish_date" value="{$course[publish_date]}">
+                    </td>
+                    <th style="width:120px;">版次:</th>
+                    <td>
+                        <input type="text" class="input-text" name="publish_num" value="{$course[publish_num]}">
+                    </td>
+                </tr>
+                <tr>
+                    <th style="width:120px;">作者:</th>
+                    <td>
+                        <input type="text" class="input-text" name="author" value="{$course[author]}">
+                    </td>
+                </tr>
+            </table>
+            <table cellpadding="0" cellspacing="0" width="100%" class="table_form">
+                <tr>
+                    <th style="width:120px;">教学参考书选用情况:</th>
+                    <td>
+                        <textarea rows="5" cols="100" name="reference">{$course[reference]}</textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th style="width:120px;">课程改革和创新情况:</th>
+                    <td>
+                        <textarea rows="5" cols="100" name="creative">{$course[creative]}</textarea>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="btn">
+            <input type="hidden" name="teachid" value="{$course[teachid]}">
+            <input type="button" value="更新" class="button" execution="update">
+        </div>
+    </form>
+</div>

@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>西北师大教务支持系统 - 专业管理</title>
+		<link rel="stylesheet" type="text/css" href="../Public/css/style.css" />
+		<script type="text/javascript" src="../Public/js/jquery.min.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				var get_body_info = function(){
+					$.get(  "__URL__/body/level/"+ $("#level_id").val() , function(data){
+						$(".table-list").remove();
+						$("#content").html(data) ;
+					});
+					return false;
+				}
+				if( $("#level_id").val() != "false" )
+				{
+					get_body_info() ;
+				}
+				
+				$("#level_id").change( function(){
+					if( $("#level_id").val() != "false" )
+					{
+						get_body_info() ;
+					}
+				} );
+			});
+		</script>
+	</head>
+	<body>
+		<div class="mainbox">
+			<div id="nav" class="mainnav_title">
+				<ul>
+					<a href="__URL__/index" class="on">专业管理</a>
+					<a href="__URL__/add">添加专业</a>
+				</ul>
+			</div>
+			<table  class="search_table" width="100%">
+				<tr>
+					<td>
+						<form action="__URL__/index" method="post">
+							<select name="level" id="level_id">
+								<option value="false">---请选择学生层次---</option>
+								<volist name="level_list" id="lel">
+									<if condition="$_GET['level'] eq $lel[id]">
+										<option value="{$lel['id']}" selected>{$lel['name']}</option>
+										<else/>
+										<option value="{$lel['id']}">{$lel['name']}</option>
+									</if>
+								</volist>
+							</select>
+						</form>
+					</td>
+				</tr>
+			</table>
+			<div id="content">
+				<div class="table-list">
+					<table width="100%" cellspacing="0">
+						<thead>
+							<tr>
+								<th>专业代码</th>
+								<th>专业名称</th>
+								<th>所属机构</th>
+								<th>层次</th>
+								<th>类别</th>
+								<th>学制</th>
+								<th  width="120">管理操作</th>
+							</tr>
+						</thead>
+					</table>
+					<div id="dasha_footer">{$show}</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

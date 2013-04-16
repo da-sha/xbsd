@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>西北师大教务支持系统 - 添加系统变量管理</title>
+		<link rel="stylesheet" type="text/css" href="../Public/css/style.css" />
+	</head>
+	<body width="100%">
+		<div class="mainbox">
+			<form method='post'  id="myform" action="__URL__/insert">
+				<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+					<tr>
+						<th>变量名</th>
+						<td>
+							<input type="text"  class="input-text"  name="varname" value="" ></input>
+						</td>
+					</tr>
+					<tr>
+						<th>变量值</th>
+						<td>
+							<input type="text"  class="input-text" name="value"></input>
+						</td>
+					</tr>
+					<tr>
+						<th>类型</th>
+						<td>
+							<select name="type" id="type">
+								<volist name="type_list" id="ty">
+									<option value="{$ty['id']}">{$ty['name']}</option>
+								</volist>
+							</select>
+							<span class="red">*</span>
+						</td>
+					</tr>
+					<tr>
+						<th>变量含义</th>
+						<td>
+							<input type="text"  class="input-text" name="info"></input>
+						</td>
+					</tr>
+				</table>
+				<div class="btn">
+					<input type="submit" value="提交" class="button" />
+				</div>
+			</form>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,41 @@
+<!-- 考核管理 -->
+<form id="assess">
+    <div class="table-list">
+        <table width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th width="20" align="left">{:L('listorder')}</th>
+                    <th width="100">考核名称</th>
+                    <th width="100">考核类型</th>
+                    <th width="40">考核比重</th>
+                    <th width="100">管理操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <volist id="asse" name="asse_list">
+                <tr>
+					<td width='20' align='left'>
+					    <input name='listorders[{$asse[assessmentid]}]' type='text' size='3' value="{$asse[seq]}"/>
+					</td>
+                    <td align="center">{$asse["name"]}</td>
+                    <td align="center">{$asse["type"]|default="&nbsp;"}</td>
+                    <td align="center">{$asse["weight"]|default="&nbsp;"}</td>
+                    <td align="center">
+                        <a href="javascript:void(0)" execution="update" item-id="{$asse['assessmentid']}">修改</a>|
+                        <a href="javascript:void(0)" execution="delete" item-id="{$asse['assessmentid']}">删除</a>
+                    </td>
+                </tr>
+                </volist>
+            </tbody>
+        </table>
+		<php>
+            if(empty($asse_list) == true){
+                echo "<div id='dasha_footer'>对不起，没有数据</div>";
+            }
+        </php>
+        <div class="btn">
+            <input type="button" class="button" value="{:L('listorder')}" execution="listorder"/>
+            <input type="button" class="button" value="增加考核" execution="insert"/>
+        </div>
+    </div>
+</form>

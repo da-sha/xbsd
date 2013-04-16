@@ -1,0 +1,89 @@
+<style type="text/css">
+	.dasha_left{
+		float: left;
+		width: 600px;
+	}
+	.dasha_right{
+		float: left;
+		width: 80px ;
+	}
+	.dasha_right span{
+		cursor: pointer;
+	}
+</style>
+<script type="text/javascript" src="../Public/js/thesis.js"></script>
+<fieldset>
+	<legend>论文选题</legend>
+	<table width="800px" class="dasha_table">
+		<form id="approve_form_id" action="__URL__/" method="post">
+		<tr>
+			<td width="90px" class="key">论文题目</td>
+			<td id="view_thesis_title" colspan="5" thesis_id="{$_GET['thesisid']}">{$thesis['name']}</td>
+			<td class="key">类别</td>
+			<td>{$thesis['type_name']}</td>
+		</tr>
+		<tr>
+			<td class="key">指导教师</td>
+			<td>{$thesis['teacherid']}</td>
+			<td class="key">针对专业</td>
+			<td>{$thesis['grade']}级{$thesis['majorid_name']}</td>
+			<td class="key">已选/限制人数</td>
+			<td>{$thesis['select_num']}/{$thesis['max_num']}</td>
+			<td class="key">学生层次</td>
+			<td>{$thesis['level_name']}</td>
+		</tr>
+		<if condition="$show_comment">
+		<tr>
+			<td class="key">评审评语</td>
+			<td colspan="7">
+				<pre>{$thesis['comment']}</pre>
+			</td>
+		</tr>
+		</if>
+		<tr>
+			<td class="key">题目内容与要求</td>
+			<td colspan="7">
+				<pre>{$thesis['content']}</pre>
+			</td>
+		</tr>
+		<if condition="$show_comment">
+		<tr>
+			<td class="key">主管院长评语</td>
+			<if condition="$edit_dean_comment">
+				<td colspan="7">
+					<input type="hidden" name="thesisid" value="{$thesis['thesisid']}">
+					<textarea name="dean_comment" id="comment" rows="10" cols="40" validate="required:true, minlength:2, maxlength:1024">{$thesis['dean_comment']}</textarea>
+				</td>
+				<else/>
+				<td colspan="7">
+					<pre>{$thesis['dean_comment']}</pre>
+				</td>
+			</if>
+
+		</tr>
+		</if>
+		<tr>
+			<td class="key">已选学生</td>
+			<td colspan="7">
+				<volist name="student_list" id="student">
+					<div>
+						<div class="dasha_left">
+							{$student['userid_name']}(<span class="green">{$student['state_name']}</span>)
+						</div>
+						<div class="dasha_right">
+							<if condition="$student['state'] eq $student_thesis_state_wait">
+								<a class="green" state="pass" href="__URL__/review_select/thesisid/{$_GET['thesisid']}/userid/{$student['userid']}/state/pass">通过</a>|
+								<a class="red fail" state="fail" href="__URL__/review_select/thesisid/{$_GET['thesisid']}/userid/{$student['userid']}/state/fail">不通过</a>
+							</if>
+						</div>
+					</div>
+				</volist>
+			</td>
+		</tr>
+		<input type="hidden" id="have_pass" value="{$have_pass}">
+		</form>
+	</table>
+</fieldset>
+<if condition="$show">
+	<div id="dasha_footer"><span class='red'>{$show}</span></div>
+</if>

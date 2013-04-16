@@ -1,0 +1,58 @@
+<layout name="layout_no_nav"/>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<script src="../Public/js/verify.js" type="text/javascript"></script>
+<script type="text/javascript">
+	function checkForm()
+	{
+		if (
+		!isNull('name_id', '考核名称') ||
+		!isNull('teachid_id', '课程名') ||
+		!isNull('type_id', '考核类型') ||
+		!isInt('weight_id', '考核权重','T') ||
+		!isBetween('weight_id', '考核权重','T',0,100))
+		{
+			return false;
+		}
+		return true;
+	}
+</script>
+<div class="mainbox">
+	<form method='post'  id="assessment_form" action="<if condition="$action_name=='add'">{:U('Assessment/insert')}<else />{:U('Assessment/update')}</if>">
+		<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+			<tr>
+				<td  width="120">考核名称</td>
+				<td>
+					<input type="text" class="input-text" id="name_id" name="name" value="{$assess['name']}"/>
+					<span class="red">*</span>
+				</td>
+			</tr>
+
+			<tr>
+				<td  width="120">考核类型</td>
+				<td>
+					<select id="type_id" name="type">
+						<volist name="asse_list" id="asse">
+							<if condition="$asse['id'] eq $assess['type']">
+								<option value="{$asse['id']}" selected>{$asse['name']}</option>
+								<else/>
+								<option value="{$asse['id']}">{$asse['name']}</option>
+							</if>
+						</volist>
+					</select>
+					<span class="red">*</span>
+				</td>
+			</tr>
+			<tr>
+				<td  width="120">考核权重</td>
+				<td>
+					<input type="text" class="input-text"  name="weight" id="weight_id" value="{$assess['weight']}"/>
+				</td>
+			</tr>
+		</table>
+		<if condition="$assess[assessmentid]!=''">
+			<input TYPE="hidden" name="assessmentid" value="{$assess.assessmentid}" validate="required:true,cn_username:true, minlength:2, maxlength:20">
+		</if>
+	</form>
+</div>

@@ -1,0 +1,123 @@
+<layout name="layout"/>
+<script type="text/javascript" src="../Public/js/thesis.js"></script>
+<div class="mainbox">
+	请选择：
+	<select class="check_input limit_width" name="majorid" id="majorid_id">
+		<option value="">--请选择专业--</option>
+		<volist name="major_list" id="ma">
+			<if condition="$_GET['majorid'] eq $ma[majorid]">
+				<option value="{$ma['majorid']}" selected>{$ma[name]}</option>
+				<else/>
+				<option value="{$ma['majorid']}">{$ma[name]}</option>
+			</if>
+		</volist>
+	</select>
+	<select class="check_input" name="year" id="year_id">
+		<option value="">--请选择学年--</option>
+		<volist name="year_list" id="year">
+			<if condition="$_GET['year'] eq $year['id']">
+				<option value="{$year['id']}" selected>{$year['name']}</option>
+				<else/>
+				<option value="{$year['id']}">{$year['name']}</option>
+			</if>
+		</volist>
+	</select>
+	<select class="check_input" id="result_id" name="result">
+		<option value="">---请选择论文状态---</option>
+		<volist name="result_list" id="result">
+			<if condition="$_GET['result'] eq $result['id']">
+				<option value="{$result['id']}" selected>{$result['name']}</option>
+				<else/>
+				<option value="{$result['id']}">{$result['name']}</option>
+			</if>
+		</volist>
+	</select>
+	<input class="check_input" type="hidden" name="category" id="category_value" value="{$_GET['category']}">
+</div>
+<div class="table-list">
+	<table width="100%" cellspacing="0">
+		<thead>
+			<tr>
+				<th align="left" >题目名称</th>
+				<th>类别</th>
+				<th>针对年级</th>
+				<th>针对专业</th>
+				<th>学生层次</th>
+				<th>已选/限选</th>
+				<th>评审</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<volist name="list" id="data">
+			<tr>
+				<td align="left">{$data[name]}</td>
+				<td align="center">{$data[type]}</td>
+				<td align="center">{$data[grade]}</td>
+				<td align="center">{$data[majorid]}</td>
+				<td align="center">{$data[level]}</td>
+				<td align="center">{$data['select_num']}/{$data['max_num']}</td>
+				<td align="center">
+					<if condition="$data['result'] eq $thesis_result_failed">
+					<span class="red">{$data['result_name']}</span>
+					<else/>
+					<span class="green">{$data[result_name]}</span>
+					</if>
+				</td>
+				<td align="center">
+					<if condition="$data['result'] eq $thesis_result_wait">
+						<a class="green approve_dialog" class href="__URL__/approve/thesisid/{$data[thesisid]}/category/{$category}">审核</a>
+					<else/>
+						<a class="blue thesis_view" href="__URL__/view/thesisid/{$data[thesisid]}">查看</a>
+					</if>
+				</td>
+			</tr>
+			</volist>
+		</tbody>
+	</table>
+	<div id="dasha_footer">{$show}</div>
+</div>
+<style type="text/css">
+<!--
+.select * {
+margin: 0;
+padding: 0;
+}
+.select {
+border:1px solid #cccccc;
+float: left;
+display: inline;
+}
+
+.select div {
+border:1px solid #f9f9f9;
+float: left;
+}
+/* 子选择器，在FF等非IE浏览器中识别 */
+.select>div {
+width:120px;
+height: 17px;
+overflow:hidden;
+}
+
+/* 通配选择符，只在IE浏览器中识别 */
+* html .select div select {
+display:block;
+float: left;
+margin: -2px;
+}
+.select div>select {
+display:block;
+width:124px;
+float:none;
+margin: -2px;
+padding: 0px;
+}
+.select:hover {
+border:1px solid #666666;
+}
+.select select>option {
+text-indent: 2px;
+}
+-->
+</style>

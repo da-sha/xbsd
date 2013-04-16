@@ -1,0 +1,69 @@
+<layout name="layout_no_nav"/>
+<script type="text/javascript">
+var cou_info_dialog = function(url,title,width,height){
+    width = width || 700;
+    height = height || 400;
+    art.dialog.open(url,{
+        title: title,
+        width: 700,
+        height: 400
+    });
+}
+</script>
+<table  class="search_table" width="100%">
+    <tr>
+        <td>
+            <form action="{:U('CourseManage/transition')}" method="get">
+                <select name="searchtype" id="semester">
+                    <volist name="semesters" id="r">
+                        <php>
+                        if($r['id'] >= $semester){
+                            echo "<option value=".$r['id'];
+                            if($r['id'] == $semester_id){
+                                    echo " selected";
+                                }
+                            echo ">".$r['name'];
+                        }
+                        </php>
+                    </volist>
+                </select>
+            </form>
+        </td>
+
+    </tr>
+</table>
+<form id="teacher_future">
+    <div class="table-list">
+        <table width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th align="left">课程名</th>
+                    <th width="100">修读学期</th>
+                    <th width="100">课程性质</th>
+                    <th width="100">课程分类</th>
+                    <th width="100">课程类型</th>
+                </tr>
+            </thead>
+            <tbody>
+                <volist name="course_list" id="course">
+                <tr>
+                    <td align="left">{$course["name"]|default="&nbsp;"}</td>
+                    <td align="center">{$course["course_semester"]|default="&nbsp;"}</td>
+                    <td align="center">{$course["property"]|default="&nbsp;"}</td>
+                    <td align="center">{$course["cou_category"]|default="&nbsp;"}</td>
+                    <td align="center">{$course["cou_type"]|default="&nbsp;"}</td>
+                </tr>
+                </volist>
+            </tbody>
+        </table>
+        <div id="dasha_footer">{$show}</div>
+    </div>
+</form>
+<script>
+$(".search_table #semester").change(function(){
+	var value = $(this).val();
+	if(value != ''){
+		window.location.href="__APP__/StudentCourse/future_course/semester_id/" + value;
+	}
+});
+</script>

@@ -1,0 +1,53 @@
+<script type="text/javascript" src="../Public/js/dasha_edit_table.js"></script>
+&nbsp;
+<form action="__URL__/ajax_update" method="post">
+<fieldset>
+	<legend>{$student['stu_name']}的论文：</legend>
+	<table width="100%" class="dasha_table edit_table">
+		<tr>
+			<td class="key" width="100">学生姓名</td>
+			<td>{$student['stu_name']}</td>
+			<td class="key">性别</td>
+			<td width="40">{$student['gender_name']}</td>
+			<td class="key">班级</td>
+			<td colspan="3">{$student['cla_name']}</td>
+		</tr>
+		
+		<tr>
+			<td class="key">论文题目</td>
+			<td colspan="5">{$thesis['name']|default="&nbsp;"}</td>
+			<td class="key">类型</td>
+			<td >{$thesis['type_name']|default="&nbsp;"}</td>
+		</tr>
+		<tr>
+			<td class="key">选题来源</td>
+			<td colspan="3">{$thesis['title_source']|default="&nbsp;"}</td>
+			<td class="key" width="60">论文状态</td>
+			<td>{$thesis['state_name']|default="&nbsp;"}</td>
+			<td class="key" width="80">论文字数统计</td>
+			<td>{$thesis['word_num']|default="&nbsp;"}</td>
+		</tr>
+		<tr>
+			<td class="key">题目内容与要求</td>
+			<td colspan="7">
+				<pre>{$thesis['content']|default="&nbsp;"}</pre>
+			</td>
+		</tr>
+		<tr>
+			<td class="key">导师评语</td>
+			<td colspan="7" class="edit_textarea" name="comment">{$thesis['comment']|default="&nbsp;"}</td>
+		</tr>
+		<tr>
+			<td class="key">完成时间</td>
+			<td colspan="3">{$thesis['deadline']|default="&nbsp;"}</td>
+			<td class="key">初评成绩</td>
+			<td class="edit_input" name="first_score">{$thesis['first_score']}</td>
+			<td class="key">总评成绩</td>
+			<td>{$thesis['final_score']|default="&nbsp;"}</td>
+		</tr>
+	</table>
+	<input type="hidden" name="userid" value="{$thesis['userid']}"/>
+	<input type="hidden" name="thesisid" value="{$thesis['thesisid']}"/>
+</fieldset>
+<div id="dasha_footer" class="edit_confirm">{$show}</div>
+</form>

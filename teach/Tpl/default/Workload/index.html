@@ -1,0 +1,63 @@
+<layout name="layout"/>
+<script type="text/javascript">
+	$(function(){
+		$(".view").click( function(){
+			var dialog = art.dialog() ;
+			dialog.title("详细") ;
+			$.get( $(this).attr("href") , function(data){
+				dialog.content(data) ;
+			}) ;
+			return false ;
+		}) ;
+	}) ;
+</script>
+<div class="mainbox">
+	<form action="__SELF__" method="get">
+		<select name="year">
+			<option value="">---请选择---</option>
+			<volist name="year_list" id="year">
+				<if condition="$year eq $_GET['year']">
+					<option value="{$year}" selected>{$year}</option>
+					<else/>
+					<option value="{$year}">{$year}</option>
+				</if>
+			</volist>
+		</select>
+		<select name="semester">
+			<option value="">---请选择---</option>
+			<volist name="semester_list" id="semester">
+				<if condition="$semester['id'] eq $_GET['semester']">
+					<option value="{$semester['id']}" selected>{$semester['name']}</option>
+					<else/>
+					<option value="{$semester['id']}">{$semester['name']}</option>
+				</if>
+			</volist>
+		</select>
+		<input type="submit" class="button" value="确定"/>
+	</form>
+</div>
+<fieldset>
+	<legend>我的工作量：</legend>
+	<table width="100%" class="dasha_table edit_table">
+		<tr>
+			<td class="key" width="100">姓名</td>
+			<td>{$work['tea_name']}</td>
+			<td class="key" width="100">学年</td>
+			<td>{$work['year']} {$work['semester']}</td>
+			<td class="key" width="100">理论课总学时</td>
+			<td>{$work['thsum_time']}</td>
+			<td class="key" width="100">实验课总学时</td>
+			<td>{$work['expsum_time']}</td>
+		</tr>
+		<tr>
+			<td class="key">指导论文总学时</td>
+			<td>{$work['papthisum_time']}</td>
+			<td class="key">监考总学时</td>
+			<td>{$work['examsum_time']}</td>
+			<td class="key">指导实习总学时</td>
+			<td width="40">{$work['prasum_time']}</td>
+			<td class="key">其他总计</td>
+			<td>{$work['othersum']}</td>
+		</tr>
+	</table>
+</fieldset>

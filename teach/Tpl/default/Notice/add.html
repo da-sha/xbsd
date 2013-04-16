@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>西北师大教务支持系统 - 通知公告管理</title>
+		<link rel="stylesheet" type="text/css" href="../Public/css/style.css" />
+        <script type="text/javascript" src="../Public/js/jquery.min.js"></script>
+        <script type="text/javascript" src="../Public/js/jquery.form.js"></script>
+        <script type="text/javascript" src="../Public/js/jquery.validate.js"></script>
+		<script charset="utf-8" src="../Public/kindeditor/kindeditor-min.js"></script>
+		<script charset="utf-8" src="../Public/kindeditor/lang/zh_CN.js"></script>
+		<script>
+			var editor;
+			KindEditor.ready(function(K) {
+				editor = K.create('textarea[name="content"]', {
+					allowFileManager : true
+				});
+			});
+		</script>
+	</head>
+	<body>
+	<div id="nav" class="mainnav_title">
+		<div id="nav" class="mainnav_title">
+			<ul>
+				<a href="__URL__/index">通知公告</a>|
+				<a href="__URL__/add" class="on">添加通知公告</a>
+			</ul>
+		</div>
+	</div>
+	<form method='post'  id="myform" action="__URL__/insert">
+		<fieldset>
+			<table width="100%" class="dasha_table">
+				<tr>
+					<td class="key" width="100">发布单位</td>
+					<td>
+						<select name="orgid" id="orgid" class="narrow">
+							<volist name="org_list" id="org">
+								<if condition="$notice[orgid] eq $org[id]">
+									<option value="{$org[id]}" selected>{$org['name']}</option>
+									<else/>
+									<option value="{$org['id']}">{$org['name']}</option>
+								</if>
+							</volist>
+						</select>
+					</td>
+					<td class="key" width="100">来源</td>
+					<td>
+						<input type="text" class="input-text narrow"  name="source" id="source"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="key">公告对象</td>
+					<td>
+						<select name="category" id="category" validate="required:true" class="narrow">
+							<volist name="category_list" id="cat">
+								<if condition="$notice[category] eq $cat[id]">
+									<option value="{$cat[id]}" selected>{$cat['name']}</option>
+									<else/>
+									<option value="{$cat['id']}">{$cat['name']}</option>
+								</if>
+							</volist>
+						</select>
+						<span class="red">*</span>
+					</td>
+					<td class="key">重要程度</td>
+					<td>
+						<select name="importance" id="importance" class="narrow">
+							<volist name="im_list" id="im">
+								<if condition="$notice[importance] eq $im[id]">
+									<option value="{$im[id]}" selected>{$im['name']}</option>
+									<else/>
+									<option value="{$im['id']}">{$im['name']}</option>
+								</if>
+							</volist>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="key">标题</td>
+					<td colspan="3">
+						<input type="text" class="input-text"  name="title" id="title" validate="required:true"/>
+						<span class="red">*</span>
+					</td>
+				</tr>
+				<tr>
+					<td class="key">内容</td>
+					<td colspan="3">
+						<textarea name="content" style="width: 100%; height:400px;"></textarea>
+					</td>
+				</tr>
+			</table>
+			<div class="btn">
+				<input TYPE="hidden" name="type" value="{$const_type}" />
+				<input TYPE="submit" name="dosubmit"  value="提交" class="button" onclick="return checkForm()"/>
+				<input TYPE="button"  value="取消" class="button" onclick="history.back(-1);" />
+			</div>
+		</fieldset>
+	</form>
+</body>

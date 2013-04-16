@@ -1,0 +1,69 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<div class="mainbox">
+	<form method='post'  id="myform" action="__URL__/save">
+		<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+			<tr>
+				<td  width="120">教师名称</td>
+				<td>
+					{$duty_info['user_name']}
+					<span class="red">*</span>
+				</td>
+			</tr>
+			<tr>
+				<td  width="120">所在机构</td>
+				<td>
+					<select name="orgid">
+						<volist name="org_list" id="org">
+							<if condition="$org['id'] eq $duty_info['orgid']">
+								<option value="{$org['id']}" selected>{$org['name']}</option>
+								<else/>
+								<option value="{$org['id']}">{$org['name']}</option>
+							</if>
+						</volist>
+					</select>
+					<span class="red">*</span>
+				</td>
+			</tr>
+			<tr>
+				<td  width="120">职务名称</td>
+				<td>
+					<select name="name">
+						<volist name="name_list" id="name">
+							<if condition="$name['id'] eq $duty_info['name']">
+								<option value="{$name['id']}" selected>{$name['name']}</option>
+								<else/>
+								<option value="{$name['id']}">{$name['name']}</option>
+							</if>
+						</volist>
+					</select>
+					<span class="red">*</span>
+				</td>
+			</tr>
+			<tr>
+				<td  width="120">级别</td>
+				<td>
+					<select name="level">
+						<volist name="lev_list" id="lev">
+							<if condition="$lev['id'] eq $duty_info['level']">
+								<option value="{$lev['id']}" selected>{$lev[name]}</option>
+								<else/>
+								<option value="{$lev['id']}">{$lev[name]}</option>
+							</if>
+						</volist>
+					</select>
+					<span class="red">*</span>
+				</td>
+			</tr>
+			<tr>
+				<td  width="120">办公室</td>
+				<td>
+					<input type="text" class="input-text"  name="office">{$duty_info['office']}</input>
+				</td>
+			</tr>
+		</table>
+		<div class="btn">
+			<input type="hidden" value="{$duty_info['userid']}"></input>
+			<input type="submit" value="提交" class="button" />
+		</div>
+	</form>
+</div>

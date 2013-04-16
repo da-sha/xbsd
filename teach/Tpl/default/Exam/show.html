@@ -1,0 +1,116 @@
+<layout name="layout"/>
+<link rel="stylesheet" href="../Public/jquery/development-bundle/themes/base/jquery.ui.all.css"/>
+<script src="../Public/jquery/development-bundle/ui/jquery.ui.core.js"></script>
+<script src="../Public/jquery/development-bundle/ui/jquery.ui.widget.js"></script>
+<script src="../Public/jquery/development-bundle/ui/jquery.ui.datepicker.js"></script>
+<script src="../Public/js/exam_show.js"></script>
+<script type="text/javascript">
+	var YEAR = {$_GET['year']};
+	var SEMESTER = {$_GET['semester']}
+
+</script>
+<link rel="stylesheet" href="../Public/css/aa.css"/>
+<fieldset>
+	<div class="mainbox">
+		请选择：
+		<select name="year" class="condition" id="select_year_id">
+			<option value="">---请选择---</option>
+			<volist name="year_list" id="year">
+				<if condition="$year eq $_GET['year']">
+					<option value="{$year}" selected>{$year}</option>
+					<else/>
+					<option value="{$year}">{$year}</option>
+				</if>
+			</volist>
+		</select>
+		<select name="semester" class="condition" id="select_semester_id">
+			<option value="">---请选择---</option>
+			<volist name="semester_list" id="semester">
+				<if condition="$semester['id'] eq $_GET['semester']">
+					<option value="{$semester['id']}" selected>{$semester['name']}</option>
+					<else/>
+					<option value="{$semester['id']}">{$semester['name']}</option>
+				</if>
+			</volist>
+		</select>
+	</div>
+	<div class="table-list select_teacher aam_c_left">
+		<table width="100%" cellspacing="0">
+			<thead>
+				<tr>
+					<th align="left">教室地点</th>
+					<th align="left">教室容量</th>
+					<th align="left">考试安排</th>
+				</tr>
+			</thead>
+			<tbody>
+			<volist name="room_list" id="room">
+				<tr>
+					<td>{$room['addr']}</td>
+					<td>
+						<input type="button" class="sub_room_num aam_adjust_num_sub" value="-">
+						<input class="room_num aam_adjust_num" name="student_num" value="{$default_room_limit}">
+						<input type="button" class="add_room_num aam_adjust_num_add" value="+">
+					</td>
+					<td>
+						<div val_roomid="{$room['roomid']}" class="class_name aam_input">&nbsp;</div>
+					</td>                                       
+				</tr>
+			</volist>
+			<if condition="!$show">
+				<form action="" id="submit_form" method="post">
+					<tr>
+						<td>
+							日期：
+							<input type="text" id="exam_data" name="date"/>
+						</td>
+						<td>
+							时间:
+							<select name="time">
+								<volist name="time_list" id="time" key="i">
+									<if condition="$i eq 1">
+										<option value="{$time['id']}" selected="selected">{$time['name']}</option>
+										<else/>
+										<option value="{$time['id']}">{$time['name']}</option>
+									</if>
+								</volist>
+							</select>
+						</td>
+						<td>
+							考试类型：
+							<select name="type">
+								<volist name="type_list" id="type">
+									<if condition="$i eq 1">
+										<option value="{$type['id']}" selected="selected">{$type['name']}</option>
+										<else/>
+										<option value="{$type['id']}">{$type['name']}</option>
+									</if>
+								</volist>
+							</select>
+							<input type="hidden" name="year" value="{$_GET['year']}"/>
+							<input type="hidden" name="semester" value="{$_GET['semester']}"/>
+						</td>                                       
+					</tr>
+				</form>
+			</if>
+			</tbody>
+		</table>
+		<if condition="$show">
+			<div id="dasha_footer">{$show}</div>
+			<else/>
+			<div class="btn">
+				<input type="button" class="button" id="add_course" value="添加考试"/>
+				<input type="button" class="button" id="set_room_num" value="设置教室容量"/>
+				<input type="button" class="sub_room_num aam_adjust_num_sub" value="-">
+				<input class="room_num aam_adjust_num" value="{$default_room_limit}">
+				<input type="button" class="add_room_num aam_adjust_num_add" value="+">
+				<input type="button" class="button" id="auto_arrange" value="自动安排"/>
+				<input type="button" class="button" id="submit_all" value="确定"/>
+			</div> 
+		</if>
+	</div>
+	<div id="teach_course" class="aam_c_right">
+		<select multiple name="student">
+		</select>
+	</div>
+</fieldset>

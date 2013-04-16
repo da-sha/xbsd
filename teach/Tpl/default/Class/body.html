@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>西北师大教务支持系统 - 班级管理</title>
+		<link rel="stylesheet" type="text/css" href="../Public/css/style.css" />
+	</head>
+	<body>
+		<div id="result" class="result none"></div>
+		<div class="mainbox">
+			<div class="table-list">
+			<table width="100%" cellspacing="0">
+			<thead>
+				<tr>
+					<th>班级名称</th>
+					<th>所属专业</th>
+					<th>班主任</th>
+					<th>辅导员</th>
+					<th>班级人数</th>
+					<th>班长</th>
+					<th>班级成立时间</th>
+					<th>管理操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<volist name="class_list" id="class">
+					<tr>
+						<td align="center">{$class["name"]}</td>
+						<td align="center">{$class["majorid"]}</td>
+						<td align="center">{$class[head_teacher]}</td>
+						<td align="center">{$class["instructor"]}</td>
+						<td align="center">{$class["num"]}</td>
+						<td align="center">{$class["moniter"]}</td>
+						<td align="center">{$class["register_date"]}</td>
+						<td align="center">
+							<a href="__URL__/edit/classid/{$class['classid']}">修改</a> |
+							<a href="__URL__/delete/classid/{$class['classid']}">删除</a>
+						</td>
+					</tr>
+				</volist>
+			</tbody>
+		</table>
+		</div>
+		<div id="dasha_footer">{$show}</div>
+		</div>
+		<div id="pages" class="page"></div>
+	</body>
+</html>

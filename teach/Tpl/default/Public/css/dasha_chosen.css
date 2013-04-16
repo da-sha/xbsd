@@ -1,0 +1,41 @@
+/* 
+    Document   : dasha_chosen
+    Created on : 2012-10-7, 10:20:23
+    Author     : 李磊
+    Description:
+        Purpose of the stylesheet follows.
+*/
+.dasha_chosen_title{
+	height: 20px;
+	background-color: #eee;
+	border: 1px solid #ccc;
+	color: #000;
+}
+.dasha_chosen_content{
+	display:none;
+	position:absolute;
+	top:25px;
+	left:0px;
+	padding:1px;
+	border:1px solid #ccc;
+	background-color:white;
+	z-index:1002;
+	overflow:auto;
+}
+.dasha_chosen_close{
+	width:40px;
+	float:right; 
+}
+.dasha_chosen_tilte_text{
+	height: 20px;
+	font-size: 16px;
+	font-family: Verdana, Geneva, sans-serif;
+	width:180px;
+	float: left;
+	clear:right;
+	text-align: center;
+}
+#dasha_chosen_user{
+	width:220px;
+	height: 100%;
+}

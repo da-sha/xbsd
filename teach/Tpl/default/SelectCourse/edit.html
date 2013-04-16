@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>添加选课</title>
+		<link rel="stylesheet" type="text/css" href="../Public/css/style.css" />
+	</head>
+	<body width="100%">
+		{__NOLAYOUT__}
+		<div class="mainbox">
+			<div id="nav" class="mainnav_title">
+				<ul>
+					<a id="admin_cou" href="__URL__/index" class="on">管理选课</a>|
+					<a id="add_cou" href="__URL__/add">添加选课</a>|
+				</ul>
+			</div>
+			<form method='post'  id="myform" action="__URL__/update">
+				<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+					<tr>
+						<td  width="120">学生</td>
+						<td>
+							{$data['userid']}
+							<span class="red">*</span>
+						</td>
+					</tr>
+					<tr>
+						<td  width="120">课程名</td>
+						<td>
+							{$data['teachid']}
+							<span class="red">*</span>
+						</td>
+					</tr>
+					<tr>
+						<td  width="120">平时成绩</td>
+						<td>
+							<input type="text" class="input-text"  name="regular_grad" value="{$data['regular_grad']}" />
+						</td>
+					</tr>
+					<tr>
+						<td  width="120">期末成绩</td>
+						<td>
+							<input type="text" class="input-text"  name="final_grad" value="{$data['final_grad']}" />
+						</td>
+					</tr>
+					<tr>
+						<td  width="120">总评成绩</td>
+						<td>
+							<input type="text" class="input-text"  name="overall_grad" value="{$data['overall_grad']}" />
+						</td>
+					</tr>
+				</table>
+				<div class="btn">
+					<input type="hidden" name="selectid" value="{$data['selectid']}"/>
+					<input type="hidden" name="teachid" value="{$data['teachid']}"/>
+					<input type="submit" value="提交" class="button" />
+				</div>
+			</form>
+		</div>
+	</body>
+</html>

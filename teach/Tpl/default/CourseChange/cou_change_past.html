@@ -1,0 +1,40 @@
+<layout name="layout_no_nav"/>
+<form id="cou_change">
+	<div class="table-list">
+		<table width="100%" cellspacing="0">
+			<thead>
+				<tr>
+					<th>时间</th>
+					<th>类型</th>
+					<th>调换类型</th>
+					<th>上课时间</th>
+					<th>上课教室</th>
+					<th>调换任课教师</th>
+					<th>调换原因</th>
+				</tr>
+			</thead>
+			<tbody>
+				<volist name="list" id="data">
+				<tr>
+					<td align="center">{$data[update_date]}</td>
+					<td align="center">{$data[time_type]}</td>
+					<td align="center">{$data[type]}</td>
+					<td align="center">{$data[week]}{$data[seq]}</td>
+					<td align="center">{$data[teach_building]}号楼{$data[roomid]}</td>
+					<td align="center">{$data[teachername]}</td>
+					<td align="center">
+						<span>
+							<a href="javascript:comment_dialog('{$data[reason]}')">查看</a>
+						</span>
+					</td>
+				</tr>
+				</volist>
+			</tbody>
+		</table>
+		<php>
+            if(empty($list) == true){
+                echo "<div id='dasha_footer'>对不起，没有数据</div>";
+            }
+        </php>
+	</div>
+</form>

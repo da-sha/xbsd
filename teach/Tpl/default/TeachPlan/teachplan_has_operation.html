@@ -1,0 +1,46 @@
+<!-- 考核管理 -->
+<form id="teachplan">
+    <div class="table-list">
+        <table width="100%" cellspacing="0">
+            <thead>
+                <tr>
+					<th width="40" align="left">{:L('listorder')}</th>
+                    <th width="100">时间</th>
+                    <th width="100">周次</th>
+                    <th width="100">周学时</th>
+                    <th>教学内容（章节和名称）</th>
+                    <th width="200">教学形式和手段</th>
+					 <th width="100">管理操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <volist name="plan_list" id="plan">
+                <tr>
+					<td width='20' align='left'>
+					    <input name='listorders[{$plan[id]}]' type='text' size='3' value="{$plan[seq]}"/>
+					</td>
+                    <td align="center">{$plan["publish_time"]}</td>
+                    <td align="center">{$plan["week_num"]}周</td>
+                    <td align="center">{$plan["week_time"]|default="&nbsp;"}学时</td>
+                    <td align="left">{$plan["plan_content"]|default="&nbsp;"}</td>
+                    <td align="center">{$plan["teach_method"]|default="&nbsp;"}</td>
+					<td align="center">
+                        <a href="javascript:void(0)" execution="update" item-id="{$plan['id']}">修改</a>|
+                        <a href="javascript:void(0)" execution="delete" item-id="{$plan['id']}">删除</a>
+                    </td>
+                </tr>
+                </volist>
+            </tbody>
+        </table>
+		<php>
+            if(empty($plan_list) == true){
+                echo "<div id='dasha_footer'>对不起，没有数据</div>";
+            }
+        </php>
+        <div class="btn">
+            <input type="button" class="button" value="{:L('listorder')}" execution="listorder"/>
+            <input type="button" class="button" value="增加计划" execution="insert"/>
+            <input type="button" class="button" value="导出计划表" execution="insert"/>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,28 @@
+<div id="select_content">
+	<fieldset>
+		<legend>考试科目：</legend>
+		<div class="left aac_left">
+			<form action="__URL__/allcourse" method="post">
+				<select name="courseid" id="course_id" class="aac_l_top">
+					<option value="">---请选择课程---</option>
+					<volist name="course_list" id="course">
+						<option value="{$course['id']}">{$course['name']}</option>
+					</volist>
+				</select>
+				<input type="hidden" name="year" value="{$_GET['teachyear']}"/>
+				<input type="hidden" name="semester" value="{$_GET['teachquarter']}"/>
+			</form>
+			
+			<select id="teach_list" class="aac_l_content" multiple>
+			</select>
+		</div>
+		<div class="middle aac_middle">
+			<input type="button" id="select_teach" class="button aac_add_move" value=">>"/>
+			<input type="button" id="unselect_teach" class="button aac_remove_move" value="<<"/>
+		</div>
+		<div class="right aac_right">
+			<select id="chosen_list" class="aac_r_content" multiple>
+			</select>
+		</div>
+	</fieldset>	
+</div>

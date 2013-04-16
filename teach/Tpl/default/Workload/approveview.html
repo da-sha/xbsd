@@ -1,0 +1,79 @@
+<script type="text/javascript">
+	$(function(){
+		$("input.pass").click(function(){
+			$("input[name='state']").val("pass") ;
+			if( $("input[name='realtime']").val() == ""){
+				art.dialog.tips("对不起，批准工作量不能为空！") ;
+			}else{
+				$(this).closest("form").submit() ;
+			}
+		}) ;
+		$("input.nopass").click(function(){
+			$("input[name='state']").val("nopass") ;
+			if( $("textarea[name='suggestion']").val()== "" ){
+				art.dialog.tips("对不起，批准意见不能为空！") ;
+			}else{
+				$(this).closest("form").submit() ;
+			}
+		}) ;
+	}) ;
+</script>
+<fieldset>
+	<legend>详细工作量</legend>
+	<form action="__URL__/doapprove" method="post">
+		<table class="dasha_table">
+			<tr>
+				<td class="key">工作名称</td>
+				<td width="300px">{$extend['name']}</td>
+			</tr>
+			<tr>
+				<td class="key">教师</td>
+				<td>{$extend['teacher']}</td>
+			</tr>
+			<tr>
+				<td class="key">工作时长(分钟)</td>
+				<td>{$extend['time']}</td>
+			</tr>
+			<tr>
+				<td class="key">期望工作量</td>
+				<td>{$extend['wanttime']}</td>
+			</tr>
+			<tr>
+				<td class="key">说明</td>
+				<td>{$extend['info']}</td>
+			</tr>
+			<tr>
+				<td class="key">状态</td>
+				<td>{$extend['statename']}</td>
+			</tr>
+			<tr>
+				<td class="key">批准工作量</td>
+				<td>
+					<if condition="$extend['state'] eq 0">
+						<input type="text" name="realtime" value="{$extend['wanttime']}"/>
+						<else/>
+						{$extend['realtime']}
+					</if>
+				</td>
+			</tr>
+			<tr>
+				<td class="key">审批意见</td>
+				<td>
+					<if condition="$extend['state'] eq 0">
+						<textarea name="suggestion"></textarea>
+						<else/>
+						{$extend['suggestion']}
+					</if>
+				</td>
+			</tr>
+		</table>
+		<if condition="$extend['state'] eq 0">
+			<div class="btn">
+				<input type="hidden" name="id" value="{$extend['id']}"/>
+				<input type="hidden" name="state"/>
+				<input type="button" class="button pass" value="通过"/>
+				<input type="button" class="button nopass" value="不通过"/>
+			</div>
+		</if>
+	</form>
+</fieldset>

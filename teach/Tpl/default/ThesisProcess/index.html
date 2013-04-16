@@ -1,0 +1,41 @@
+<layout name="layout"/>
+<fieldset>
+	<legend>论文指导记录：</legend>
+	<volist name="record_list" id="record">
+		<div class="tc_model">
+			<div class="tc_title">
+				<span class="green">[{$record["date"]}]</span>
+				<span><a class="exce red" href="__URL__/delete/processid/{$record['processid']}">[删除]</a></span>
+				{$record["progress"]}
+			</div>
+			<div class="tc_content">
+				<pre>{$record["content"]}</pre>
+			</div>
+		</div>
+	</volist>
+</fieldset>
+<div id="dasha_footer">{$show}</div>
+<if condition="$thesisid">
+	<form class="insert_record" action="__URL__/insert_record" method="post">
+		<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+			<tr>
+				<td  width="120">进展</td>
+				<td>
+					<input type="hidden" name="thesisid" value="{$thesisid}"/>
+					<input type="text" class="input-text" name="progress"/>
+					<span class="red">*</span>
+				</td>
+			</tr>
+			<tr>
+				<td  width="120">讨论内容</td>
+				<td>
+					<textarea name="content" rows="10" cols="40"></textarea>
+					<span class="red">*</span>
+				</td>
+			</tr>
+		</table>
+		<div class="btn">
+			<input type="submit" value="添加" class="button"/>
+		</div>
+	</form>
+</if>

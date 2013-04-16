@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>数据字典管理</title>
+		<link rel="stylesheet" type="text/css" href="../Public/css/style.css" />
+		<script language="JavaScript">
+		function confirm_delete(url){
+			art.dialog.confirm("确认要删除信息吗?", function(){location.href = url;});
+		}
+		</script>
+	</head>
+	<body width="100%">
+		<div class="mainbox">
+			<form name="myform" action="#" method="post">
+				<div class="table-list">
+					<table width="100%" cellspacing="0">
+						<thead>
+							<tr>
+								<th >字段名</th>
+								<th >字段含义</th>
+								<th >字段值</th>
+								<th >字段值含义</th>
+								<th >顺序</th>
+								<th >类型</th>
+								<th >备注</th>
+								<th >管理操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<volist id="dict" name="data">
+								<tr>
+									<td align="center">{$dict["fd_name"]}</td>
+									<td align="center">{$dict["comment"]}</td>
+									<td align="center">{$dict["fd_value"]}</td>
+									<td align="center">{$dict["fd_mean"]}</td>
+									<td align="center">{$dict["seq"]|default="&nbsp"}</td>
+									<td align="center">{$dict["type"]}</td>
+									<td align="center">{$dict["remark"]|default="&nbsp"}</td>
+									<td align="center">
+										<a href="__URL__/edit/tb_name/{$dict['tb_name']}/fd_name/{$dict['fd_name']}/fd_value/{$dict['fd_value']}">修改</a> |
+										<a href="__URL__/delete/tb_name/{$dict['tb_name']}/fd_name/{$dict['fd_name']}/fd_value/{$dict['fd_value']}">删除</a>
+									</td>
+								</tr>
+							</volist>
+						</tbody>
+					</table>
+					<div id="dasha_footer">{$show}</div>
+				</div>
+		</form>
+		<div id="pages" class="page"></div>
+		</div>
+	</body>
+</html>

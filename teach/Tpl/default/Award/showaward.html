@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>西北师大教务支持系统 - 获奖记录管理</title>
+		<link rel="stylesheet" type="text/css" href="../Public/css/style.css" />
+	</head>
+	<body width="100%">
+		<form name="myform" action="" method="post">
+			<div class="table-list">
+				<table width="100%" cellspacing="0">
+					<thead>
+						<tr>
+							<th align="left">姓名</th>
+							<th>获奖年度</th>
+							<th>奖项名称</th>
+							<th>奖金额度</th>
+							<th>获奖证书及物品</th>
+							<th>管理操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<volist name="list" id="data">
+						<tr>
+							<td align="left">{$data[userid]}</td>
+							<td align="center">{$data[year]}</td>
+							<td align="center">{$data[name]}</td>
+							<td align="center">{$data[money]}</td>
+							<td align="center">{$data[award]}</td>
+							<td align="center">
+								<a href="__URL__/editaward/id/{$data['id']}">修改</a> |
+								<a href="__URL__/deleteaward/id/{$data['id']}">删除</a>
+							</td>
+						</tr>
+						</volist>
+					</tbody>
+				</table>
+				<div id="dasha_footer">{$show}</div>
+			</div>
+			<div class="btn">
+				<a href="__URL__/addaward/classid/{$classid}/type/{$type}"><input type="button" class="button" value="添加"></a>
+			</div>
+		</form>
+	</body>
+</html>

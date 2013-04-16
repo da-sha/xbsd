@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>西北师大教务支持系统 - 学生管理</title>
+		<link rel="stylesheet" type="text/css" href="../Public/css/style.css" />
+		<script type="text/javascript" src="../Public/js/jquery.min.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				
+				$("#level_id").change( function(){
+					$("#majorid_id").html("<option value=''>---正在努力加载！---</option>") ;
+					$.getJSON("__APP__/Ajax/getMajor/level/"+$(this).val(), function(data){
+						if( data.status == 1 )
+						{
+							$("#majorid_id").empty();
+							$("#majorid_id").html("<option value=''>---请选择专业---</option>") ;
+							$.each(data.data, function(id,value){
+								$("#majorid_id").append( "<option value='"+value.id+"'>"+value.name+"</option>");
+							})
+						}
+						else
+						{
+							$("#majorid_id").html("<option value=''>---"+data.info+"---</option>") ;
+						}
+					}) ;
+				});
+				$("#majorid_id").change( function(){
+					$("#year_id").html("<option value=''>---正在努力加载！---</option>") ;
+					$.getJSON("__APP__/Ajax/getyear/majorid/"+$(this).val(), function(data){
+						if( data.status == 1 )
+						{
+							$("#year_id").empty();
+							$("#year_id").html("<option value=''>---请选择年级---</option>") ;
+							$.each(data.data, function(id,value){
+								$("#year_id").append( "<option value='"+value.year+"'>"+value.year+"级"+"</option>");
+							})
+						}
+						else
+						{
+							$("#year_id").html("<option value=''>---"+data.info+"---</option>") ;
+						}
+					}) ;
+				})
+
+				var get_class_info = function(){
+					if($("#year_id").val()!='' && $("#majorid_id").val()!=''){
+						$("#classid_id").html("<option value=''>---正在努力加载！---</option>") ;
+						$.getJSON("__APP__/Ajax/getClass/majorid/"+$("#majorid_id").val() + "/year/" + $("#year_id").val(), function(data){
+							if( data.status == 1 )
+							{
+								$("#classid_id").empty();
+								$("#classid_id").html("<option value=''>---请选择班级---</option>") ;
+								$.each(data.data, function(id,value){
+									$("#classid_id").append( "<option value='"+value.id+"'>"+value.name+"</option>");
+								})
+							}
+							else
+							{
+								$("#classid_id").html("<option value=''>---"+data.info+"---</option>") ;
+							}
+						}) ;
+					}
+				}
+				$("#condition_table tr td select.allid").change( function(){
+					get_class_info() ;
+				} );
+
+				var get_body_info = function(){
+					$.get(  "__URL__/body/classid/"+ $("#classid_id").val()+"/type/"+$("#type_id").val() , function(data){
+						$(".table-list").remove();
+						$("#content").html(data) ;
+					});
+					return false;
+				}
+
+				if( $("#level_id").val() != "false" && $("#majorid_id").val() != "false" &&
+					$("#year_id").val() != "false" && $("#classid_id").val() != "false" )
+				{
+					get_body_info() ;
+				}
+				$("#condition_table tr td select").change( function(){
+					get_body_info() ;
+				} );
+				$("#dasha_footer a").live("click" , function(){
+					$.get($(this).attr("href"), function( data ){
+						$("#content").html(data) ;
+					}) ;
+					return false ;
+				}) ;
+				$("*").ajaxError(function(){
+					art.dialog.tips( "ajax error" );
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<div class="mainbox">
+			<div id="nav" class="mainnav_title">
+				<ul>
+					<a href="#" class="on">获奖记录管理</a>|
+					<a href="__URL__/add/type/{$typeconst}">添加获奖记录</a>
+				</ul>
+			</div>
+			<form method="post" action="__URL__/body">
+				<table width="100%" class="search_table" id="condition_table">
+					<tr>
+						<td align="left">
+							<select name="level" id="level_id">
+								<option value="false" selected>---请选择学生层次---</option>
+								<volist name="level_list" id="lel">
+									<if condition="$level_const eq $lel[id]">
+										<option value="{$lel['id']}" selected>{$lel['name']}</option>
+										<else/>
+										<option value="{$lel['id']}">{$lel['name']}</option>
+									</if>
+								</volist>
+							</select>
+							<select name="majorid" id="majorid_id" class="allid">
+								<option value="false" selected>-------------请先选择学生层次------------</option>
+								<volist name="major_list" id="data" >
+									<if condition="$const_major eq $data['id']">
+										<option value="{$data['id']}" selected>{$data['name']}</option>
+										<else/>
+										<option value="{$data['id']}">{$data['name']}</option>
+									</if>
+								</volist>
+							</select>
+							<select name="year" id="year_id" class="allid">
+								<option value="">--请先选择专业--</option>
+								<volist name="year_list" id="year">
+									<if condition="$const_classyear eq $year['id']">
+										<option value="{$year['id']}" selected>{$year['name']}级</option>
+										<else/>
+										<option value="{$year['id']}">{$year[name]}级</option>
+									</if>
+								</volist>
+							</select>
+							<select name="classid" id ="classid_id">
+								<option value="false">--------请先选择年级-------</option>
+								<volist name="class_list" id="cl">
+									<if condition="$const_class eq $cl['id']">
+										<option value="{$cl['id']}" selected>{$cl['name']}</option>
+										<else/>
+										<option value="{$cl['id']}">{$cl[name]}</option>
+									</if>
+								</volist>
+							</select>
+							<input type="hidden" class="input-text"  name="type" id="type_id" value="{$typeconst}"/>
+						</td>
+					</tr>
+					<tr>
+						<td algin="right">
+						<div id="content">
+							<div class="table-list">
+								<table width="100%" cellspacing="0">
+									<thead>
+										<tr>
+											<th align="left">姓名</th>
+											<th>获奖年度</th>
+											<th>奖项名称</th>
+											<th>奖金额度</th>
+											<th>获奖证书及物品</th>
+											<th>管理操作</th>
+										</tr>
+									</thead>
+								</table>
+								<div id="dasha_footer">{$show}</div>
+							</div>
+						</div>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</body>
+</html>

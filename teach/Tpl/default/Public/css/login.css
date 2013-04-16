@@ -1,0 +1,111 @@
+@CHARSET "UTF-8";
+
+/*login中的信息保留待改*/
+.box_left{
+	width: 60%;
+	float: left;
+}
+.news{
+	width: 600px;
+	margin-right: 100px;
+	float: right;
+}
+
+.box_right{
+	width: 40%;
+	float: right;
+	height: 100%;
+}
+.box_right .login_box{
+	width: 300px;
+	margin-top: 300px;
+	height: auto;
+}
+
+.box_right .login_box li a{
+	float: right;
+}
+.news_title{
+	height: 50px;
+	width: auto;
+	line-height: 50px;
+	padding-left: 5px;
+    font-family: "Microsoft Yahei",Tahoma;
+	font-weight: 700;
+	font-size: 14px;
+	color:#734fea;
+}
+
+.login_box li, #error_prompt{
+    width: 194px;
+}
+
+#error_prompt{
+	height: 16px;
+	color: red;
+	font-size: 12px;
+}
+
+.login_input {
+    position: relative;
+    width: 183px;
+    height: 47px;
+}
+
+.login_input .txt_default {
+	position: absolute;
+	font-size: 14px;
+	font-family: "Microsoft Yahei",Tahoma;
+	color: #666;
+	top: 2px;
+	left: 10px;
+	cursor: text;
+}
+
+.login_input .input_text {
+    border: 1px solid red;
+    font-size: 14px;
+    font-family: "Microsoft Yahei",Tahoma;
+    height: 23px;
+    width: 183px;
+    color: #666;
+    padding: 1px 0 2px 9px;
+}
+
+.save_passwd{
+    width: 100%;
+    height: 31px;
+    padding-top: 5px;
+}
+
+.save_passwd label{
+	float: left;
+}
+
+.save_passwd label input[type="checkbox"]{
+	font-weight: normal;
+    color: #333;
+    vertical-align: middle;
+    margin: 0 5px 1px 0;
+    padding: 0;
+    font-size: 12px;
+}
+
+.login_btn {
+    width: 64px;
+    height: 29px;
+    line-height: 29px;
+    overflow: hidden;
+    font-size: 14px;
+    font-color: #000;
+    text-align: center;
+    font-family: "Microsoft Yahei",Tahoma;
+    background-color: #09c;
+    border: none;
+    cursor: pointer;
+}
+
+input[type="button"].login_btn{
+	float: right;
+	width: 85px;
+}

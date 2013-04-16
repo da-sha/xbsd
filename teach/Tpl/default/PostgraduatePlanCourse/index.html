@@ -1,0 +1,355 @@
+<layout name="layout_no_nav"/>
+
+{:define_json('major',$major_list)}
+{:define_json('admissiondate',$admissiondate_list)}
+{:define_json('semester',$semester_list)}
+
+{:define_json('level',$level_list)}
+{:define_json('property',$course_property_list)}
+{:define_json('cou_type',$course_type_list)}
+{:define_json('exam_type',$exam_list)}
+{:define_json('cou_category',$course_category_list)}
+<script src="../Public/js/course.js"></script>
+<script type="text/javascript" src="../Public/js/easyui/plugins/datagrid-detailview.js"></script>
+
+<script>
+    $(function(){
+        $('#major_require_course_table_add').datagrid({
+            toolbar:"#tb_major_require_course_add",
+            url:"__APP__/UndergraduateMajorCourse/require_course",
+            rowStyler: function(index,row){  
+                if (row.added == 1){  
+                    return 'background-color:#6293BB;color:#fff;font-weight:bold;';  
+                }
+            },
+            onLoadSuccess:function(data){
+                var data = data['rows'];
+				$('#major_require_course_table_add').datagrid("unselectAll");
+                for(var course in data){
+                    if(data[course]['added'] == 1){
+                        $('#major_require_course_table_add').datagrid("selectRecord",data[course]['courseid']);
+                    }
+                }
+            },
+			onDblClickRow:function(rowIndex, rowData){
+				var url = "";
+				var add_form = $("#major_require_course_add_form").serializeJson();
+
+				var data = {
+					courseid: rowData["courseid"],
+					form_value:add_form
+				}
+				if(rowData['added'] == false){
+					url = "__APP__/UndergraduateMajorCourse/require_insert";
+				}else{
+					url = "__APP__/UndergraduateMajorCourse/require_delete";
+				}
+				$.ajax({
+                    url:url,
+                    success: function(data, textStatus, jqXHR){
+                        $('#major_require_course_table_add').datagrid("reload");
+                    },
+                    type: 'POST',
+                    error: function(XMLHttpRequest, textStatus, errorThrown){
+                        $.messager.alert('发生错误',textStatus,'info');
+                    },
+                    dataType : 'json',
+                    data:data
+                });
+			}
+        });
+		$('#major_select_limit_course_table').datagrid({
+            toolbar:"#tb_major_select_limit_course_add",
+            url:"__APP__/UndergraduateMajorCourse/select_limit",
+            rowStyler: function(index,row){  
+                if (row.added == 1){  
+                    return 'background-color:#6293BB;color:#fff;font-weight:bold;';  
+                }
+            },
+            onLoadSuccess:function(data){
+                var data = data['rows'];
+				$('#major_select_limit_course_table_add').datagrid("unselectAll");
+                for(var course in data){
+                    if(data[course]['added'] == 1){
+                        $('#major_select_limit_course_table_add').datagrid("selectRecord",data[course]['courseid']);
+                    }
+                }
+            },
+			onDblClickRow:function(rowIndex, rowData){
+				var url = "";
+				var add_form = $("#major_select_limit_course_add_form").serializeJson();
+
+				var data = {
+					courseid: rowData["courseid"],
+					form_value:add_form
+				}
+				if(rowData['added'] == false){
+					url = "__APP__/UndergraduateMajorCourse/insert";
+				}else{
+					url = "__APP__/UndergraduateMajorCourse/delete";
+				}
+				$.ajax({
+                    url:url,
+                    success: function(data, textStatus, jqXHR){
+                        $('#major_select_limit_course_table_add').datagrid("reload");
+                    },
+                    type: 'POST',
+                    error: function(XMLHttpRequest, textStatus, errorThrown){
+                        $.messager.alert('发生错误',textStatus,'info');
+                    },
+                    dataType : 'json',
+                    data:data
+                });
+			},
+			view: detailview,
+			detailFormatter: function(rowIndex, rowData){
+				return '<div class="ddv"></div>';
+			},
+			onExpandRow: function(index,row){
+				var ddv = $(this).datagrid('getRowDetail',index).find('div.ddv');
+				ddv.panel({
+					border:false,
+					cache:true,
+					href:'__APP__/UndergraduatePlanCourse/class_table',
+					onLoad:function(){
+						$('#major_select_limit_course_table').datagrid('fixDetailRowHeight',index);
+						$('#major_select_limit_course_table').datagrid('selectRow',index);
+						//$('#major_select_limit_course_table').datagrid('getRowDetail',index).find('form').form('load',row);
+					}
+				});
+				$('#dg').datagrid('fixDetailRowHeight',index);
+			}
+        });
+        $('#public_require_course_table_add').datagrid({
+            toolbar:"#tb_public_require_course_add",
+            url:"__APP__/UndergraduatePublicCourse/add",
+            rowStyler: function(index,row){  
+                if (row.added == 1){  
+                    return 'background-color:#6293BB;color:#fff;font-weight:bold;';  
+                }  
+            },
+			onLoadSuccess:function(data){
+                var data = data['rows'];
+				$('#public_require_course_table_add').datagrid("unselectAll");
+                for(var course in data){
+                    if(data[course]['added'] == 1){
+                        $('#public_require_course_table_add').datagrid("selectRecord",data[course]['courseid']);
+                    }
+                }
+            },
+			onDblClickRow:function(rowIndex, rowData){
+				var url = "";
+				var add_form = $("#public_require_course_add_form").serializeJson();
+
+				var data = {
+					courseid: rowData["courseid"],
+					form_value:add_form
+				}
+				if(rowData['added'] == false){
+					url = "__APP__/UndergraduatePublicCourse/insert";
+				}else{
+					url = "__APP__/UndergraduatePublicCourse/delete";
+				}
+				$.ajax({
+                    url:url,
+                    success: function(data, textStatus, jqXHR){
+                        $('#public_require_course_table_add').datagrid("reload");
+                    },
+                    type: 'POST',
+                    error: function(XMLHttpRequest, textStatus, errorThrown){
+                        $.messager.alert('发生错误',textStatus,'info');
+                    },
+                    dataType : 'json',
+                    data:data
+                });
+			}
+        });
+    });
+    
+</script>
+<div id="tt" class="easyui-tabs" style="width:auto;height:auto;">  
+    <div title="专业平台课程" data-options="" style="overflow:auto">  
+        <table id="major_require_course_table_add" style="width:auto;height:auto;overflow:scroll"
+            data-options="idField:'courseid',
+            pagination:true,nowrap:true,pageSize:20">
+            <thead>
+                <tr>
+                    <th data-options="field:'ck',checkbox:true"></th>
+                    <th data-options="field:'courseid',width:60,sortable:true,align:'center'">课程ID</th>
+                    <th data-options="field:'name',width:150,sortable:true">课程名称</th>
+                    <th data-options="field:'cou_category',width:80,
+                        formatter:data_formatter('cou_category')
+                        ">课程类别</th>
+                    <th data-options="field:'cou_type',width:80,
+                        formatter:data_formatter('cou_type')
+                        ">课程类型</th>
+                    <th data-options="field:'property',width:80,
+                        formatter:data_formatter('property')
+                        ">课程性质</th>
+                    <th data-options="field:'exam_type',width:80,
+                        formatter:data_formatter('exam_type')
+                        ">考试类型</th>
+                    <th data-options="field:'planweektime',width:80,
+                        ">理论周学时</th>
+                    <th data-options="field:'expweektime',width:80,
+                        ">实验周学时</th>
+                    <th data-options="field:'week',width:80,
+                        ">开设周数</th>
+                    <th data-options="field:'totaltime',width:80,
+                        ">总学时</th>
+                    <th data-options="field:'credit',width:80,
+                        ">学分</th>
+                    <th data-options="field:'syllabus',width: 150,
+                        ">教学大纲</th>
+                </tr>
+            </thead>
+        </table>
+        <div id="tb_major_require_course_add" style="padding:5px;height:auto">  
+            <form id="major_require_course_add_form">
+                <div >
+                    专业<input name="majorid" class="easyui-combobox" style="width:170px"  
+                    data-options="data:major,valueField:'majorid',textField:'name',panelHeight:200,required:true" />
+                    年级<input name="admissiondate" class="easyui-combobox" style="width:70px"  
+                    data-options="data:admissiondate,valueField:'id',textField:'name',panelHeight:110,required:true"/>
+                    学期<input name="semester" class="easyui-combobox" style="width:70px"  
+                    data-options="data:semester,valueField:'id',textField:'name',panelHeight:170,required:true"/>
+					显示未增加课程<input type="checkbox" name="listall" checked/>
+                    <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="
+                        if($('#major_require_course_add_form').form('validate')){
+							$('#major_require_course_table_add').datagrid('load',$('#major_require_course_add_form').serializeJson())
+						};
+						" plain="true" title="查看指定专业的计划课程">查看</a>
+                </div>  
+                <div>
+                    过滤：课程名<input id="name" name="name" class="easyui-text" style="width:120px">
+                    课程性质<input id="property" name="property" class="easyui-combobox" style="width:70px"  
+                    data-options="data:property,valueField:'id',textField:'name',panelHeight:90"/>
+                    考试类型<input id="exam_type" name="exam_type" class="easyui-combobox" style="width:70px"  
+                    data-options="data:exam_type,valueField:'id',textField:'name',panelHeight:50"/>
+                    <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="
+                        $('#major_require_course_table_add').edatagrid('load',$('#major_require_course_add_form').serializeJson())" plain="true">过滤</a>  
+                </form>
+            </div>  
+        </div>  
+
+    </div>  
+	<div title="学院平台课程" style="">
+		<table id="major_select_limit_course_table" style="width:auto;height:auto;overflow:scroll"
+            data-options="idField:'courseid',
+            pagination:true,nowrap:true,pageSize:20">
+            <thead>
+                <tr>
+                    <th data-options="field:'courseid',width:60,sortable:true,align:'center'">课程ID</th>
+                    <th data-options="field:'name',width:150,sortable:true">课程名称</th>
+                    <th data-options="field:'cou_category',width:80,
+                        formatter:data_formatter('cou_category')
+                        ">课程类别</th>
+                    <th data-options="field:'cou_type',width:80,
+                        formatter:data_formatter('cou_type')
+                        ">课程类型</th>
+                    <th data-options="field:'property',width:80,
+                        formatter:data_formatter('property')
+                        ">课程性质</th>
+                    <th data-options="field:'exam_type',width:80,
+                        formatter:data_formatter('exam_type')
+                        ">考试类型</th>
+                    <th data-options="field:'planweektime',width:80,
+                        ">理论周学时</th>
+                    <th data-options="field:'expweektime',width:80,
+                        ">实验周学时</th>
+                    <th data-options="field:'week',width:80,
+                        ">开设周数</th>
+                    <th data-options="field:'totaltime',width:80,
+                        ">总学时</th>
+                    <th data-options="field:'credit',width:80,
+                        ">学分</th>
+                    <th data-options="field:'syllabus',width: 150,
+                        ">教学大纲</th>
+                </tr>
+            </thead>
+        </table>
+        <div id="tb_major_select_limit_course_add" style="padding:5px;height:auto">  
+            <form id="major_select_limit_course_add_form">
+                <div>
+                    过滤：课程名<input id="name" name="name" class="easyui-text" style="width:120px">
+                    课程性质<input id="property" name="property" class="easyui-combobox" style="width:70px"  
+                    data-options="data:property,valueField:'id',textField:'name',panelHeight:90"/>
+                    考试类型<input id="exam_type" name="exam_type" class="easyui-combobox" style="width:70px"  
+                    data-options="data:exam_type,valueField:'id',textField:'name',panelHeight:50"/>
+                    <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="
+                        $('#major_select_limit_course_table').edatagrid('load',$('#major_select_limit_course_add_form').serializeJson())" plain="true">过滤</a>  
+                </form>
+            </div>  
+        </div>  
+	</div>
+    <div title="学校平台课程" data-options="" style="overflow:auto">  
+        <table id="public_require_course_table_add" style="width:auto;height:auto;overflow:scroll"
+            data-options="idField:'courseid',
+            pagination:true,nowrap:true,pageSize:20">
+            <thead>
+                <tr>
+                    <th data-options="field:'ck',checkbox:true">课程ID</th>
+                    <th data-options="field:'courseid',width:60,sortable:true,align:'center'">课程ID</th>
+                    <th data-options="field:'name',width:150,sortable:true">课程名称</th>
+                    <th data-options="field:'cou_category',width:80,
+                        formatter:data_formatter('cou_category')
+                        ">课程类别</th>
+                    <th data-options="field:'cou_type',width:80,
+                        formatter:data_formatter('cou_type')
+                        ">课程类型</th>
+                    <th data-options="field:'property',width:80,
+                        formatter:data_formatter('property')
+                        ">课程性质</th>
+                    <th data-options="field:'exam_type',width:80,
+                        formatter:data_formatter('exam_type')
+                        ">考试类型</th>
+                    <th data-options="field:'planweektime',width:80,
+                        ">理论周学时</th>
+                    <th data-options="field:'expweektime',width:80,
+                        ">实验周学时</th>
+                    <th data-options="field:'week',width:80,
+                        ">开设周数</th>
+                    <th data-options="field:'totaltime',width:80,
+                        ">总学时</th>
+                    <th data-options="field:'credit',width:80,
+                        ">学分</th>
+                    <th data-options="field:'syllabus',width: 150,
+                        ">教学大纲</th>
+                </tr>
+            </thead>
+        </table>
+        <div id="tb_public_require_course_add" style="padding:5px;height:auto">  
+            <div>
+                <form id="public_require_course_add_form">
+                    <div >
+                        年级<input name="admissiondate" class="easyui-combobox" style="width:70px"  
+                        data-options="data:admissiondate,valueField:'id',textField:'name',panelHeight:110"/>
+                        学期<input name="semester" class="easyui-combobox" style="width:70px"  
+                        data-options="data:semester,valueField:'id',textField:'name',panelHeight:170"/>
+						显示未增加课程<input type="checkbox" name="listall" checked/>
+
+						<a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="
+                        if($('#public_require_course_add_form').form('validate')){
+							$('#public_require_course_table_add').datagrid('load',$('#public_require_course_add_form').serializeJson())
+						};
+						" plain="true" title="查看指定学期的计划课程">查看</a>
+                    </div>  
+
+                    课程名<input id="name" name="name" class="easyui-text" style="width:120px">  
+                    课程类别<input id="cou_category" name="cou_category" class="easyui-combobox" style="width:70px"  
+                    data-options="data:cou_category,valueField:'id',textField:'name',panelHeight:50"/>
+                    课程类型<input id="cou_type" name="cou_type" class="easyui-combobox" style="width:70px"  
+                    data-options="data:cou_type,valueField:'id',textField:'name',panelHeight:100"/>
+                    课程性质<input id="property" name="property" class="easyui-combobox" style="width:70px"  
+                    data-options="data:property,valueField:'id',textField:'name',panelHeight:90"/>
+                    考试类型<input id="exam_type" name="exam_type" class="easyui-combobox" style="width:70px"  
+                    data-options="data:exam_type,valueField:'id',textField:'name',panelHeight:50"/>
+                    <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="
+                        $('#public_require_course_table_add').edatagrid('load',$('#public_require_course_add_form').serializeJson())" plain="true">过滤</a>  
+                </form>
+            </div>  
+        </div>  
+    </div>
+</div>
+
+

@@ -1,0 +1,137 @@
+<layout name="layout_no_nav"/>
+<script>
+    /*同意*/
+    var approval = function(teachid){
+            art.dialog.open(APP + "/TeacherCourse/approval/teachid/" + teachid,{
+            title: "授课操作",
+            width: 500,
+            height: 200,
+            button:[{
+                name:"同意授课",
+                focus: true,
+                callback: function(){
+                    var iframe = this.iframe.contentWindow;
+                    $approval_edit = $(iframe.document).find("#approval_edit");
+                    values = $approval_edit.serialize();
+                    
+                    $.ajax({
+                        url:APP + "/TeacherCourse/teacher_approval/b_approval/1/teachid/" + teachid + "",
+                        success: function(data, textStatus, jqXHR){
+                            window.setTimeout("window.location.reload();", 500);
+                            art.dialog.tips(data.info,0.5);
+                        },
+                        type: 'GET',
+                        error: function(XMLHttpRequest, textStatus, errorThrown){
+                            art.dialog.through({
+                                title:textStatus,
+                                content: "发生错误"
+                            });
+                        },
+                        dataType : 'json',
+                        data:values
+                    });
+                }
+                },{
+                name:"拒绝授课",
+                callback: function(){
+                    var iframe = this.iframe.contentWindow;
+                    $approval_edit = $(iframe.document).find("#approval_edit");
+                    values = $approval_edit.serialize();
+                    
+                    $.ajax({
+                        url:APP + "/TeacherCourse/teacher_approval/b_approval/0/teachid/" + teachid,
+                        success: function(data, textStatus, jqXHR){
+                            window.setTimeout("window.location.reload();", 500);
+                            art.dialog.tips(data.info,0.5);
+                        },
+                        type: 'GET',
+                        error: function(XMLHttpRequest, textStatus, errorThrown){
+                            art.dialog.through({
+                                title:textStatus,
+                                content: "发生错误"
+                            });
+                        },
+                        dataType : 'json',
+                        data:values
+                    });
+                }
+            }],
+        });
+    }
+    var approval_new = function(teachid,b_approval){
+        var tip_info = b_approval == 1 ? "确认同意授课？" : "确认拒绝授课？";
+        art.dialog.confirm(tip_info,function(){
+            $.ajax({
+                url:APP + "/TeacherCourse/teacher_approval/b_approval/" + b_approval + "/teachid/" + teachid,
+                success: function(data, textStatus, jqXHR){
+                    window.setTimeout("window.location.reload();", 500);
+                    art.dialog.tips(data.info,0.5);
+                },
+                type: 'GET',
+                error: function(XMLHttpRequest, textStatus, errorThrown){
+                    art.dialog.through({
+                        title:textStatus,
+                        content: "发生错误"
+                    });
+                },
+                dataType : 'json'
+            });
+        });
+    }
+</script>
+<form id="teacher_future">
+    <div class="table-list">
+        <table width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th align="left">课程名</th>
+                    <th width="70">授课时间</th>
+                    <th width="70">课程类型</th>
+                    <th width="70">课程性质</th>
+                    <th width="70">学生层次</th>
+                    <th width="300">授课班级</th>
+					<!--
+                    <th width="70">管理操作</th>
+					-->
+                </tr>
+            </thead>
+            <tbody>
+                <volist name="course_list" id="course">
+                <tr>
+                    <td align="left">{$course["name"]|default="&nbsp;"}</td>
+                    <td align="center">{$course["teach_year"]|default="&nbsp;"}{$course[teach_quarter]}</td>
+                    <td align="center">{$course["cou_type"]|default="&nbsp;"}</td>
+                    <td align="center">{$course["property"]|default="&nbsp;"}</td>
+                    <td align="center">{$course["level"]|default="&nbsp;"}</td>
+                    <td align="left">
+                        <volist name="course[classes]" id="cla">
+                            {$cla["register_date"]}级{$cla["classname"]}<br/>
+                        </volist>
+                    </td>
+					<!--
+                    <td align="center">
+                        <php>
+                        if($course["status"] == $TEACH_TASK_APPROVAL_STATUS_NO){
+                            echo '<font color="red">已拒绝</font>';
+                        }else if($course["status"] == $TEACH_TASK_APPROVAL_STATUS_YES){
+                            echo '<font color="green">已同意</font>';
+                        }else if($course["status"] == $TEACH_TASK_APPROVAL_STATUS_WAIT){
+                            echo "<a href='javascript:void(0)' onClick='approval_new(".$course['teachid'].",1)'>同意</a> |";
+                            echo "<a href='javascript:void(0)' onClick='approval_new(".$course['teachid'].",0)'>拒绝</a>";
+                        }
+                        </php>
+                    </td>
+					-->
+                </tr>
+                </volist>
+            </tbody>
+        </table>
+        <php>
+            if(empty($course_list) == true){
+                echo "<div id='dasha_footer'>对不起，没有数据</div>";
+            }else{
+				echo "<div id='dasha_footer'>".$show."</div>";
+			}
+        </php>
+    </div>
+</form>

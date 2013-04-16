@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>西北师大教务支持系统 - 数据库管理</title>
+		<link rel="stylesheet" type="text/css" href="../Public/css/style.css" />
+		<script type="text/javascript" src="../Public/js/jquery.min.js"></script>
+		<script type="text/javascript">
+			function selectall(name) {
+				if ($("#all").attr("checked")) {
+					$("input[name='"+name+"']").attr("checked", true);
+				} else {
+					$("input[name='"+name+"']").attr("checked", false);
+				}
+			}
+		</script>
+	</head>
+	<body>
+	<form id="myform" name="myform" method="post" action="">
+	<div class="table-list">
+       <table cellpadding=0 cellspacing=0  width="100%">
+	   <thead>
+		   <tr>
+			   <th style="width:5%" align="left">选择</th>
+			   <th align="left" style="width:20%">数据表名</th>
+			   <th align="left" style="width:20%">表名注释</th>
+			   <th align="left" style="width:15%">类型</th>
+			   <th align="left" style="width:20%">字符集</th>
+			   <th align="left" style="width:10%">记录数</th>
+			   <th align="left" style="width:10%">大小</th>
+		   </tr>
+		</thead>
+		<tbody>
+			<volist name="dataList" id="vo">
+				<tr>
+					<td><input type="checkbox" name="tables[]" value="{$vo.Name}" id="{$vo.Name}"></input> </td>
+					<td>{$vo.Name}</td>
+					<td>{$vo.Comment}</td>
+					<td>{$vo.Engine}</td>
+					<td>{$vo.Collation}</td>
+					<td>{$vo.Rows}</td>
+					<td>{$vo.Data_length|byte_format}</td>
+				</tr>
+			</volist>
+		</tbody>
+		</table>
+		</div>
+		<div class="btn">
+			<input type="checkbox" value="" id="all" onclick="selectall('tables[]');"></input>全选&nbsp;&nbsp;
+			<input type="button" class="button"  name="" value="从备份文件恢复" onclick="myform.action='__URL__/recover';$('#myform').submit();" ></input>
+			<input type="button" class="button"  name="" value="备份" onclick="myform.action='__URL__/backup';$('#myform').submit();"></input>
+			<span style="float:right;color:#FB0000">数据库大小：{$totalSize|byte_format}</span>
+		</div>
+	</form>
+</body>

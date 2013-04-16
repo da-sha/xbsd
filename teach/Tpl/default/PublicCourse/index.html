@@ -1,0 +1,80 @@
+<layout name="layout"/>
+<table  class="search_table" width="100%">
+    <tr>
+        <td>
+            <form action="{:U('PublicCourse/index')}" method="get">
+                <input type="hidden" name="m" value="{$Think.MODULE_NAME}" />
+                <input type="hidden" name="a" value="{$Think.ACTION_NAME}" />			
+
+                筛选：<input id="title" type="text" class="input-text" name="keyword" value="{$Think.get.keyword}" />
+                <select name="searchtype">
+                    <option value="name" <eq name="searchtype" value='name'>selected="selected"</eq>>课程名</option>
+                    <option value="id" <eq name="searchtype" value="id">selected="selected"</eq>>课程ID</option>
+                </select>
+                <select name="level" id ="level">
+                    <option value="">---学生层次---</option>
+                    <volist name="level_list" id="s_level" >
+                    <if condition="$level eq $s_level['id']">
+                    <option value="{$s_level['id']}" selected>{$s_level['name']}</option>
+                    <else/>
+                    <option value="{$s_level['id']}">{$s_level['name']}</option>
+                    </if>
+                    </volist>
+                </select>
+                <select name="cou_type" id ="cou_category">
+                    <option value="">---课程类型---</option>
+                    <volist name="course_type_list" id="cou" >
+                    <if condition="$cou_type eq $cou['id']">
+                    <option value="{$cou['id']}" selected>{$cou['name']}</option>
+                    <else/>
+                    <option value="{$cou['id']}">{$cou['name']}</option>
+                    </if>
+                    </volist>
+                </select>
+
+                <input type="submit" value="{:L('chaxun')}"  class="button" />
+            </form>
+        </td>
+
+    </tr>
+</table>
+<div class="mainbox">
+    <div class="table-list">
+        <table width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>课程代码</th>
+                    <th>课程名</th>
+                    <th>学生层次</th>
+                    <th>课程性质</th>
+                    <th>课程类型</th>
+                    <th>课程类别</th>
+                    <th>理论周学时</th>
+                    <th>实验周学时</th>
+                    <th>开设周数</th>
+                    <th>管理操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <volist id="course" name="course_list">
+                <tr>
+                    <td align="center">{$course["id"]}</td>
+                    <td align="center">{$course["name"]|default="&nbsp;"}</td>
+                    <td align="center">{$course["level"]|default="&nbsp;"}</td>
+                    <td align="center">{$course["property"]|default="&nbsp;"}</td>
+                    <td align="center">{$course["cou_type"]|default="&nbsp;"}</td>
+                    <td align="center">{$course["exam_type"]|default="&nbsp;"}</td>
+                    <td align="center">{$course["theweektime"]|default="&nbsp;"}</td>
+                    <td align="center">{$course["expweektime"]|default="&nbsp;"}</td>
+                    <td align="center">{$course["week"]|default="&nbsp;"}</td>
+                    <td align="center">
+                        <a href="__URL__/edit/id/{$course['id']}">修改</a> | 
+                        <a href="javascript:confirm_delete('__URL__/delete/id/{$course['id']}')">删除</a>
+                    </td>
+                </tr>
+                </volist>
+            </tbody>
+        </table>
+        <div id="pages">{$show}</div>
+    </div>
+</div>

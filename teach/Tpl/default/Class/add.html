@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>西北师大教务支持系统 - 修改班级信息管理</title>
+		<link rel="stylesheet" type="text/css" href="../Public/css/style.css" />
+        <script type="text/javascript" src="../Public/js/jquery.min.js"></script>
+        <script type="text/javascript" src="../Public/js/jquery.form.js"></script>
+        <script type="text/javascript" src="../Public/js/jquery.validate.js"></script>
+		<script>
+			$(document).ready(function() {
+				$("#level_id").change( function(){
+					$("#majorid_id").html("<option value=''>---正在努力加载！---</option>") ;
+					$.getJSON("__APP__/Ajax/getMajor/level/"+$(this).val(), function(data){
+						if( data.status == 1 )
+						{
+							$("#majorid_id").empty();
+							$("#majorid_id").html("<option value=''>---请选择专业---</option>") ;
+							$.each(data.data, function(id,value){
+								$("#majorid_id").append( "<option value='"+value.id+"'>"+value.name+"</option>");
+							})
+						}
+						else
+						{
+							$("#majorid_id").html("<option value=''>---"+data.info+"---</option>") ;
+						}
+					}) ;
+				}).ajaxError(function(){
+					//
+					art.dialog.tips( "ajax error" );
+				});
+			});
+		</script>
+		<link rel="stylesheet" type="text/css" href="../Public/css/dasha_chosen.css" />
+		<script type="text/javascript" src="../Public/js/dasha_chosen.js"></script>
+		<script type="text/javascript">
+			ajaxurl = "__APP__/Ajax/getteacher" ;
+			trytip = "---正在努力加载中---" ;
+			titletip = "请选择老师" ;
+			closetip = "关闭" ;
+		</script>
+		</head>
+		<body width="100%">
+		<div class="mainbox">
+			<div id="nav" class="mainnav_title">
+				<ul>
+					<a href="__URL__/index">班级管理</a>|
+					<a href="__URL__/add" class="on">添加班级</a>|
+				</ul>
+			</div>
+			<form method='post'  id="myform" action="__URL__/insert">
+				<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+					<tr>
+						<td  width="120">学生层次</td>
+						<td>
+							<select name="level" id="level_id" validate="required:true">
+								<option value="false" selected>---请选择学生层次---</option>
+								<volist name="level_list" id="lel">
+									<if condition="$level_const eq $lel[id]">
+										<option value="{$lel['id']}" selected>{$lel['name']}</option>
+										<else/>
+										<option value="{$lel['id']}">{$lel['name']}</option>
+									</if>
+								</volist>
+							</select>
+							<span class="red">*</span>
+						</td>
+					</tr>
+					<tr>
+						<td  width="120">所属专业</td>
+						<td>
+							<select name="majorid" id="majorid_id" validate="required:true">
+								<option value="false" selected>---请先选择学生层次---</option>
+								<volist name="major_list" id="ma">
+									<option value="{$ma['id']}">{$ma[name]}</option>
+								</volist>
+							</select>
+							<span class="red">*</span>
+						</td>
+					</tr>
+					<tr>
+						<td  width="120">班级名称</td>
+						<td>
+							<input type="text" class="input-text"  name="name" id="name" validate="required:true"></input>
+							<span class="red">*</span>
+						</td>
+					</tr>
+					<tr>
+						<td  width="120">班级人数</td>
+						<td>
+							<input type="text" class="input-text"  name="num" id="num" validate="required:true,digits:true, min:1"></input>
+							<span class="red">*</span>
+						</td>
+					</tr>
+					<tr>
+						<td  width="120">班主任</td>
+						<td>
+							<input type="text" name="head_teacher" id="head_teacher" class="dasha_chosen_input" size="50" validate="required:true"/>
+							<span class="red">*</span>
+						</td>
+					</tr>
+					<tr>
+						<td  width="120">辅导员</td>
+						<td>
+							<input type="text" name="instructor" id="instructor" class="dasha_chosen_input" size="50" validate="required:true"/>
+							<span class="red">*</span>
+						</td>
+					</tr>
+					<tr>
+						<td  width="120">班级成立年</td>
+						<td>
+							<select name="register_date"  validate="required:true">
+								<volist name="register_date_list" id="rl">
+									<option value="{$rl['id']}">{$rl[name]}年</option>
+								</volist>
+							</select>
+							<span class="red">*</span>
+						</td>
+					</tr>
+				</table>
+				<div class="btn">
+					<input type="submit" value="提交" class="button" />
+				</div>
+			</form>
+		</div>
+	</body>
+</html>

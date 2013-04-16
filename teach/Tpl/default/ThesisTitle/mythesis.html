@@ -1,0 +1,89 @@
+<layout name="layout"/>
+<script type="text/javascript" src="../Public/js/thesis.js"></script>
+<script type="text/javascript" src="../Public/js/dasha_edit_table.js"></script>
+&nbsp;
+<form action="__APP__/Thesis/ajax_update" method="post" class="want_print">
+	<fieldset>
+		<legend>我的论文：</legend>
+		<table width="100%" class="dasha_table edit_table">
+			<tr>
+				<td class="key" width="100">学生姓名</td>
+				<td>{$student['stu_name']}</td>
+				<td class="key">性别</td>
+				<td width="40">{$student['gender_name']}</td>
+				<td class="key">班级</td>
+				<td colspan="3">{$student['cla_name']}</td>
+			</tr>
+			<tr>
+				<td id="mythesis_id" mythesis_id="{$mythesis['thesisid']}" class="key">论文题目</td>
+				<td colspan="5">{$mythesis['name']|default="&nbsp;"}</td>
+				<td class="key">类型</td>
+				<td >{$mythesis['type_name']|default="&nbsp;"}</td>
+			</tr>
+			<tr>
+				<td class="key">选题来源</td>
+				<td colspan="3" name="title_source" class="edit_input">{$mythesis['title_source']}</td>
+				<td class="key" width="60">论文状态</td>
+				<td>{$mythesis['state_name']|default="&nbsp;"}</td>
+				<td class="key" width="80">论文字数统计</td>
+				<td>{$mythesis['word_num']|default="&nbsp;"}</td>
+			</tr>
+			<tr>
+				<td class="key">题目内容与要求</td>
+				<td colspan="7">
+					<pre>{$mythesis['content']|default="&nbsp;"}</pre>
+				</td>
+			</tr>
+			<tr>
+				<td class="key">导师评语</td>
+				<td colspan="7">
+					<pre>{$mythesis['comment']|default="&nbsp;"}</pre>
+				</td>
+			</tr>
+			<tr>
+				<td class="key">完成时间</td>
+				<td colspan="3">{$mythesis['deadline']|default="&nbsp;"}</td>
+				<td class="key">初评成绩</td>
+				<td>{$mythesis['first_score']|default="&nbsp;"}</td>
+				<td class="key">总评成绩</td>
+				<td>{$mythesis['final_score']|default="&nbsp;"}</td>
+			</tr>
+			<input type="hidden" name="userid" value="{$mythesis['userid']}"/>
+			<input type="hidden" name="thesisid" value="{$mythesis['thesisid']}"/>
+		</table>
+		<if condition="$can_withdraw">
+			<div class= "btn">
+				<input TYPE="button" value="退选" class="button withdraw_title"/>
+			</div>
+		</if>
+	</fieldset>
+	<div id="dasha_footer" class="edit_confirm">{$show}</div>
+</form>
+<div class= "btn">
+	<form action="__APP__/Print/index" method="post" target="_blank">
+		<input type="hidden" class="content" name="content" value=""/>
+		<input TYPE="button" value="打印" class="button print"/>
+	</form>
+</div>
+&nbsp;
+<if condition="$teacher">
+	<fieldset>
+		<legend>我的导师：</legend>
+		<table width="100%" class="dasha_table">
+			<tr>
+				<td class="key">导师姓名</td>
+				<td>{$teacher['name']}</td>
+				<td class="key">职称</td>
+				<td>{$teacher['job_title']|default="&nbsp;"}</td>
+				<td class="key">所属机构</td>
+				<td >{$teacher['orgid_name']|default="&nbsp;"}</td>
+			</tr>
+			<tr>
+				<td class="key">研究方向</td>
+				<td colspan="3">{$teacher['research']|default="&nbsp;"}</td>
+				<td class="key">联系电话</td>
+				<td>{$teacher['telphone1']|default="&nbsp;"}</td>
+			</tr>
+		</table>
+	</fieldset>
+</if>

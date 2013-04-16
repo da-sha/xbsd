@@ -1,0 +1,53 @@
+<script>
+	$(function() {
+		$("#homework_deadline_{$plan['seq']}").datepicker();
+	});
+</script>
+<table class="dasha_table" width="100%">
+	<tr>
+		<td width="15%">课程名称</td>
+		<td width="55%">
+			<input type="text" class="input-text" readonly  name="name" id="name" value="{$plan['name']}"/>
+			<span class="red">*</span>
+		</td>
+		<td width="15%">计划周次</td>
+		<td width="15%">
+			<input type="text" class="input-text" readonly name="seq" id="seq" value="{$plan['seq']}" />
+		</td>
+	</tr>
+	<tr class="on">
+		<td>计划标题</td>
+		<td>
+			<input type="text" class="input-text"  name="plan_title" id="plan_title" value="{$plan['plan_title']}" />
+			<span class="red">*</span>
+		</td>
+		<td>计划学时</td>
+		<td>
+			<input type="text" class="input-text"  name="plan_time" id="plan_time" value="{$plan['plan_time']}" />
+		</td>
+	</tr>
+	<tr>
+		<td>计划内容</td>
+		<td colspan="3">
+			<textarea name="plan_content" id="plan_content" rows="10" cols="60">{$plan['plan_content']}</textarea>
+			<span class="red">*</span>
+		</td>
+	</tr>
+	<tr class="on">
+		<td>课后作业</td>
+		<td colspan="3">
+			<textarea name="homework" id="homework" rows="10" cols="60">{$plan['homework']}</textarea>
+		</td>
+	</tr>
+	<tr>
+		<td>作业截至时间</td>
+		<td colspan="3">
+			<input  style="width: 120px;" type="text" class="input-text" name="homework_deadline" id="homework_deadline_{$plan['seq']}" value="{$plan['homework_deadline']}" />
+		</td>
+	</tr>
+</table>
+<php>
+    if(empty($plan) == true){
+        echo "<div id='dasha_footer'>对不起，没有数据</div>";
+    }
+</php>

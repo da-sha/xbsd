@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>西北师大教务支持系统 - 课程异动记录管理</title>
+		<link rel="stylesheet" type="text/css" href="../Public/css/style.css" />
+		<script language="javascript">
+			function getcolumn( myform )
+			{
+				var majorid = myform.majorid.value ;
+				if( majorid == "false" )
+				{
+					return ;
+				}
+				req = creat() ;
+				var url = "__URL__/GetClass/majorid/" + majorid ;
+				if( req )
+				{
+					req.open( "GET" , url , true );
+					req.onreadystatechange = succeedcolumn;
+					req.send( null );
+				}
+			}
+
+			function creat()
+			{
+				var request ;
+				if (window.XMLHttpRequest){
+					request = new XMLHttpRequest();
+				}
+				else if (window.ActiveXObject)
+				{
+					request = new ActiveXObject("Microsoft.XMLHTTP");
+				}
+				return request ;
+			}
+
+			function succeedcolumn()
+			{
+				if (req.readyState == 4)
+				{
+					if( req.status == 200 )
+					{
+						var mydata = eval("(" + req.responseText + ")") ;
+						//alert( req.responseText );
+						if( mydata.status == 1 )
+						{
+							var column = mydata.data ;
+							var column_list = document.getElementById("classid");
+							column_list.options.length=1;
+							for ( var i = 0, len = column.length ; i < len ; i++ )
+							{
+								column_list[i+1] = new Option( column[i].name , column[i].classid ) ;
+							}
+							column_list.options[0].selected = true ;
+							writes( myform ) ;
+						}
+						else
+						{
+							column_list[0] = new Option( "数据表为空" , "数据表为空" ) ;
+						}
+					}
+					else
+					{
+						alert("state error") ;
+					}
+				}
+			}
+			function writes( myform )
+			{
+				var majorid = myform.majorid.value ;
+				var classid = myform.classid.value ;
+				if( majorid == "false" )
+				{
+					return ;
+				}
+				req1 = creat() ;
+				var url = "__URL__/writes/majorid/" + majorid + "/classid/" + classid;
+				if( req1 )
+				{
+					req1.open( "GET" , url , true );
+					req1.onreadystatechange = succeedw;
+					req1.send( null );
+				}
+			}
+			function succeedw()
+			{
+			}
+		</script>
+	</head>
+	<body width="100%">
+		<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+		<tr>
+			<td algin="right" width="100%" colspan="4">
+			<div id="nav" class="mainnav_title">
+				<ul>
+					<a href="__URL__/add"  target="body" class="on">添加课程异动记录</a>
+					<a href="__URL__/body"  target="body" class="on">课程异动记录</a>
+				</ul>
+			</div>
+			</td>
+		</tr>
+		<form method="post" action="__URL__/body">
+		<td align="right" width="20%">专业名称:</td>
+		<td align="left" width="20%">
+			<select name="majorid" id="majorid" onChange="getcolumn(this.form)">
+				<option value="false" selected>-------------请选择专业------------</option>
+				<volist name="list" id="data" >
+					<option value="{$data['majorid']}">{$data['name']}</option>
+				</volist>
+			</select>
+		</td>
+		<td align="right" width="20%">班级名称:</td>
+		<td align="left"width="20%">
+			<select name="classid" id ="classid" onChange="writes( this.form )">
+				<option value="false">--------请选择班级-------</option>
+			</select>
+		</td>
+		<td algin="right" width="100%" colspan="4">
+			<div id="nav" class="mainnav_title">
+				<ul>
+					<a href="__URL__/body" target="body" class="on">查询</a>|
+				</ul>
+			</div>
+			</td>
+		</form>
+		</tr>
+		<tr>
+			<td algin="right" width="100%" colspan="5">
+			<iframe name="body" src="__URL__/body" width="100%" scrolling="no" frameborder="0" onload="this.height=this.contentWindow.document.documentElement.scrollHeight"></iframe>
+			</td>
+		</tr>
+	</table>
+	</body>
+</html>

@@ -1,0 +1,45 @@
+<layout name="layout_no_nav"/>
+&nbsp;
+<fieldset>
+	<legend>{$class['name']}</legend>
+	<table width="100%" class="dasha_table">
+		<tr>
+			<td class="key" width="90">班级所属专业</td>
+			<td>{$class['majorname']}</td>
+			<td class="key" width="70">班级成立年</td>
+			<td>{$class['register_date']}级</td>
+			<td class="key" width="70">班级人数</td>
+			<td>{$class['num']}</td>
+		</tr>
+		<tr>
+			<td class="key">班主任</td>
+			<td>{$class['htname']}</td>
+			<td class="key">联系号码</td>
+			<td colspan="3">{$teacherlist['htphone']}</td>
+		</tr>
+		<tr>
+			<td class="key">辅导员</td>
+			<td>{$class['instr']}</td>
+			<td class="key">联系号码</td>
+			<td colspan="3">{$instrlist['instrphone']}</td>
+		</tr>
+		<tr>
+			<td class="key">班长</td>
+			<td>{$monitor['monitor']}</td>
+			<td class="key">联系号码</td>
+			<td colspan="3">{$monitor['monitorphone']}</td>
+		</tr>
+		<tr>
+			<td class="key">学习委员</td>
+			<td>{$study[study]}</td>
+			<td class="key">联系号码</td>
+			<td colspan="3">{$study[studyphone]}</td>
+		</tr>
+		<tr>
+			<td class="key">团支书</td>
+			<td>{$tzs[tzs]}</td>
+			<td class="key">联系号码</td>
+			<td colspan="3">{$tzs[tzsphone]}</td>
+		</tr>
+	</table>
+</fieldset>
